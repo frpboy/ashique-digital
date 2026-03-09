@@ -127,7 +127,7 @@ export function Hero() {
           }}
         >
           <Link
-            href="/contact"
+            href={process.env.NEXT_PUBLIC_CAL_LINK || "https://cal.com/frpboy/strategy"}
             className="btn btn-primary"
             style={{ gap: "0.5rem" }}
           >

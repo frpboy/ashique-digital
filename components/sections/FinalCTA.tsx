@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { ArrowRight, CalendarDays } from "lucide-react";
+import BookingEmbed from "@/components/shared/BookingEmbed";
 
 export function FinalCTA() {
   return (
@@ -28,14 +28,9 @@ export function FinalCTA() {
             Book a free 30-minute strategy call. No commitment. No pitch.
             Just clarity on what&apos;s working, what&apos;s broken, and your next best move.
           </p>
-          <Link
-            href="/contact"
-            className="btn btn-primary"
-            style={{ fontSize: "1rem", padding: "1rem 2rem" }}
-          >
-            Book Your Free Strategy Call
-            <ArrowRight size={18} />
-          </Link>
+          <div style={{ marginTop: "3rem", background: "rgba(255,255,255,0.02)", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.05)", padding: "1.5rem", overflow: "hidden" }}>
+            <BookingEmbed />
+          </div>
           <p
             style={{
               marginTop: "1.25rem",

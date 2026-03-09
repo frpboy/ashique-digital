@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import type { Metadata } from "next";
-import Link from "next/link";
-import { CheckCircle, Clock, MessageSquare, ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { CheckCircle, MessageSquare, ArrowRight } from "lucide-react";
+import BookingEmbed from "@/components/shared/BookingEmbed";
 
 const callPoints = [
   "30 minutes — no commitment, no sales pitch",
@@ -13,6 +13,7 @@ const callPoints = [
 ];
 
 function ContactForm() {
+  const router = useRouter();
   const [form, setForm] = useState({ name: "", email: "", businessType: "", message: "", website: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
 
@@ -27,7 +28,7 @@ function ContactForm() {
       });
       if (res.ok) {
         setStatus("done");
-        setForm({ name: "", email: "", businessType: "", message: "", website: "" });
+        router.push("/contact/success");
       } else {
         setStatus("error");
       }
@@ -36,41 +37,28 @@ function ContactForm() {
     }
   };
 
-  if (status === "done") {
-    return (
-      <div style={{ textAlign: "center", padding: "3rem 2rem" }}>
-        <CheckCircle size={48} style={{ color: "var(--color-accent)", marginBottom: "1rem" }} />
-        <h3 style={{ marginBottom: "0.75rem" }}>Got your message!</h3>
-        <p style={{ color: "var(--color-text-muted)" }}>I&apos;ll be in touch within 24 hours. Or if you&apos;d prefer, book a call directly:</p>
-        <a href="https://cal.com/ashique/strategy" target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ marginTop: "1.25rem", gap: "0.5rem" }}>
-          Book a Call Now <ArrowRight size={14} />
-        </a>
-      </div>
-    );
-  }
-
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
       {/* Honeypot */}
-      <input type="text" name="website" value={form.website} onChange={e => setForm(f => ({ ...f, website: e.target.value }))} style={{ display: "none" }} tabIndex={-1} autoComplete="off" />
+      <input type="text" name="website" value={form.website} onChange={e => setForm(prev => ({ ...prev, website: e.target.value }))} style={{ display: "none" }} tabIndex={-1} autoComplete="off" />
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1.25rem" }}>
         <div>
           <label style={{ display: "block", fontWeight: 600, fontSize: "0.875rem", marginBottom: "0.5rem", color: "var(--color-primary)" }}>Your Name *</label>
-          <input className="input" type="text" required placeholder="Rahul Mehta" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
+          <input className="input" type="text" required placeholder="Rahul Mehta" value={form.name} onChange={e => setForm(prev => ({ ...prev, name: e.target.value }))} />
         </div>
         <div>
           <label style={{ display: "block", fontWeight: 600, fontSize: "0.875rem", marginBottom: "0.5rem", color: "var(--color-primary)" }}>Email *</label>
-          <input className="input" type="email" required placeholder="rahul@company.com" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} />
+          <input className="input" type="email" required placeholder="rahul@company.com" value={form.email} onChange={e => setForm(prev => ({ ...prev, email: e.target.value }))} />
         </div>
       </div>
       <div>
         <label style={{ display: "block", fontWeight: 600, fontSize: "0.875rem", marginBottom: "0.5rem", color: "var(--color-primary)" }}>Business Type *</label>
-        <input className="input" type="text" required placeholder="e.g. D2C Brand, SaaS, Service Business" value={form.businessType} onChange={e => setForm(f => ({ ...f, businessType: e.target.value }))} />
+        <input className="input" type="text" required placeholder="e.g. D2C Brand, SaaS, Service Business" value={form.businessType} onChange={e => setForm(prev => ({ ...prev, businessType: e.target.value }))} />
       </div>
       <div>
         <label style={{ display: "block", fontWeight: 600, fontSize: "0.875rem", marginBottom: "0.5rem", color: "var(--color-primary)" }}>What are you looking to achieve? *</label>
-        <textarea className="input" required placeholder="Tell me about your current situation and what you want to change..." value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} rows={4} />
+        <textarea className="input" required placeholder="Tell me about your current situation and what you want to change..." value={form.message} onChange={e => setForm(prev => ({ ...prev, message: e.target.value }))} rows={4} />
       </div>
       {status === "error" && <p className="error-msg">Something went wrong. Please try again or email ashique@ashique.digital</p>}
       <button type="submit" className="btn btn-primary" disabled={status === "loading"} style={{ justifyContent: "center" }}>
@@ -114,15 +102,9 @@ export default function ContactPage() {
               ))}
             </div>
 
-            <a
-              href="https://cal.com/ashique/strategy"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-primary"
-              style={{ gap: "0.5rem", display: "inline-flex" }}
-            >
-              <Clock size={16} /> Schedule on Cal.com
-            </a>
+            <div style={{ background: "var(--color-bg)", borderRadius: "12px", border: "1px solid var(--color-muted)", padding: "1rem", overflow: "hidden" }}>
+              <BookingEmbed />
+            </div>
 
             <div style={{ marginTop: "3rem", paddingTop: "2rem", borderTop: "1px solid var(--color-muted)" }}>
               <p style={{ fontWeight: 600, color: "var(--color-primary)", marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>

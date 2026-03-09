@@ -102,7 +102,7 @@ export function Navbar() {
           </ul>
 
           <Link
-            href="/contact"
+            href={process.env.NEXT_PUBLIC_CAL_LINK || "https://cal.com/frpboy/strategy"}
             className="btn btn-primary hide-mobile"
             style={{ fontSize: "0.875rem", padding: "0.65rem 1.35rem" }}
           >
@@ -154,7 +154,7 @@ export function Navbar() {
             ))}
           </ul>
           <Link
-            href="/contact"
+            href={process.env.NEXT_PUBLIC_CAL_LINK || "https://cal.com/frpboy/strategy"}
             className="btn btn-primary"
             style={{ marginTop: "1.5rem", width: "100%", justifyContent: "center" }}
             onClick={() => setOpen(false)}

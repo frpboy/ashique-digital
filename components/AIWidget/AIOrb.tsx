@@ -1,14 +1,9 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useState, useRef, useEffect } from "react";
 import type { ChatMessage } from "@/lib/types";
-import { MessageCircle, X, Send, Loader2 } from "lucide-react";
-
-const FloatingOrb3D = dynamic(() => import("../visuals/FloatingOrb3D"), {
-  ssr: false,
-  loading: () => <MessageCircle size={22} />,
-});
+import { X, Send, Loader2 } from "lucide-react";
 
 const WELCOME = "Hi! I'm Ashique's assistant. I can answer questions about his services, process, and past results — or help you book a free strategy call. What would you like to know?";
 
@@ -70,7 +65,7 @@ export function AIWidget() {
         const updated = [...prev];
         updated[updated.length - 1] = {
           role: "assistant",
-          content: "I'm having a moment — please try again or [book a call directly](https://cal.com/ashique/strategy).",
+          content: "I'm having a moment — please try again or [book a call directly](https://cal.com/frpboy/strategy).",
         };
         return updated;
       });
@@ -81,7 +76,7 @@ export function AIWidget() {
 
   return (
     <>
-      {/* Floating Orb Button */}
+      {/* Floating Bot Button */}
       <button
         onClick={() => setOpen((v) => !v)}
         aria-label="Open AI assistant"
@@ -90,8 +85,8 @@ export function AIWidget() {
           bottom: "2rem",
           right: "2rem",
           zIndex: 200,
-          width: "72px",
-          height: "72px",
+          width: "84px",
+          height: "84px",
           borderRadius: "50%",
           background: open ? "var(--color-primary)" : "transparent",
           border: "none",
@@ -99,7 +94,7 @@ export function AIWidget() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          color: open ? "#fff" : "var(--color-accent)",
+          color: open ? "#fff" : "var(--color-primary)",
           boxShadow: open ? "0 4px 20px rgba(0,0,0,0.2)" : "none",
           transition: "all 0.3s ease",
           padding: 0,
@@ -107,10 +102,14 @@ export function AIWidget() {
         }}
       >
         {open ? (
-          <X size={24} />
+          <X size={28} />
         ) : (
-          <div style={{ width: "100%", height: "100%", transform: "scale(1.4)" }}>
-            <FloatingOrb3D isThinking={loading} />
+          <div style={{ width: "120px", height: "120px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <DotLottieReact
+              src="https://lottie.host/f1360579-700d-4454-9500-5fce6493bb47/8HiRIHERb0.lottie"
+              loop
+              autoplay
+            />
           </div>
         )}
       </button>

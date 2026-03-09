@@ -27,6 +27,8 @@ export async function POST(req: NextRequest) {
     const { email, name } = result.data;
     const firstName = name?.split(" ")[0] ?? "there";
 
+    // Temporarily disabled while Resend domain verification is pending
+    /*
     await sendEmail({
       to: email,
       from: "ashique@ashique.digital",
@@ -38,13 +40,17 @@ export async function POST(req: NextRequest) {
         <p style="font-family:sans-serif;color:#1A1A2E;line-height:1.7">Talk soon,<br><strong>Ashique</strong><br><a href="https://ashique.digital" style="color:#00C2CB">ashique.digital</a></p>
       `,
     });
+    */
 
-    // Notify Ashique
+    // Notify Ashique (Disabled)
+    /*
     await sendEmail({
       to: process.env.CONTACT_EMAIL ?? "ashique@ashique.digital",
       subject: `New newsletter subscriber: ${email}`,
       html: `<p style="font-family:sans-serif">New subscriber: <strong>${name ?? "N/A"}</strong> — ${email}</p>`,
     });
+    */
+    console.log("Newsletter subscription (Email disabled):", { email, name });
 
     return NextResponse.json({ success: true, message: "You're on the list!" });
   } catch (error) {

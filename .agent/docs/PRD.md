@@ -162,7 +162,7 @@ Ashique is a Brand Strategist and Lead Generation Consultant who needs a digital
 | FR-31 | Floating chat orb — bottom-right corner, always visible              |
 | FR-32 | Opens sliding chat panel on click                                    |
 | FR-33 | Answers questions about services, process, pricing approach, results |
-| FR-34 | Powered by Gemini 1.5 Flash + Pinecone RAG                           |
+| FR-34 | Powered by Gemini 3.1 Pro + Pinecone RAG                           |
 | FR-35 | Fallback: "Book a free call for specific advice" with booking link   |
 | FR-36 | Streamed responses (no loading lag feel)                             |
 | FR-37 | Chat history maintained during session                               |
@@ -187,7 +187,7 @@ Ashique is a Brand Strategist and Lead Generation Consultant who needs a digital
 | Sanity.io        | Headless CMS           | ✅               |
 | Cal.com          | Discovery call booking | ✅               |
 | Resend           | Transactional email    | ✅ 3K/mo         |
-| Gemini 1.5 Flash | AI widget              | ✅ 1M tokens/day |
+| Gemini 3.1 Pro  | AI widget              | ✅ 1M tokens/day |
 | Pinecone         | Vector DB for RAG      | ✅               |
 | Vercel Analytics | Traffic + performance  | ✅               |
 | PostHog          | User behavior tracking | ✅               |

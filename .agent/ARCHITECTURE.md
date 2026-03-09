@@ -19,7 +19,7 @@ A conversion-focused personal brand + portfolio website for Ashique, a Brand Str
 | Styling      | Tailwind CSS v4 + Custom CSS variables  |
 | CMS          | Sanity.io (headless)                    |
 | Email        | Resend                                  |
-| AI Chat      | Google Gemini 1.5 Flash (streamed)      |
+| AI Chat      | Google Gemini 3.1 Pro (streamed)        |
 | Booking      | Cal.com embed                           |
 | Analytics    | Vercel Analytics + PostHog              |
 | Deployment   | Vercel (Hobby free tier)                |

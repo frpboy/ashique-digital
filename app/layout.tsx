@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/shared/Navbar";
 import { Footer } from "@/components/shared/Footer";
 import { AIWidget } from "@/components/AIWidget/AIOrb";
+import Preloader from "@/components/layout/Preloader";
 
 const syne = Syne({
   subsets: ["latin"],
@@ -63,6 +64,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${syne.variable} ${inter.variable}`}>
       <body className="antialiased">
+        <Preloader />
         <Navbar />
         <main>{children}</main>
         <Footer />

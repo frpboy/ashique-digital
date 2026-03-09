@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { 
   Sphere, 
@@ -104,12 +104,14 @@ function CoreOrb() {
 
 export default function NeuralCore() {
   return (
-    <div style={{ width: "100%", height: "400px", cursor: "pointer" }}>
-      <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
+    <div style={{ width: "100%", height: "240px", cursor: "pointer" }}>
+      <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 5], fov: 45 }}>
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} intensity={1} color="#00C2CB" />
         <spotLight position={[-10, 10, 10]} angle={0.15} penumbra={1} intensity={1} />
-        <CoreOrb />
+        <Suspense fallback={null}>
+          <CoreOrb />
+        </Suspense>
       </Canvas>
     </div>
   );

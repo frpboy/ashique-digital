@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Icosahedron, MeshDistortMaterial, Float, Environment } from "@react-three/drei";
 import * as THREE from "three";
@@ -37,10 +37,12 @@ export default function FloatingOrb3D({ isThinking }: { isThinking?: boolean }) 
         <ambientLight intensity={0.5} />
         <pointLight position={[5, 5, 5]} intensity={1} />
         <directionalLight position={[-5, 5, 5]} intensity={0.5} />
-        <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
-          <OrbMesh isThinking={isThinking} />
-        </Float>
-        <Environment preset="city" />
+        <Suspense fallback={null}>
+          <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
+            <OrbMesh isThinking={isThinking} />
+          </Float>
+          <Environment preset="city" />
+        </Suspense>
       </Canvas>
     </div>
   );

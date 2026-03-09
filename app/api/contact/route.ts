@@ -29,6 +29,8 @@ export async function POST(req: NextRequest) {
 
     const { name, email, businessType, message } = result.data;
 
+    // Temporarily disabled while Resend domain verification is pending
+    /*
     await sendEmail({
       to: process.env.CONTACT_EMAIL ?? "ashique@ashique.digital",
       subject: `New Contact: ${name} — ${businessType}`,
@@ -43,6 +45,8 @@ export async function POST(req: NextRequest) {
         <p style="font-family:sans-serif;color:#64748b;font-size:13px;margin-top:16px">Reply directly to this email to respond to ${name}.</p>
       `,
     });
+    */
+    console.log("Contact form submission (Email disabled):", { name, email, businessType, message });
 
     return NextResponse.json({ success: true, message: "Your message has been sent. Ashique will get back to you within 24 hours." });
   } catch (error) {

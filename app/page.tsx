@@ -38,7 +38,7 @@ export default function HomePage() {
             offers: {
               "@type": "Offer",
               description: "Free 30-minute Growth Strategy Call",
-              url: "https://cal.com/ashique/strategy",
+              url: "https://cal.com/frpboy/strategy",
             },
           }),
         }}

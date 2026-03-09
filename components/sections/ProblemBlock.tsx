@@ -1,9 +1,11 @@
 "use client";
 
+import { Suspense } from "react";
 import dynamic from "next/dynamic";
 
 const NeuralCore = dynamic(() => import("../visuals/NeuralCore"), {
   ssr: false,
+  loading: () => <div style={{ height: "240px", background: "rgba(0,194,203,0.02)", borderRadius: "50%" }} />,
 });
 
 export function ProblemBlock() {
@@ -12,8 +14,10 @@ export function ProblemBlock() {
       <div className="container">
         <div style={{ maxWidth: "680px", margin: "0 auto", textAlign: "center" }}>
           
-          <div style={{ margin: "0 auto 1.5rem", width: "240px" }}>
-            <NeuralCore />
+          <div style={{ margin: "0 auto 1.5rem", width: "240px", height: "240px" }}>
+            <Suspense fallback={null}>
+              <NeuralCore />
+            </Suspense>
           </div>
 
           <span className="tag" style={{ background: "rgba(0,194,203,0.15)", color: "var(--color-accent)", marginBottom: "1.5rem", display: "inline-block" }}>
