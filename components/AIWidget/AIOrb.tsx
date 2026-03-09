@@ -215,9 +215,23 @@ export function AIWidget() {
                     border: msg.role === "assistant" ? "1px solid var(--color-muted)" : "none",
                   }}
                 >
-                  {msg.content || (loading && i === messages.length - 1 ? (
+                  {msg.role === "assistant" ? (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: (msg.content || (loading && i === messages.length - 1 ? "..." : ""))
+                          .replace(
+                            /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+                            '<a href="$2" target="_blank" rel="noopener noreferrer" style="color: var(--color-accent); text-decoration: underline; font-weight: 600;">$1</a>'
+                          )
+                          .replace(/\n/g, "<br />")
+                      }}
+                    />
+                  ) : (
+                    msg.content
+                  )}
+                  {loading && i === messages.length - 1 && !msg.content && (
                     <Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} />
-                  ) : "")}
+                  )}
                 </div>
               </div>
             ))}

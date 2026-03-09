@@ -135,6 +135,8 @@ export function Hero() {
               justifyContent: "center",
             }}
             onClick={() => posthog.capture("hero_cta_clicked", { cta: "book_strategy_call", location: "hero" })}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Book a Free Strategy Call
             <ArrowRight size={18} />

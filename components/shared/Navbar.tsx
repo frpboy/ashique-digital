@@ -87,6 +87,8 @@ export function Navbar() {
             href={process.env.NEXT_PUBLIC_CAL_LINK || "https://cal.com/frpboy/strategy"}
             className="btn btn-primary"
             style={{ fontSize: "0.875rem", padding: "0.65rem 1.5rem" }}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Book a Free Call
           </Link>
@@ -98,6 +100,8 @@ export function Navbar() {
             href={process.env.NEXT_PUBLIC_CAL_LINK || "https://cal.com/frpboy/strategy"}
             className="btn btn-primary hidden sm:inline-flex"
             style={{ fontSize: "0.8125rem", padding: "0.5rem 1rem" }}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Book Now
           </Link>
@@ -164,6 +168,8 @@ export function Navbar() {
             className="btn btn-primary"
             style={{ width: "100%", textAlign: "center", justifyContent: "center" }}
             onClick={() => setOpen(false)}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             Book a Free Strategy Call
           </Link>

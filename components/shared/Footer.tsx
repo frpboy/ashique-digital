@@ -67,10 +67,9 @@ export function Footer() {
         <div 
           style={{
             display: "grid",
-            gridTemplateColumns: "1fr",
             gap: "3rem",
           }}
-          className="lg:grid-cols-4 md:grid-cols-2"
+          className="grid-cols-2 lg:grid-cols-4"
         >
           {/* Brand & Newsletter Column */}
           <div className="lg:col-span-1">
@@ -215,7 +214,7 @@ export function Footer() {
           </p>
           <div style={{ display: "flex", gap: "1.5rem", width: "100%", justifyContent: "center" }} className="md:w-auto md:justify-end">
              <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "0.8125rem" }}>
-                Crafting growth in India.
+                Developed and Designed by <a href="https://github.com/frpboy" target="_blank" rel="noopener noreferrer" style={{ color: "var(--color-accent)", textDecoration: "none", fontWeight: 600 }}>frpboy</a>
              </p>
           </div>
         </div>

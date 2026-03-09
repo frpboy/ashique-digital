@@ -38,7 +38,7 @@ export default function SuccessPage() {
         </h1>
         
         <p style={{ color: "var(--color-text-muted)", fontSize: "1.125rem", lineHeight: 1.8, marginBottom: "2.5rem" }}>
-          Your message has been received. I usually respond within 24 hours. Check your inbox for a confirmation email shortly.
+          Success! Your request has been confirmed. Whether it&apos;s a message or a strategy call booking, I usually follow up within 24 hours. Keep an eye on your inbox.
         </p>
 
         <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
