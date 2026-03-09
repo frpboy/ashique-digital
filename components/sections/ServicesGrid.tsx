@@ -1,5 +1,12 @@
+"use client";
+
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { Target, LineChart, Magnet, Funnel, DollarSign, TrendingUp } from "lucide-react";
+
+const ServiceIcon3D = dynamic(() => import("../visuals/ServiceIcon3D"), {
+  ssr: false,
+});
 
 const services = [
   {
@@ -69,20 +76,8 @@ export function ServicesGrid() {
                 className="card"
                 style={{ height: "100%", cursor: "pointer" }}
               >
-                <div
-                  style={{
-                    width: "48px",
-                    height: "48px",
-                    borderRadius: "6px",
-                    background: "rgba(0,194,203,0.1)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: "var(--color-accent)",
-                    marginBottom: "1.25rem",
-                  }}
-                >
-                  {s.icon}
+                <div style={{ marginBottom: "1.25rem" }}>
+                  <ServiceIcon3D />
                 </div>
                 <h3 style={{ marginBottom: "0.75rem", fontSize: "1.125rem" }}>{s.title}</h3>
                 <p style={{ color: "var(--color-text-muted)", fontSize: "0.9375rem", lineHeight: 1.65 }}>
@@ -102,3 +97,4 @@ export function ServicesGrid() {
     </section>
   );
 }
+

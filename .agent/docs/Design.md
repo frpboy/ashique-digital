@@ -339,3 +339,16 @@ Include these sections in order:
 Use Tailwind CSS, shadcn/ui, and Framer Motion animations.
 Fully responsive. No purple/violet colors.
 ```
+
+---
+
+## 13. 3D Aesthetics & Experience
+
+- **Logic:** Reinforce "Growth Engineering" positioning via high-end interactive elements.
+- **Materials:** Use `MeshPhysicalMaterial` or `MeshDistortMaterial` with Electric Teal (#00C2CB) glowing edges.
+- **Optimization:** 
+  - Use `Canvas` with `dpr={[1, 2]}` to balance performance.
+  - Implement `PerformanceMonitor` to downscale geometry on weak devices.
+  - Always use a 2D fallback image/placeholder during `Suspense` loading.
+- **Placement:** Hero background, AI Orb, and subtle hover interactions on service cards.
+

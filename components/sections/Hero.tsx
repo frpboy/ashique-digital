@@ -1,8 +1,14 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, TrendingUp, Users, Award } from "lucide-react";
+
+const GrowthSphere = dynamic(() => import("../visuals/GrowthSphere"), {
+  ssr: false,
+  loading: () => <div style={{ position: "absolute", top: 0, right: 0, width: "50vw", height: "100%", background: "radial-gradient(circle, rgba(0,194,203,0.05) 0%, transparent 70%)" }} />,
+});
 
 const trustBadges = [
   { icon: <TrendingUp size={16} />, label: "50+ Brands Scaled" },
@@ -30,20 +36,8 @@ export function Hero() {
         position: "relative",
       }}
     >
-      {/* Background texture accent */}
-      <div
-        aria-hidden
-        style={{
-          position: "absolute",
-          top: "-10%",
-          right: "-5%",
-          width: "50vw",
-          height: "80%",
-          background:
-            "radial-gradient(ellipse at top right, rgba(0,194,203,0.06) 0%, transparent 70%)",
-          pointerEvents: "none",
-        }}
-      />
+      <GrowthSphere />
+
 
       <div className="container">
         {/* Pre-headline tag */}

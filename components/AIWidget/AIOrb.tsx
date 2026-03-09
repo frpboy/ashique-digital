@@ -1,8 +1,14 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useState, useRef, useEffect } from "react";
 import type { ChatMessage } from "@/lib/types";
 import { MessageCircle, X, Send, Loader2 } from "lucide-react";
+
+const FloatingOrb3D = dynamic(() => import("../visuals/FloatingOrb3D"), {
+  ssr: false,
+  loading: () => <MessageCircle size={22} />,
+});
 
 const WELCOME = "Hi! I'm Ashique's assistant. I can answer questions about his services, process, and past results — or help you book a free strategy call. What would you like to know?";
 
@@ -84,22 +90,29 @@ export function AIWidget() {
           bottom: "2rem",
           right: "2rem",
           zIndex: 200,
-          width: "58px",
-          height: "58px",
+          width: "72px",
+          height: "72px",
           borderRadius: "50%",
-          background: open ? "var(--color-primary)" : "var(--color-accent)",
+          background: open ? "var(--color-primary)" : "transparent",
           border: "none",
           cursor: "pointer",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          color: open ? "#fff" : "var(--color-primary)",
-          boxShadow: "0 4px 20px rgba(0,194,203,0.4)",
+          color: open ? "#fff" : "var(--color-accent)",
+          boxShadow: open ? "0 4px 20px rgba(0,0,0,0.2)" : "none",
           transition: "all 0.3s ease",
-          animation: !open ? "orb-pulse 3s ease-in-out infinite" : "none",
+          padding: 0,
+          overflow: "visible",
         }}
       >
-        {open ? <X size={22} /> : <MessageCircle size={22} />}
+        {open ? (
+          <X size={24} />
+        ) : (
+          <div style={{ width: "100%", height: "100%", transform: "scale(1.4)" }}>
+            <FloatingOrb3D isThinking={loading} />
+          </div>
+        )}
       </button>
 
       {/* Chat Panel */}

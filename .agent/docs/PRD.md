@@ -150,6 +150,7 @@ Ashique is a Brand Strategist and Lead Generation Consultant who needs a digital
 | SEO                   | `generateMetadata()` on all pages, sitemap.xml, robots.txt |
 | Accessibility         | WCAG 2.1 AA compliant (alt tags, aria labels, contrast)    |
 | Security              | Rate limiting on all API routes, no exposed API keys       |
+| 3D Performance        | Lazy-loaded via next/dynamic; SSR disabled (NFR-08)        |
 | Uptime                | Vercel managed — 99.9% uptime guaranteed                   |
 
 ---

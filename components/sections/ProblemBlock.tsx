@@ -1,8 +1,21 @@
+"use client";
+
+import dynamic from "next/dynamic";
+
+const NeuralCore = dynamic(() => import("../visuals/NeuralCore"), {
+  ssr: false,
+});
+
 export function ProblemBlock() {
   return (
     <section className="dark-section section">
       <div className="container">
         <div style={{ maxWidth: "680px", margin: "0 auto", textAlign: "center" }}>
+          
+          <div style={{ margin: "0 auto 1.5rem", width: "240px" }}>
+            <NeuralCore />
+          </div>
+
           <span className="tag" style={{ background: "rgba(0,194,203,0.15)", color: "var(--color-accent)", marginBottom: "1.5rem", display: "inline-block" }}>
             The Real Problem
           </span>
@@ -33,3 +46,4 @@ export function ProblemBlock() {
     </section>
   );
 }
+
