@@ -1,288 +1,134 @@
-# Antigravity Kit Architecture
+# ashique.digital — ARCHITECTURE.md
+# Read this FIRST before any implementation
 
-> Comprehensive AI Agent Capability Expansion Toolkit
-
----
-
-## 📋 Overview
-
-Antigravity Kit is a modular system consisting of:
-
-- **20 Specialist Agents** - Role-based AI personas
-- **36 Skills** - Domain-specific knowledge modules
-- **11 Workflows** - Slash command procedures
+> **MANDATORY:** AI agents must read this file before modifying any part of this project.
 
 ---
 
-## 🏗️ Directory Structure
+## Project: ashique.digital
 
-```plaintext
-.agent/
-├── ARCHITECTURE.md          # This file
-├── agents/                  # 20 Specialist Agents
-├── skills/                  # 36 Skills
-├── workflows/               # 11 Slash Commands
-├── rules/                   # Global Rules
-└── scripts/                 # Master Validation Scripts
+A conversion-focused personal brand + portfolio website for Ashique, a Brand Strategist & Lead Generation Consultant. Built to convert visitors into booked discovery calls.
+
+---
+
+## Tech Stack
+
+| Layer        | Technology                              |
+| ------------ | --------------------------------------- |
+| Framework    | Next.js 16 (App Router) + TypeScript    |
+| Styling      | Tailwind CSS v4 + Custom CSS variables  |
+| CMS          | Sanity.io (headless)                    |
+| Email        | Resend                                  |
+| AI Chat      | Google Gemini 1.5 Flash (streamed)      |
+| Booking      | Cal.com embed                           |
+| Analytics    | Vercel Analytics + PostHog              |
+| Deployment   | Vercel (Hobby free tier)                |
+
+---
+
+## Agent System
+
+| File                              | Purpose                                      |
+| --------------------------------- | -------------------------------------------- |
+| `.agent/CODEBASE.md`              | File dependency map + conventions (READ THIS)|
+| `.agent/rules/GEMINI.md`          | AI behaviour rules and routing protocol       |
+| `.agent/docs/AGENTS.md`           | Master build instruction file                 |
+| `.agent/agents/frontend-specialist.md` | Web UI/UX specialist                    |
+| `.agent/agents/backend-specialist.md`  | API + server logic specialist            |
+| `.agent/agents/orchestrator.md`   | Multi-domain task coordinator                |
+| `.agent/agents/debugger.md`       | Systematic debugging                         |
+| `.agent/workflows/deploy.md`      | Vercel deployment workflow                   |
+| `.agent/docs/`                    | All project documentation (PRD, TMA, etc.)   |
+
+---
+
+## Directory Structure
+
+```
+ashique.digital/
+├── app/
+│   ├── layout.tsx                  → Root layout (Navbar, Footer, AIWidget)
+│   ├── page.tsx                    → Homepage (all sections)
+│   ├── globals.css                 → Design system tokens + base styles
+│   ├── (site)/
+│   │   ├── about/page.tsx
+│   │   ├── services/page.tsx
+│   │   ├── case-studies/page.tsx
+│   │   ├── case-studies/[slug]/page.tsx
+│   │   ├── insights/page.tsx
+│   │   ├── insights/[slug]/page.tsx
+│   │   ├── contact/page.tsx
+│   │   └── free-audit/page.tsx     → Standalone lead magnet (no navbar)
+│   └── api/
+│       ├── contact/route.ts        → Contact form → Resend
+│       ├── agent/route.ts          → Gemini AI streaming
+│       └── newsletter/route.ts     → Email capture → Resend
+├── components/
+│   ├── shared/
+│   │   ├── Navbar.tsx              → Sticky, scrolled-state
+│   │   └── Footer.tsx              → Newsletter + links
+│   ├── sections/                   → Homepage sections
+│   │   ├── Hero.tsx
+│   │   ├── TrustBar.tsx
+│   │   ├── ProblemBlock.tsx
+│   │   ├── ServicesGrid.tsx
+│   │   ├── CaseStudyPreview.tsx    → Async Server Component
+│   │   ├── ProcessSteps.tsx
+│   │   ├── Testimonials.tsx        → Async Server Component
+│   │   └── FinalCTA.tsx
+│   └── AIWidget/
+│       └── AIOrb.tsx               → Floating chat widget
+├── lib/
+│   ├── sanity.ts                   → Sanity client + sanityFetch
+│   ├── sanity.queries.ts           → All GROQ queries
+│   ├── resend.ts                   → Email sending utility
+│   └── types.ts                    → Shared TypeScript types
+├── sanity/
+│   └── schemas/
+│       ├── caseStudy.ts
+│       └── index.ts                → post, testimonial, service schemas
+├── public/
+│   └── og/                         → OG images (1200×630px)
+├── .env.example                    → Variable template (copy to .env.local)
+├── .agent/                         → AI agent system files
+└── next.config.ts                  → Security headers + image domains
 ```
 
 ---
 
-## 🤖 Agents (20)
+## Design System (MEMORIZE)
 
-Specialist AI personas for different domains.
-
-| Agent                    | Focus                      | Skills Used                                              |
-| ------------------------ | -------------------------- | -------------------------------------------------------- |
-| `orchestrator`           | Multi-agent coordination   | parallel-agents, behavioral-modes                        |
-| `project-planner`        | Discovery, task planning   | brainstorming, plan-writing, architecture                |
-| `frontend-specialist`    | Web UI/UX                  | frontend-design, react-best-practices, tailwind-patterns |
-| `backend-specialist`     | API, business logic        | api-patterns, nodejs-best-practices, database-design     |
-| `database-architect`     | Schema, SQL                | database-design, prisma-expert                           |
-| `mobile-developer`       | iOS, Android, RN           | mobile-design                                            |
-| `game-developer`         | Game logic, mechanics      | game-development                                         |
-| `devops-engineer`        | CI/CD, Docker              | deployment-procedures, docker-expert                     |
-| `security-auditor`       | Security compliance        | vulnerability-scanner, red-team-tactics                  |
-| `penetration-tester`     | Offensive security         | red-team-tactics                                         |
-| `test-engineer`          | Testing strategies         | testing-patterns, tdd-workflow, webapp-testing           |
-| `debugger`               | Root cause analysis        | systematic-debugging                                     |
-| `performance-optimizer`  | Speed, Web Vitals          | performance-profiling                                    |
-| `seo-specialist`         | Ranking, visibility        | seo-fundamentals, geo-fundamentals                       |
-| `documentation-writer`   | Manuals, docs              | documentation-templates                                  |
-| `product-manager`        | Requirements, user stories | plan-writing, brainstorming                              |
-| `product-owner`          | Strategy, backlog, MVP     | plan-writing, brainstorming                              |
-| `qa-automation-engineer` | E2E testing, CI pipelines  | webapp-testing, testing-patterns                         |
-| `code-archaeologist`     | Legacy code, refactoring   | clean-code, code-review-checklist                        |
-| `explorer-agent`         | Codebase analysis          | -                                                        |
-
----
-
-## 🧩 Skills (36)
-
-Modular knowledge domains that agents can load on-demand. based on task context.
-
-### Frontend & UI
-
-| Skill                   | Description                                                           |
-| ----------------------- | --------------------------------------------------------------------- |
-| `react-best-practices`  | React & Next.js performance optimization (Vercel - 57 rules)          |
-| `web-design-guidelines` | Web UI audit - 100+ rules for accessibility, UX, performance (Vercel) |
-| `tailwind-patterns`     | Tailwind CSS v4 utilities                                             |
-| `frontend-design`       | UI/UX patterns, design systems                                        |
-| `ui-ux-pro-max`         | 50 styles, 21 palettes, 50 fonts                                      |
-
-### Backend & API
-
-| Skill                   | Description                    |
-| ----------------------- | ------------------------------ |
-| `api-patterns`          | REST, GraphQL, tRPC            |
-| `nestjs-expert`         | NestJS modules, DI, decorators |
-| `nodejs-best-practices` | Node.js async, modules         |
-| `python-patterns`       | Python standards, FastAPI      |
-
-### Database
-
-| Skill             | Description                 |
-| ----------------- | --------------------------- |
-| `database-design` | Schema design, optimization |
-| `prisma-expert`   | Prisma ORM, migrations      |
-
-### TypeScript/JavaScript
-
-| Skill               | Description                         |
-| ------------------- | ----------------------------------- |
-| `typescript-expert` | Type-level programming, performance |
-
-### Cloud & Infrastructure
-
-| Skill                   | Description               |
-| ----------------------- | ------------------------- |
-| `docker-expert`         | Containerization, Compose |
-| `deployment-procedures` | CI/CD, deploy workflows   |
-| `server-management`     | Infrastructure management |
-
-### Testing & Quality
-
-| Skill                   | Description              |
-| ----------------------- | ------------------------ |
-| `testing-patterns`      | Jest, Vitest, strategies |
-| `webapp-testing`        | E2E, Playwright          |
-| `tdd-workflow`          | Test-driven development  |
-| `code-review-checklist` | Code review standards    |
-| `lint-and-validate`     | Linting, validation      |
-
-### Security
-
-| Skill                   | Description              |
-| ----------------------- | ------------------------ |
-| `vulnerability-scanner` | Security auditing, OWASP |
-| `red-team-tactics`      | Offensive security       |
-
-### Architecture & Planning
-
-| Skill           | Description                |
-| --------------- | -------------------------- |
-| `app-builder`   | Full-stack app scaffolding |
-| `architecture`  | System design patterns     |
-| `plan-writing`  | Task planning, breakdown   |
-| `brainstorming` | Socratic questioning       |
-
-### Mobile
-
-| Skill           | Description           |
-| --------------- | --------------------- |
-| `mobile-design` | Mobile UI/UX patterns |
-
-### Game Development
-
-| Skill              | Description           |
-| ------------------ | --------------------- |
-| `game-development` | Game logic, mechanics |
-
-### SEO & Growth
-
-| Skill              | Description                   |
-| ------------------ | ----------------------------- |
-| `seo-fundamentals` | SEO, E-E-A-T, Core Web Vitals |
-| `geo-fundamentals` | GenAI optimization            |
-
-### Shell/CLI
-
-| Skill                | Description               |
-| -------------------- | ------------------------- |
-| `bash-linux`         | Linux commands, scripting |
-| `powershell-windows` | Windows PowerShell        |
-
-### Other
-
-| Skill                     | Description               |
-| ------------------------- | ------------------------- |
-| `clean-code`              | Coding standards (Global) |
-| `behavioral-modes`        | Agent personas            |
-| `parallel-agents`         | Multi-agent patterns      |
-| `mcp-builder`             | Model Context Protocol    |
-| `documentation-templates` | Doc formats               |
-| `i18n-localization`       | Internationalization      |
-| `performance-profiling`   | Web Vitals, optimization  |
-| `systematic-debugging`    | Troubleshooting           |
-
----
-
-## 🔄 Workflows (11)
-
-Slash command procedures. Invoke with `/command`.
-
-| Command          | Description              |
-| ---------------- | ------------------------ |
-| `/brainstorm`    | Socratic discovery       |
-| `/create`        | Create new features      |
-| `/debug`         | Debug issues             |
-| `/deploy`        | Deploy application       |
-| `/enhance`       | Improve existing code    |
-| `/orchestrate`   | Multi-agent coordination |
-| `/plan`          | Task breakdown           |
-| `/preview`       | Preview changes          |
-| `/status`        | Check project status     |
-| `/test`          | Run tests                |
-| `/ui-ux-pro-max` | Design with 50 styles    |
-
----
-
-## 🎯 Skill Loading Protocol
-
-```plaintext
-User Request → Skill Description Match → Load SKILL.md
-                                            ↓
-                                    Read references/
-                                            ↓
-                                    Read scripts/
+```
+Primary:  #0D1B2A  (Deep Navy)
+Accent:   #00C2CB  (Electric Teal)
+BG:       #F8F9FA  (Off White)
+Text:     #1A1A2E  (Near Black)
+Heading:  Syne 700/800
+Body:     Inter 400/500/600
+BANNED:   Purple, violet, mesh gradients, glassmorphism
+STYLE:    Editorial brutalism — sharp edges, large type, precise whitespace
 ```
 
-### Skill Structure
+---
 
-```plaintext
-skill-name/
-├── SKILL.md           # (Required) Metadata & instructions
-├── scripts/           # (Optional) Python/Bash scripts
-├── references/        # (Optional) Templates, docs
-└── assets/            # (Optional) Images, logos
-```
+## Coding Conventions
 
-### Enhanced Skills (with scripts/references)
-
-| Skill               | Files | Coverage                            |
-| ------------------- | ----- | ----------------------------------- |
-| `ui-ux-pro-max`     | 27    | 50 styles, 21 palettes, 50 fonts    |
-| `app-builder`       | 20    | Full-stack scaffolding              |
+- Server Components by default — `'use client'` only for interactivity
+- All images via `next/image` (no raw `<img>`)
+- All API routes: Zod validation + rate limiting + honeypot
+- TypeScript strict — no `any`, no `@ts-ignore`
+- CSS via class utilities (`card`, `btn`, `section`, `container`) + inline style for specifics
+- `@/*` import alias for all internal imports
 
 ---
 
-## � Scripts (2)
+## Reference Docs
 
-Master validation scripts that orchestrate skill-level scripts.
-
-### Master Scripts
-
-| Script          | Purpose                                 | When to Use              |
-| --------------- | --------------------------------------- | ------------------------ |
-| `checklist.py`  | Priority-based validation (Core checks) | Development, pre-commit  |
-| `verify_all.py` | Comprehensive verification (All checks) | Pre-deployment, releases |
-
-### Usage
-
-```bash
-# Quick validation during development
-python .agent/scripts/checklist.py .
-
-# Full verification before deployment
-python .agent/scripts/verify_all.py . --url http://localhost:3000
-```
-
-### What They Check
-
-**checklist.py** (Core checks):
-
-- Security (vulnerabilities, secrets)
-- Code Quality (lint, types)
-- Schema Validation
-- Test Suite
-- UX Audit
-- SEO Check
-
-**verify_all.py** (Full suite):
-
-- Everything in checklist.py PLUS:
-- Lighthouse (Core Web Vitals)
-- Playwright E2E
-- Bundle Analysis
-- Mobile Audit
-- i18n Check
-
-For details, see [scripts/README.md](scripts/README.md)
-
----
-
-## 📊 Statistics
-
-| Metric              | Value                         |
-| ------------------- | ----------------------------- |
-| **Total Agents**    | 20                            |
-| **Total Skills**    | 36                            |
-| **Total Workflows** | 11                            |
-| **Total Scripts**   | 2 (master) + 18 (skill-level) |
-| **Coverage**        | ~90% web/mobile development   |
-
----
-
-## 🔗 Quick Reference
-
-| Need     | Agent                 | Skills                                |
-| -------- | --------------------- | ------------------------------------- |
-| Web App  | `frontend-specialist` | react-best-practices, frontend-design |
-| API      | `backend-specialist`  | api-patterns, nodejs-best-practices   |
-| Mobile   | `mobile-developer`    | mobile-design                         |
-| Database | `database-architect`  | database-design, prisma-expert        |
-| Security | `security-auditor`    | vulnerability-scanner                 |
-| Testing  | `test-engineer`       | testing-patterns, webapp-testing      |
-| Debug    | `debugger`            | systematic-debugging                  |
-| Plan     | `project-planner`     | brainstorming, plan-writing           |
+See `.agent/docs/` for complete specifications:
+- `PRD.md` → Product requirements + user stories
+- `_TMA.md` → Full system architecture  
+- `Design.md` → Color tokens + typography
+- `0_Schema.md` → Sanity schemas + GROQ
+- `APIs.md` → API route specs
+- `Security.md` → Security checklist
+- `AGENTS.md` → Master AI build instructions
