@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCircle, MessageSquare, ArrowRight } from "lucide-react";
 import BookingEmbed from "@/components/shared/BookingEmbed";
+import posthog from "posthog-js";
 
 const callPoints = [
   "30 minutes — no commitment, no sales pitch",
@@ -28,6 +29,8 @@ function ContactForm() {
       });
       if (res.ok) {
         setStatus("done");
+        posthog.identify(form.email, { email: form.email, name: form.name, business_type: form.businessType });
+        posthog.capture("contact_form_submitted", { business_type: form.businessType });
         router.push("/contact/success");
       } else {
         setStatus("error");
@@ -71,63 +74,92 @@ function ContactForm() {
 export default function ContactPage() {
   return (
     <>
-      <section style={{ paddingTop: "8rem", paddingBottom: "4rem", background: "var(--color-bg)" }}>
-        <div className="container">
-          <span className="tag" style={{ marginBottom: "1.5rem", display: "inline-block" }}>Let&apos;s Talk</span>
-          <h1 style={{ maxWidth: "16ch", marginBottom: "1.5rem" }}>
-            Ready to turn your marketing into{" "}
-            <span style={{ color: "var(--color-accent)" }}>a growth engine?</span>
-          </h1>
+      <section style={{ 
+        paddingTop: "clamp(6rem, 10vw, 9rem)", 
+        paddingBottom: "clamp(3rem, 5vw, 4rem)", 
+        background: "var(--color-bg)" 
+      }}>
+        <div className="container mx-auto">
+          <div style={{ textAlign: "left" }} className="md:text-left">
+            <span className="tag" style={{ marginBottom: "1.5rem", display: "inline-block" }}>Let&apos;s Talk</span>
+            <h1 style={{ 
+              maxWidth: "20ch", 
+              marginBottom: "1.5rem",
+              fontSize: "clamp(2.25rem, 6vw, 4.5rem)",
+              lineHeight: 1.1 
+            }}>
+              Ready to turn your marketing into{" "}
+              <span style={{ color: "var(--color-accent)" }}>a growth engine?</span>
+            </h1>
+          </div>
         </div>
       </section>
 
       <section className="section" style={{ background: "#fff" }}>
         <div
-          className="container"
+          className="container mx-auto"
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-            gap: "4rem",
+            gridTemplateColumns: "1fr",
+            gap: "3rem",
           }}
         >
-          {/* Left: Info */}
-          <div>
-            <h2 style={{ fontSize: "1.5rem", marginBottom: "2rem" }}>Book a Free 30-Minute Strategy Call</h2>
-            <div style={{ display: "flex", flexDirection: "column", gap: "1rem", marginBottom: "2.5rem" }}>
-              {callPoints.map((point) => (
-                <div key={point} style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start" }}>
-                  <CheckCircle size={18} style={{ color: "var(--color-accent)", flexShrink: 0, marginTop: "2px" }} />
-                  <p style={{ color: "var(--color-text-muted)" }}>{point}</p>
-                </div>
-              ))}
+          {/* Main Grid: Responsive column swap */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
+            
+            {/* Left: Info & Cal.com */}
+            <div style={{ order: 1 }}>
+              <h2 style={{ fontSize: "clamp(1.25rem, 3vw, 1.75rem)", marginBottom: "2rem" }}>Book a Free 30-Minute Strategy Call</h2>
+              <div style={{ display: "flex", flexDirection: "column", gap: "1rem", marginBottom: "2.5rem" }}>
+                {callPoints.map((point) => (
+                  <div key={point} style={{ display: "flex", gap: "0.75rem", alignItems: "flex-start" }}>
+                    <CheckCircle size={18} style={{ color: "var(--color-accent)", flexShrink: 0, marginTop: "4px" }} />
+                    <p style={{ color: "var(--color-text-muted)", fontSize: "0.9375rem" }}>{point}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div style={{ 
+                background: "var(--color-bg)", 
+                borderRadius: "16px", 
+                border: "1px solid var(--color-muted)", 
+                padding: "clamp(1rem, 2vw, 1.5rem)", 
+                overflow: "hidden",
+                boxShadow: "0 10px 30px rgba(13, 27, 42, 0.04)"
+              }}>
+                <BookingEmbed />
+              </div>
+
+              <div style={{ marginTop: "3rem", paddingTop: "2rem", borderTop: "1px solid var(--color-muted)" }}>
+                <p style={{ fontWeight: 600, color: "var(--color-primary)", marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                  <MessageSquare size={16} style={{ color: "var(--color-accent)" }} />
+                  Prefer to email?
+                </p>
+                <a href="mailto:ashique@ashique.digital" style={{ color: "var(--color-accent)", fontWeight: 600, fontSize: "1.125rem", textDecoration: "underline" }}>
+                  ashique@ashique.digital
+                </a>
+              </div>
             </div>
 
-            <div style={{ background: "var(--color-bg)", borderRadius: "12px", border: "1px solid var(--color-muted)", padding: "1rem", overflow: "hidden" }}>
-              <BookingEmbed />
-            </div>
-
-            <div style={{ marginTop: "3rem", paddingTop: "2rem", borderTop: "1px solid var(--color-muted)" }}>
-              <p style={{ fontWeight: 600, color: "var(--color-primary)", marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                <MessageSquare size={16} style={{ color: "var(--color-accent)" }} />
-                Prefer to email?
+            {/* Right: Manual Form */}
+            <div
+              style={{
+                background: "var(--color-bg)",
+                borderRadius: "16px",
+                padding: "clamp(1.5rem, 4vw, 2.5rem)",
+                border: "1px solid var(--color-muted)",
+                height: "fit-content",
+                order: 2
+              }}
+              className="lg:sticky lg:top-32"
+            >
+              <h3 style={{ fontWeight: 800, color: "var(--color-primary)", marginBottom: "0.5rem", fontSize: "1.25rem" }}>Drop a message</h3>
+              <p style={{ color: "var(--color-text-muted)", fontSize: "0.875rem", marginBottom: "2rem" }}>
+                If you prefer typing over talking, use the form below.
               </p>
-              <a href="mailto:ashique@ashique.digital" style={{ color: "var(--color-accent)", fontWeight: 500 }}>
-                ashique@ashique.digital
-              </a>
+              <ContactForm />
             </div>
-          </div>
 
-          {/* Right: Form */}
-          <div
-            style={{
-              background: "var(--color-bg)",
-              borderRadius: "8px",
-              padding: "2rem",
-              border: "1px solid var(--color-muted)",
-            }}
-          >
-            <p style={{ fontWeight: 600, color: "var(--color-primary)", marginBottom: "1.5rem" }}>Or send a message directly</p>
-            <ContactForm />
           </div>
         </div>
       </section>

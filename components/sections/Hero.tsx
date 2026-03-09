@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, TrendingUp, Users, Award } from "lucide-react";
+import posthog from "posthog-js";
 
 const GrowthSphere = dynamic(() => import("../visuals/GrowthSphere"), {
   ssr: false,
@@ -29,8 +30,8 @@ export function Hero() {
     <section
       ref={ref}
       style={{
-        paddingTop: "9rem",
-        paddingBottom: "5rem",
+        paddingTop: "clamp(6rem, 15vw, 10rem)",
+        paddingBottom: "clamp(4rem, 8vw, 6rem)",
         background: "var(--color-bg)",
         overflow: "hidden",
         position: "relative",
@@ -38,8 +39,7 @@ export function Hero() {
     >
       <GrowthSphere />
 
-
-      <div className="container">
+      <div className="container mx-auto">
         {/* Pre-headline tag */}
         <div
           className="tag"
@@ -58,11 +58,11 @@ export function Hero() {
           style={{
             fontFamily: "var(--font-heading)",
             fontWeight: 800,
-            fontSize: "clamp(2.75rem, 7vw, 5.5rem)",
-            lineHeight: 1.05,
-            letterSpacing: "-0.03em",
+            fontSize: "clamp(2.5rem, 8vw, 5.5rem)",
+            lineHeight: 1.1,
+            letterSpacing: "-0.02em",
             color: "var(--color-primary)",
-            maxWidth: "14ch",
+            maxWidth: "18ch",
             marginBottom: "1.75rem",
             opacity: visible ? 1 : 0,
             transform: visible ? "translateY(0)" : "translateY(24px)",
@@ -70,7 +70,7 @@ export function Hero() {
           }}
         >
           Stop Running{" "}
-          <span style={{ color: "var(--color-accent)" }}>Ads.</span> Start
+          <span style={{ color: "var(--color-accent)" }}>Ads.</span> <br className="hidden md:block" /> Start
           Building a{" "}
           <span
             style={{
@@ -83,12 +83,13 @@ export function Hero() {
               aria-hidden
               style={{
                 position: "absolute",
-                bottom: 4,
+                bottom: "5%",
                 left: 0,
                 right: 0,
-                height: 4,
+                height: "clamp(4px, 1vw, 8px)",
                 background: "var(--color-accent)",
                 borderRadius: "2px",
+                opacity: 0.8
               }}
             />
           </span>
@@ -97,10 +98,10 @@ export function Hero() {
         {/* Subheadline */}
         <p
           style={{
-            fontSize: "clamp(1rem, 2vw, 1.25rem)",
+            fontSize: "clamp(1rem, 1.5vw, 1.25rem)",
             color: "var(--color-text-muted)",
             maxWidth: "52ch",
-            lineHeight: 1.7,
+            lineHeight: 1.75,
             marginBottom: "2.5rem",
             opacity: visible ? 1 : 0,
             transform: visible ? "translateY(0)" : "translateY(20px)",
@@ -118,7 +119,7 @@ export function Hero() {
         <div
           style={{
             display: "flex",
-            gap: "1rem",
+            gap: "1.25rem",
             flexWrap: "wrap",
             marginBottom: "3rem",
             opacity: visible ? 1 : 0,
@@ -128,13 +129,21 @@ export function Hero() {
         >
           <Link
             href={process.env.NEXT_PUBLIC_CAL_LINK || "https://cal.com/frpboy/strategy"}
-            className="btn btn-primary"
-            style={{ gap: "0.5rem" }}
+            className="btn btn-primary w-full sm:w-auto"
+            style={{ 
+              gap: "0.5rem", 
+              justifyContent: "center",
+            }}
+            onClick={() => posthog.capture("hero_cta_clicked", { cta: "book_strategy_call", location: "hero" })}
           >
             Book a Free Strategy Call
-            <ArrowRight size={16} />
+            <ArrowRight size={18} />
           </Link>
-          <Link href="/case-studies" className="btn btn-secondary">
+          <Link
+            href="/case-studies"
+            className="btn btn-secondary w-full sm:w-auto justify-center"
+            onClick={() => posthog.capture("hero_cta_clicked", { cta: "see_my_work", location: "hero" })}
+          >
             See My Work
           </Link>
         </div>

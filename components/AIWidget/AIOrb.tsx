@@ -4,6 +4,7 @@ import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useState, useRef, useEffect } from "react";
 import type { ChatMessage } from "@/lib/types";
 import { X, Send, Loader2 } from "lucide-react";
+import posthog from "posthog-js";
 
 const WELCOME = "Hi! I'm Ashique's assistant. I can answer questions about his services, process, and past results — or help you book a free strategy call. What would you like to know?";
 
@@ -23,6 +24,13 @@ export function AIWidget() {
   const send = async () => {
     const msg = input.trim();
     if (!msg || loading) return;
+
+    if (typeof window !== 'undefined' && posthog) {
+      posthog.capture("ai_message_sent", {
+        message_length: msg.length,
+        conversation_turn: messages.filter((m) => m.role === "user").length + 1,
+      });
+    }
 
     const userMessage: ChatMessage = { role: "user", content: msg };
     setMessages((prev) => [...prev, userMessage]);
@@ -78,7 +86,13 @@ export function AIWidget() {
     <>
       {/* Floating Bot Button */}
       <button
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => {
+          const next = !open;
+          setOpen(next);
+          if (next && typeof window !== 'undefined' && posthog) {
+            posthog.capture("ai_widget_opened");
+          }
+        }}
         aria-label="Open AI assistant"
         style={{
           position: "fixed",
@@ -164,7 +178,7 @@ export function AIWidget() {
                 Ashique&apos;s Assistant
               </p>
               <p style={{ color: "var(--color-accent)", fontSize: "0.75rem" }}>
-                Powered by Gemini AI
+                Powered by K4NN4N
               </p>
             </div>
           </div>

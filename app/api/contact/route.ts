@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { sendEmail } from "@/lib/resend";
+import { getPostHogClient } from "@/lib/posthog-server";
 
 const schema = z.object({
   name: z.string().min(2).max(100).trim(),
@@ -47,6 +48,15 @@ export async function POST(req: NextRequest) {
     });
     */
     console.log("Contact form submission (Email disabled):", { name, email, businessType, message });
+
+    const posthog = getPostHogClient();
+    posthog.identify({ distinctId: email, properties: { email, name, business_type: businessType } });
+    posthog.capture({
+      distinctId: email,
+      event: "contact_form_received",
+      properties: { name, business_type: businessType, source: "api" },
+    });
+    await posthog.shutdown();
 
     return NextResponse.json({ success: true, message: "Your message has been sent. Ashique will get back to you within 24 hours." });
   } catch (error) {

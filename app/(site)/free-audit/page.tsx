@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight, CheckCircle } from "lucide-react";
+import posthog from "posthog-js";
 
 const challenges = [
   "Not generating enough leads",
@@ -33,8 +34,17 @@ export default function FreeAuditPage() {
           message: `Budget: ${form.budget}\nChallenge: ${form.challenge}`,
         }),
       });
-      if (res.ok) setStatus("done");
-      else setStatus("error");
+      if (res.ok) {
+        posthog.identify(form.email, { email: form.email, name: form.name, business_name: form.businessName });
+        posthog.capture("free_audit_submitted", {
+          budget: form.budget,
+          challenge: form.challenge,
+          business_name: form.businessName,
+        });
+        setStatus("done");
+      } else {
+        setStatus("error");
+      }
     } catch {
       setStatus("error");
     }

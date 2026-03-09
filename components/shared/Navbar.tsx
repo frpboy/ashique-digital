@@ -31,121 +31,51 @@ export function Navbar() {
         right: 0,
         zIndex: 100,
         transition: "all 0.3s ease",
-        background: scrolled
-          ? "rgba(248,249,250,0.92)"
-          : "transparent",
-        backdropFilter: scrolled ? "blur(14px)" : "none",
-        borderBottom: scrolled
-          ? "1px solid rgba(233,236,239,0.8)"
-          : "1px solid transparent",
+        background: scrolled ? "rgba(255, 255, 255, 0.95)" : "transparent",
+        backdropFilter: scrolled ? "blur(12px)" : "none",
+        borderBottom: scrolled ? "1px solid var(--color-muted)" : "1px solid transparent",
       }}
     >
       <div
-        className="container"
+        className="container mx-auto"
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          height: "4.5rem",
+          height: "5rem",
         }}
       >
-        {/* Logo */}
+        {/* Brand Logo */}
         <Link
           href="/"
+          className="flex items-center gap-1 flex-shrink-0"
           style={{
             fontFamily: "var(--font-heading)",
             fontWeight: 800,
-            fontSize: "1.1875rem",
+            fontSize: "1.25rem",
             color: "var(--color-primary)",
             letterSpacing: "-0.01em",
+            textDecoration: "none",
           }}
         >
-          Ashique
-          <span style={{ color: "var(--color-accent)", margin: "0 0.25rem" }}>
-            ·
-          </span>
-          Digital
+          Ashique<span style={{ color: "var(--color-accent)" }}>-</span>Digital
         </Link>
 
-        {/* Desktop Nav */}
-        <nav style={{ display: "flex", alignItems: "center", gap: "2rem" }}>
-          <ul
-            style={{
-              display: "flex",
-              gap: "2rem",
-              listStyle: "none",
-            }}
-            className="hide-mobile"
-          >
+        {/* Desktop Navigation */}
+        <nav className="hidden lg:flex items-center gap-8">
+          <ul className="flex items-center gap-8 list-none m-0 p-0">
             {navLinks.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
+                  className="nav-link"
                   style={{
                     fontFamily: "var(--font-body)",
                     fontWeight: 500,
                     fontSize: "0.9375rem",
                     color: "var(--color-primary)",
                     transition: "color 0.2s ease",
-                  }}
-                  onMouseEnter={(e) =>
-                    (e.currentTarget.style.color = "var(--color-accent)")
-                  }
-                  onMouseLeave={(e) =>
-                    (e.currentTarget.style.color = "var(--color-primary)")
-                  }
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          <Link
-            href={process.env.NEXT_PUBLIC_CAL_LINK || "https://cal.com/frpboy/strategy"}
-            className="btn btn-primary hide-mobile"
-            style={{ fontSize: "0.875rem", padding: "0.65rem 1.35rem" }}
-          >
-            Book a Free Call
-          </Link>
-
-          {/* Mobile Hamburger */}
-          <button
-            className="show-mobile"
-            onClick={() => setOpen(!open)}
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              color: "var(--color-primary)",
-            }}
-            aria-label="Toggle navigation"
-          >
-            {open ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </nav>
-      </div>
-
-      {/* Mobile Menu */}
-      {open && (
-        <div
-          style={{
-            background: "#fff",
-            borderTop: "1px solid var(--color-muted)",
-            padding: "1.5rem",
-          }}
-        >
-          <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "1rem" }}>
-            {navLinks.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  style={{
-                    fontFamily: "var(--font-body)",
-                    fontWeight: 500,
-                    fontSize: "1rem",
-                    color: "var(--color-primary)",
+                    textDecoration: "none",
                   }}
                 >
                   {link.label}
@@ -156,23 +86,89 @@ export function Navbar() {
           <Link
             href={process.env.NEXT_PUBLIC_CAL_LINK || "https://cal.com/frpboy/strategy"}
             className="btn btn-primary"
-            style={{ marginTop: "1.5rem", width: "100%", justifyContent: "center" }}
-            onClick={() => setOpen(false)}
+            style={{ fontSize: "0.875rem", padding: "0.65rem 1.5rem" }}
           >
             Book a Free Call
           </Link>
+        </nav>
+
+        {/* Mobile / Tablet Toggle & Call (Tablet scale) */}
+        <div className="flex lg:hidden items-center gap-4">
+          <Link
+            href={process.env.NEXT_PUBLIC_CAL_LINK || "https://cal.com/frpboy/strategy"}
+            className="btn btn-primary hidden sm:inline-flex"
+            style={{ fontSize: "0.8125rem", padding: "0.5rem 1rem" }}
+          >
+            Book Now
+          </Link>
+          <button
+            onClick={() => setOpen(!open)}
+            aria-label="Toggle menu"
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              color: "var(--color-primary)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "0.5rem",
+            }}
+          >
+            {open ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu Overlay */}
+      {open && (
+        <div
+          style={{
+            position: "absolute",
+            top: "100%",
+            left: 0,
+            right: 0,
+            background: "#fff",
+            borderTop: "1px solid var(--color-muted)",
+            padding: "2rem 1.5rem",
+            boxShadow: "0 10px 40px rgba(0,0,0,0.1)",
+            display: "flex",
+            flexDirection: "column",
+            gap: "1.5rem",
+            zIndex: 99,
+          }}
+          className="lg:hidden"
+        >
+          <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+            {navLinks.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  style={{
+                    fontFamily: "var(--font-body)",
+                    fontWeight: 600,
+                    fontSize: "1.125rem",
+                    color: "var(--color-primary)",
+                    display: "block",
+                    textDecoration: "none",
+                  }}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <Link
+            href={process.env.NEXT_PUBLIC_CAL_LINK || "https://cal.com/frpboy/strategy"}
+            className="btn btn-primary"
+            style={{ width: "100%", textAlign: "center", justifyContent: "center" }}
+            onClick={() => setOpen(false)}
+          >
+            Book a Free Strategy Call
+          </Link>
         </div>
       )}
-
-      <style jsx>{`
-        @media (max-width: 768px) {
-          .hide-mobile { display: none !important; }
-          .show-mobile { display: flex !important; }
-        }
-        @media (min-width: 769px) {
-          .show-mobile { display: none !important; }
-        }
-      `}</style>
     </header>
   );
 }

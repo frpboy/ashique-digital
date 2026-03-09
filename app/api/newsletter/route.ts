@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { sendEmail } from "@/lib/resend";
+import { getPostHogClient } from "@/lib/posthog-server";
 
 const schema = z.object({
   email: z.string().email().max(254),
@@ -51,6 +52,15 @@ export async function POST(req: NextRequest) {
     });
     */
     console.log("Newsletter subscription (Email disabled):", { email, name });
+
+    const posthog = getPostHogClient();
+    posthog.identify({ distinctId: email, properties: { email, name: name ?? undefined } });
+    posthog.capture({
+      distinctId: email,
+      event: "newsletter_signup_received",
+      properties: { source: "api" },
+    });
+    await posthog.shutdown();
 
     return NextResponse.json({ success: true, message: "You're on the list!" });
   } catch (error) {

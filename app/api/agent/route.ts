@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { z } from "zod";
+import { getPostHogClient } from "@/lib/posthog-server";
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_API_KEY ?? "");
 
@@ -39,6 +40,19 @@ export async function POST(req: NextRequest) {
     }
 
     const { message, history } = result.data;
+
+    const distinctId = req.headers.get("x-posthog-distinct-id") ?? "anonymous";
+    const posthog = getPostHogClient();
+    posthog.capture({
+      distinctId,
+      event: "ai_agent_invoked",
+      properties: {
+        message_length: message.length,
+        conversation_turn: history.length + 1,
+        model: process.env.NEXT_PUBLIC_GEMINI_MODEL || "gemini-3.1-pro-preview",
+      },
+    });
+    await posthog.shutdown();
 
     const model = genAI.getGenerativeModel({
       model: process.env.NEXT_PUBLIC_GEMINI_MODEL || "gemini-3.1-pro-preview",
