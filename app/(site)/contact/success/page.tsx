@@ -1,10 +1,7 @@
-import type { Metadata } from "next";
-import { CheckCircle, Home, ArrowRight } from "lucide-react";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Message Sent | Ashique — ashique.digital",
-  description: "Thank you for reaching out. We've received your message and will get back to you shortly.",
-};
+import Link from "next/link";
+import { CheckCircle, Home, ArrowRight } from "lucide-react";
 
 export default function SuccessPage() {
   return (
@@ -41,12 +38,12 @@ export default function SuccessPage() {
         </p>
 
         <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-          <a href="/" className="btn btn-secondary" style={{ gap: "0.5rem" }}>
+          <Link href="/" className="btn btn-secondary" style={{ gap: "0.5rem" }}>
             <Home size={18} /> Home
-          </a>
-          <a href="/insights" className="btn btn-primary" style={{ gap: "0.5rem" }}>
+          </Link>
+          <Link href="/insights" className="btn btn-primary" style={{ gap: "0.5rem" }}>
             Read Growth Insights <ArrowRight size={18} />
-          </a>
+          </Link>
         </div>
       </div>
     </main>

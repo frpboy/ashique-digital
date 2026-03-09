@@ -151,7 +151,7 @@ export function Navbar() {
                   onClick={() => setOpen(false)}
                   style={{
                     fontFamily: "var(--font-body)",
-                    fontWeight: 600,
+                    fontWeight: 500,
                     fontSize: "1.125rem",
                     color: "var(--color-primary)",
                     display: "block",
