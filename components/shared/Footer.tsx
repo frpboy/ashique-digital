@@ -176,16 +176,13 @@ export function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
+                      className="footer-link"
                       style={{
                         color: "var(--color-text-on-dark)",
                         fontSize: "0.9375rem",
                         transition: "color 0.2s",
                         textDecoration: "none"
                       }}
-                      onMouseEnter={(e) => (e.currentTarget.style.color = "#fff")}
-                      onMouseLeave={(e) =>
-                        (e.currentTarget.style.color = "var(--color-text-on-dark)")
-                      }
                     >
                       {link.label}
                     </Link>

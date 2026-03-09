@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { CheckCircle, Home, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -42,12 +41,12 @@ export default function SuccessPage() {
         </p>
 
         <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-          <Link href="/" className="btn btn-secondary" style={{ gap: "0.5rem" }}>
+          <a href="/" className="btn btn-secondary" style={{ gap: "0.5rem" }}>
             <Home size={18} /> Home
-          </Link>
-          <Link href="/insights" className="btn btn-primary" style={{ gap: "0.5rem" }}>
+          </a>
+          <a href="/insights" className="btn btn-primary" style={{ gap: "0.5rem" }}>
             Read Growth Insights <ArrowRight size={18} />
-          </Link>
+          </a>
         </div>
       </div>
     </main>
