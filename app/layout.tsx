@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     template: "%s | Ashique — ashique.digital",
   },
   description:
-    "Ashique is a Brand Strategist and Lead Generation Consultant helping SMEs and Startups build predictable growth systems. Download the free 15-Point Growth Audit and engineer an acquisition engine that scales profits, not just campaigns.",
+    "Ashique helps SMEs and Startups generate qualified leads and scale through engineered growth systems. Download your free 15-Point Lead Gen Audit today.",
   metadataBase: new URL("https://ashique.digital"),
   openGraph: {
     type: "website",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     siteName: "Ashique Digital",
     title: "Ashique | Brand Strategist & Lead Generation Consultant",
     description:
-      "Stop running ads. Start building a growth system. Ashique helps ambitious businesses generate more leads and scale with confidence.",
+      "Ashique helps SMEs and Startups generate qualified leads and scale through engineered growth systems. Download your free 15-Point Lead Gen Audit today.",
     images: [
       {
         url: "/og/home.png",
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Ashique | Brand Strategist & Lead Generation Consultant",
-    description: "Stop running ads. Start building a growth system.",
+    description: "Ashique helps SMEs and Startups generate qualified leads and scale through engineered growth systems. Download your free 15-Point Lead Gen Audit today.",
     images: ["/og/home.png"],
   },
   robots: {
