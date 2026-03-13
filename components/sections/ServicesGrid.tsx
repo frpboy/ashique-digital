@@ -50,7 +50,7 @@ const services = [
 export function ServicesGrid() {
   return (
     <section className="section" style={{ background: "var(--color-bg)" }}>
-      <div className="container">
+      <div className="container px-6">
         <div style={{ marginBottom: "3.5rem" }}>
           <span className="accent-line" />
           <h2 style={{ marginBottom: "1rem" }}>How I Help You Grow</h2>
@@ -60,11 +60,7 @@ export function ServicesGrid() {
         </div>
 
         <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-            gap: "1.5rem",
-          }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {services.map((s) => (
             <Link

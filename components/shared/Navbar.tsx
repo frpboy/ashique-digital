@@ -37,12 +37,13 @@ export function Navbar() {
       }}
     >
       <div
-        className="container mx-auto"
+        className="container mx-auto px-6"
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          height: "5rem",
+          height: scrolled ? "4rem" : "5rem", // Compact when scrolled
+          transition: "height 0.3s ease"
         }}
       >
         {/* Brand Logo */}
@@ -52,7 +53,7 @@ export function Navbar() {
           style={{
             fontFamily: "var(--font-heading)",
             fontWeight: 800,
-            fontSize: "1.25rem",
+            fontSize: "clamp(1.1rem, 4vw, 1.25rem)",
             color: "var(--color-primary)",
             letterSpacing: "-0.01em",
             textDecoration: "none",
@@ -86,28 +87,29 @@ export function Navbar() {
           <Link
             href={process.env.NEXT_PUBLIC_CAL_LINK || "https://cal.com/frpboy/strategy"}
             className="btn btn-primary"
-            style={{ fontSize: "0.875rem", padding: "0.65rem 1.5rem" }}
+            style={{ fontSize: "0.875rem", padding: "0.6rem 1.25rem" }}
             target="_blank"
             rel="noopener noreferrer"
           >
-            Book a Free Call
+            Book Strategy Call
           </Link>
         </nav>
 
         {/* Mobile / Tablet Toggle & Call (Tablet scale) */}
-        <div className="flex lg:hidden items-center gap-4">
+        <div className="flex lg:hidden items-center gap-2 sm:gap-4">
           <Link
             href={process.env.NEXT_PUBLIC_CAL_LINK || "https://cal.com/frpboy/strategy"}
-            className="btn btn-primary hidden sm:inline-flex"
-            style={{ fontSize: "0.8125rem", padding: "0.5rem 1rem" }}
+            className="btn btn-primary hidden xs:inline-flex"
+            style={{ fontSize: "0.75rem", padding: "0.4rem 0.75rem" }}
             target="_blank"
             rel="noopener noreferrer"
           >
-            Book Now
+            Book Call
           </Link>
           <button
             onClick={() => setOpen(!open)}
             aria-label="Toggle menu"
+            className="p-2"
             style={{
               background: "none",
               border: "none",
@@ -116,10 +118,9 @@ export function Navbar() {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              padding: "0.5rem",
             }}
           >
-            {open ? <X size={28} /> : <Menu size={28} />}
+            {open ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>

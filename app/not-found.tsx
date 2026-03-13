@@ -10,6 +10,7 @@ const BrokenNode = dynamic(() => import("@/components/visuals/BrokenNode"), { ss
 export default function NotFound() {
   return (
     <main 
+      className="px-6"
       style={{ 
         width: "100%",
         minHeight: "100vh", 
@@ -18,7 +19,8 @@ export default function NotFound() {
         alignItems: "center", 
         justifyContent: "center", 
         background: "radial-gradient(circle at center, #ffffff 0%, #F8F9FA 100%)",
-        padding: "4rem 2rem",
+        paddingTop: "4rem",
+        paddingBottom: "4rem",
         textAlign: "center",
         position: "relative",
         overflow: "hidden"
@@ -37,12 +39,12 @@ export default function NotFound() {
       />
 
       {/* 1. Immersive 3D Visual Anchor */}
-      <div style={{ width: "100%", maxWidth: "800px", marginBottom: "4rem", pointerEvents: "none" }}>
+      <div style={{ width: "100%", maxWidth: "800px", marginBottom: "2rem", pointerEvents: "none" }}>
         <BrokenNode />
       </div>
 
       {/* 2. Editorial Typography Block */}
-      <div style={{ position: "relative", zIndex: 10 }}>
+      <div style={{ position: "relative", zIndex: 10, width: "100%" }}>
         <motion.div
            initial={{ opacity: 0, y: 10 }}
            animate={{ opacity: 1, y: 0 }}
@@ -51,24 +53,25 @@ export default function NotFound() {
         >
           {/* Label style - technical magazine look */}
           <div style={{ 
-            fontSize: "0.875rem", 
+            fontSize: "clamp(0.75rem, 2vw, 0.875rem)", 
             fontWeight: 500, 
             color: "var(--color-primary)", 
             textTransform: "uppercase",
             letterSpacing: "0.5em",
             opacity: 0.6,
-            marginBottom: "1rem"
+            marginBottom: "0.75rem"
           }}>
             Lost in the
           </div>
           
           <h1 
             style={{ 
-              fontSize: "clamp(4rem, 12vw, 10rem)", 
-              lineHeight: 0.8, 
+              fontSize: "clamp(3rem, 10vw, 9rem)", 
+              lineHeight: 0.9, 
               color: "var(--color-accent)", 
               fontWeight: 800,
-              letterSpacing: "-0.05em"
+              letterSpacing: "-0.05em",
+              margin: "0 auto"
             }}
           >
             WRONG<br />FUNNEL
@@ -81,10 +84,10 @@ export default function NotFound() {
           transition={{ delay: 0.6, duration: 1 }}
           style={{ 
             color: "var(--color-text-muted)", 
-            fontSize: "1.125rem", 
+            fontSize: "clamp(1rem, 2.5vw, 1.125rem)", 
             lineHeight: 1.6, 
             maxWidth: "32rem",
-            margin: "2rem auto 0",
+            margin: "1.5rem auto 0",
             fontWeight: 500,
             textWrap: "balance" as any
           }}
@@ -97,16 +100,11 @@ export default function NotFound() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 1 }}
-          style={{ 
-            display: "flex", 
-            gap: "1.25rem", 
-            justifyContent: "center",
-            marginTop: "3.5rem"
-          }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10"
         >
           <Link 
             href="/" 
-            className="btn btn-primary" 
+            className="btn btn-primary w-full sm:w-auto" 
             style={{ 
               gap: "0.5rem",
               padding: "0.75rem 2rem",
@@ -121,9 +119,11 @@ export default function NotFound() {
           </Link>
           <button 
             onClick={() => window.history.back()} 
+            className="w-full sm:w-auto"
             style={{ 
               display: "flex",
               alignItems: "center",
+              justifyContent: "center",
               gap: "0.5rem",
               padding: "0.75rem 2rem",
               fontSize: "0.875rem",

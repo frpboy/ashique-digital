@@ -1,11 +1,11 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Sphere, MeshDistortMaterial, Float, PerspectiveCamera } from "@react-three/drei";
 import * as THREE from "three";
 
-function AnimatedSphere() {
+function AnimatedSphere({ isMobile }: { isMobile: boolean }) {
   const meshRef = useRef<THREE.Mesh>(null);
 
   useFrame((state) => {
@@ -24,7 +24,12 @@ function AnimatedSphere() {
 
   return (
     <Float speed={1.5} rotationIntensity={0.5} floatIntensity={1}>
-      <Sphere ref={meshRef} args={[1, 100, 200]} scale={1.5} position={[1.2, 0, 0]}>
+      <Sphere 
+        ref={meshRef} 
+        args={[1, 100, 200]} 
+        scale={isMobile ? 1.4 : 1.8} 
+        position={isMobile ? [0, 1.2, 0] : [1.4, 0, 0]}
+      >
         <MeshDistortMaterial
           color="#00C2CB"
           transparent
@@ -41,6 +46,19 @@ function AnimatedSphere() {
 }
 
 export default function GrowthSphere() {
+  const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  if (!mounted) return null;
+
   return (
     <div 
       style={{ 
@@ -51,7 +69,7 @@ export default function GrowthSphere() {
         height: "100%", 
         zIndex: -1,
         pointerEvents: "none",
-        opacity: 0.8,
+        opacity: isMobile ? 0.6 : 0.8,
       }}
     >
       <Canvas dpr={[1, 2]}>
@@ -59,7 +77,7 @@ export default function GrowthSphere() {
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} intensity={1} />
         <spotLight position={[-10, 10, 10]} angle={0.15} penumbra={1} intensity={1} />
-        <AnimatedSphere />
+        <AnimatedSphere isMobile={isMobile} />
       </Canvas>
     </div>
   );

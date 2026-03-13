@@ -26,7 +26,7 @@ async function CaseStudiesList() {
   }
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: "1.5rem" }}>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {studies.map((s) => (
         <Link key={s._id} href={`/case-studies/${s.slug.current}`} style={{ textDecoration: "none" }}>
           <div
@@ -36,7 +36,7 @@ async function CaseStudiesList() {
             <span className="tag" style={{ marginBottom: "1rem" }}>{s.clientIndustry}</span>
             {s.metrics?.[0] && (
               <>
-                <div style={{ fontFamily: "var(--font-heading)", fontWeight: 800, fontSize: "2.5rem", color: "var(--color-accent)", letterSpacing: "-0.03em", lineHeight: 1 }}>
+                <div style={{ fontFamily: "var(--font-heading)", fontWeight: 800, fontSize: "clamp(2rem, 5vw, 2.5rem)", color: "var(--color-accent)", letterSpacing: "-0.03em", lineHeight: 1 }}>
                   {s.metrics[0].value}
                 </div>
                 <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.875rem", marginBottom: "1rem" }}>{s.metrics[0].label}</p>
@@ -57,9 +57,9 @@ export default function CaseStudiesPage() {
   return (
     <>
       <section style={{ paddingTop: "8rem", paddingBottom: "4rem", background: "var(--color-bg)" }}>
-        <div className="container">
+        <div className="container px-6">
           <span className="tag" style={{ marginBottom: "1.5rem", display: "inline-block" }}>Case Studies</span>
-          <h1 style={{ maxWidth: "14ch", marginBottom: "1.5rem" }}>
+          <h1 style={{ maxWidth: "16ch", marginBottom: "1.5rem", fontSize: "clamp(2.5rem, 8vw, 4rem)", lineHeight: 1 }}>
             Real results.<br />
             <span style={{ color: "var(--color-accent)" }}>Real businesses.</span>
           </h1>
@@ -69,7 +69,7 @@ export default function CaseStudiesPage() {
         </div>
       </section>
       <section className="section" style={{ background: "var(--color-bg)" }}>
-        <div className="container">
+        <div className="container px-6">
           <Suspense fallback={<p style={{ color: "var(--color-text-muted)" }}>Loading case studies...</p>}>
             <CaseStudiesList />
           </Suspense>

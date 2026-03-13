@@ -5,7 +5,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, MeshDistortMaterial, Sphere } from "@react-three/drei";
 import * as THREE from "three";
 
-function BrokenSphere() {
+function BrokenSphere({ isMobile }: { isMobile: boolean }) {
   const meshRef = useRef<THREE.Mesh>(null);
 
   useFrame((state) => {
@@ -30,7 +30,7 @@ function BrokenSphere() {
   return (
     <Float speed={1.2} rotationIntensity={0.5} floatIntensity={0.8}>
       {/* Fewer wires for cleaner look (reduce segments) */}
-      <Sphere ref={meshRef} args={[1, 32, 32]} scale={1.6}>
+      <Sphere ref={meshRef} args={[1, 32, 32]} scale={isMobile ? 1.2 : 1.6}>
         <MeshDistortMaterial
           color="#80E1E5"
           emissive="#80E1E5"
@@ -61,29 +61,34 @@ function BrokenSphere() {
 
 export default function BrokenNode() {
   const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  if (!mounted) return <div style={{ height: "500px" }} />;
+  if (!mounted) return <div style={{ height: isMobile ? "300px" : "500px" }} />;
 
   return (
     <div 
       style={{ 
         width: "100%", 
-        height: "500px", 
-        paddingTop: "5rem",
+        height: isMobile ? "300px" : "500px", 
+        paddingTop: isMobile ? "2rem" : "5rem",
         opacity: 0.9,
         position: "relative",
         zIndex: 1
       }}
     >
-      <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 10], fov: 35 }}>
+      <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 10], fov: isMobile ? 40 : 35 }}>
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} intensity={1.5} />
         <spotLight position={[-10, 10, 10]} angle={0.15} penumbra={1} intensity={1} />
-        <BrokenSphere />
+        <BrokenSphere isMobile={isMobile} />
       </Canvas>
     </div>
   );

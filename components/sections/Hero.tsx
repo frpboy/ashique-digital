@@ -39,7 +39,7 @@ export function Hero() {
     >
       <GrowthSphere />
 
-      <div className="container mx-auto">
+      <div className="container mx-auto px-6">
         {/* Pre-headline tag */}
         <div
           className="tag"
@@ -59,8 +59,8 @@ export function Hero() {
             fontFamily: "var(--font-heading)",
             fontWeight: 800,
             fontSize: "clamp(2.5rem, 8vw, 5.5rem)",
-            lineHeight: 1.1,
-            letterSpacing: "-0.02em",
+            lineHeight: 1,
+            letterSpacing: "-0.04em",
             color: "var(--color-primary)",
             maxWidth: "18ch",
             marginBottom: "1.75rem",
@@ -101,7 +101,7 @@ export function Hero() {
             fontSize: "clamp(1rem, 1.5vw, 1.25rem)",
             color: "var(--color-text-muted)",
             maxWidth: "52ch",
-            lineHeight: 1.75,
+            lineHeight: 1.6,
             marginBottom: "2.5rem",
             opacity: visible ? 1 : 0,
             transform: visible ? "translateY(0)" : "translateY(20px)",
@@ -117,14 +117,12 @@ export function Hero() {
 
         {/* CTAs */}
         <div
+          className="flex flex-col sm:flex-row gap-4 mb-12"
           style={{
-            display: "flex",
-            gap: "1.25rem",
-            flexWrap: "wrap",
-            marginBottom: "3rem",
             opacity: visible ? 1 : 0,
             transform: visible ? "translateY(0)" : "translateY(16px)",
             transition: "all 0.6s ease 0.5s",
+            maxWidth: "max-content"
           }}
         >
           <Link
@@ -133,17 +131,19 @@ export function Hero() {
             style={{ 
               gap: "0.5rem", 
               justifyContent: "center",
+              padding: "0.875rem 2rem"
             }}
             onClick={() => posthog.capture("hero_cta_clicked", { cta: "book_strategy_call", location: "hero" })}
             target="_blank"
             rel="noopener noreferrer"
           >
-            Book a Free Strategy Call
+            Book Strategy Call
             <ArrowRight size={18} />
           </Link>
           <Link
             href="/case-studies"
             className="btn btn-secondary w-full sm:w-auto justify-center"
+            style={{ padding: "0.875rem 2rem" }}
             onClick={() => posthog.capture("hero_cta_clicked", { cta: "see_my_work", location: "hero" })}
           >
             See My Work
@@ -152,10 +152,8 @@ export function Hero() {
 
         {/* Trust badges */}
         <div
+          className="flex flex-wrap gap-x-8 gap-y-4"
           style={{
-            display: "flex",
-            gap: "1.5rem",
-            flexWrap: "wrap",
             opacity: visible ? 1 : 0,
             transform: visible ? "translateY(0)" : "translateY(12px)",
             transition: "all 0.6s ease 0.65s",

@@ -1,13 +1,15 @@
 "use client";
 
 import { motion, useSpring, useMotionValue } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * DataNodeTrail - A premium, high-performance mouse trail that follows the cursor
  * with "node" particles and spring physics. Matches the Electric Teal + Deep Navy theme.
  */
 export default function DataNodeTrail() {
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+
   const nodes = [
     { size: 9, stiffness: 350, damping: 30 }, // Core
     { size: 7, stiffness: 280, damping: 25 },
@@ -24,6 +26,12 @@ export default function DataNodeTrail() {
   const mouseY = useMotionValue(-100);
 
   useEffect(() => {
+    // Detect touch device
+    const touchCheck = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    setIsTouchDevice(touchCheck);
+    
+    if (touchCheck) return;
+
     const handleMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX);
       mouseY.set(e.clientY);
@@ -32,6 +40,8 @@ export default function DataNodeTrail() {
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [mouseX, mouseY]);
+
+  if (isTouchDevice) return null;
 
   return (
     <div
