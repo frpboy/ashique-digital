@@ -167,7 +167,7 @@ export function AIWidget() {
               />
             )}
             <DotLottieReact
-              src="https://lottie.host/8816c52a-9e66-48c2-be16-928549302621/uonXU9B34e.lottie"
+              src="/lottie/growth-bot.lottie"
               loop
               autoplay
             />
