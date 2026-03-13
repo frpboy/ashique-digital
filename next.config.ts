@@ -19,8 +19,6 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "cdn.sanity.io",
-        port: "",
-        pathname: "/images/**",
       },
     ],
   },
@@ -41,6 +39,10 @@ const nextConfig: NextConfig = {
       {
         source: "/api/v1/s/:path*",
         destination: "https://us.i.posthog.com/:path*",
+      },
+      {
+        source: "/lead-gen-audit.pdf",
+        destination: "/lead-gen-audit.pdf", // Serve from public folder
       },
     ];
   },

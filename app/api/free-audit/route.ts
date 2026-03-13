@@ -5,6 +5,7 @@ import { writeClient } from "@/lib/sanity-server";
 import { ratelimit } from "@/lib/ratelimit";
 import { AuditAutoResponder } from "@/emails/AuditAutoResponder";
 import { LeadNotification } from "@/emails/LeadNotification";
+import { getPostHogClient } from "@/lib/posthog-server";
 
 const schema = z.object({
   name: z.string().min(2).max(100).trim(),
@@ -46,32 +47,44 @@ export async function POST(req: NextRequest) {
 
     const { name, email, businessName, budget, challenge } = result.data;
 
-    // 4. Log lead to Sanity
+    // 4. Get Dynamic PDF from Sanity
+    let auditUrl = "https://ashique.digital/lead-gen-audit.pdf";
+    try {
+      const { getSiteSettings } = await import("@/lib/settings");
+      const settings = await getSiteSettings();
+      if (settings?.auditPdfUrl) {
+        auditUrl = settings.auditPdfUrl;
+      }
+    } catch (err) {
+      console.error("Sanity Settings Fetch Error:", err);
+    }
+
+    // 5. Log lead to Sanity
     try {
       await writeClient.create({
-        _type: "leadLog",
+        _type: "lead",
         name,
         email,
         businessType: businessName,
         message: `Budget: ${budget}\nMain Challenge: ${challenge}`,
-        source: "Free Audit",
+        source: "Free Audit Page",
         submittedAt: new Date().toISOString(),
       });
     } catch (err) {
       console.error("Sanity Lead Logging Error:", err);
     }
 
-    // 5. Send Auto-Responder to Client
+    // 6. Send Auto-Responder to Client
     await sendEmail({
       to: email,
       from: "Ashique <notifications@ashique.digital>",
       subject: "Your 15-Point Lead Generation Audit (Download Inside)",
-      react: AuditAutoResponder({ name }),
+      react: AuditAutoResponder({ name, downloadUrl: auditUrl }),
     });
 
     // 6. Send Notification to Ashique
     await sendEmail({
-      to: process.env.CONTACT_EMAIL ?? "ashique@ashique.digital",
+      to: process.env.CONTACT_EMAIL ?? "frpboy12@gmail.com",
       subject: `🔥 New Audit Request: ${name}`,
       react: LeadNotification({ 
         name, 
@@ -80,6 +93,15 @@ export async function POST(req: NextRequest) {
         message: `Requested Free Audit\nBudget: ${budget}\nChallenge: ${challenge}` 
       }),
     });
+
+    const posthog = getPostHogClient();
+    posthog.identify({ distinctId: email, properties: { email, name, business_name: businessName } });
+    posthog.capture({
+      distinctId: email,
+      event: "lead_captured",
+      properties: { name, business_name: businessName, source: "free_audit" },
+    });
+    await posthog.shutdown();
 
     return NextResponse.json({ 
       success: true, 

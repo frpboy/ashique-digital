@@ -5,6 +5,7 @@ import { caseStudyBySlugQuery, allCaseStudiesQuery } from "@/lib/sanity.queries"
 import type { CaseStudy } from "@/lib/types";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { PortableText } from "@portabletext/react";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -33,53 +34,88 @@ export default async function CaseStudyDetailPage({ params }: Props) {
 
   return (
     <>
-      <section style={{ paddingTop: "8rem", paddingBottom: "4rem", background: "var(--color-primary)" }}>
+      <section style={{ paddingTop: "8rem", paddingBottom: "6rem", background: "var(--color-primary)" }}>
         <div className="container">
-          <Link href="/case-studies" style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", color: "var(--color-accent)", marginBottom: "1.5rem", fontSize: "0.875rem", fontWeight: 600 }}>
+          <Link href="/case-studies" style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", color: "var(--color-accent)", marginBottom: "2rem", fontSize: "0.875rem", fontWeight: 600 }}>
             <ArrowLeft size={14} /> All Case Studies
           </Link>
-          <span className="tag" style={{ marginBottom: "1.25rem", display: "inline-block" }}>{study.clientIndustry}</span>
-          <h1 style={{ color: "#fff", maxWidth: "16ch", marginBottom: "2rem" }}>{study.title}</h1>
+          
+          <div style={{ maxWidth: "800px" }}>
+            <span className="tag" style={{ marginBottom: "1.25rem", display: "inline-block" }}>{study.clientIndustry} Case Study</span>
+            <h1 style={{ color: "#fff", marginBottom: "3rem", fontSize: "clamp(2.5rem, 5vw, 4rem)" }}>{study.title}</h1>
 
-          {/* Metrics */}
-          {study.metrics && study.metrics.length > 0 && (
-            <div style={{ display: "flex", gap: "3rem", flexWrap: "wrap" }}>
-              {study.metrics.map((m) => (
-                <div key={m.label}>
-                  <div style={{ fontFamily: "var(--font-heading)", fontWeight: 800, fontSize: "2.5rem", color: "var(--color-accent)", letterSpacing: "-0.03em" }}>
-                    {m.value}
+            {/* Top: Bold Metrics */}
+            {study.metrics && study.metrics.length > 0 && (
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "2rem", background: "rgba(255,255,255,0.03)", padding: "2.5rem", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.1)" }}>
+                {study.metrics.map((m) => (
+                  <div key={m.label}>
+                    <div style={{ fontFamily: "var(--font-heading)", fontWeight: 800, fontSize: "3.5rem", color: "var(--color-accent)", letterSpacing: "-0.03em", lineHeight: 1 }}>
+                      {m.value}
+                    </div>
+                    <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "1rem", marginTop: "0.5rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>{m.label}</p>
                   </div>
-                  <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "0.875rem" }}>{m.label}</p>
-                </div>
-              ))}
-            </div>
-          )}
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
-      <section className="section" style={{ background: "#fff" }}>
-        <div className="container" style={{ maxWidth: "760px", margin: "0 auto" }}>
-          {study.problem && (
-            <div style={{ marginBottom: "3rem" }}>
-              <h2 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>The Problem</h2>
-              <p style={{ color: "var(--color-text-muted)", lineHeight: 1.85 }}>{study.problem}</p>
-            </div>
-          )}
+      <section className="section" style={{ background: "var(--color-bg)" }}>
+        <div className="container" style={{ display: "grid", gridTemplateColumns: "1fr 340px", gap: "4rem", alignItems: "start" }}>
+          {/* Main Content */}
+          <div style={{ maxWidth: "760px" }}>
+            {/* Middle: The Strategy */}
+            {study.strategy && (
+              <div style={{ marginBottom: "5rem" }}>
+                <h2 style={{ fontSize: "2rem", marginBottom: "1.5rem" }}>The Strategy</h2>
+                <div className="prose" style={{ color: "var(--color-text-muted)", fontSize: "1.125rem", lineHeight: 1.8 }}>
+                  <PortableText value={study.strategy} />
+                </div>
+              </div>
+            )}
 
-          {study.testimonial && study.clientName && (
-            <div style={{ borderLeft: "3px solid var(--color-accent)", paddingLeft: "1.5rem", marginTop: "3rem", marginBottom: "3rem" }}>
-              <p style={{ fontFamily: "var(--font-accent)", fontSize: "1.125rem", fontStyle: "italic", color: "var(--color-text)", lineHeight: 1.8, marginBottom: "1rem" }}>
-                &ldquo;{study.testimonial}&rdquo;
-              </p>
-              <p style={{ fontWeight: 600, color: "var(--color-primary)", fontSize: "0.9375rem" }}>— {study.clientName}</p>
-            </div>
-          )}
-
-          <div style={{ marginTop: "3rem" }}>
-            <Link href="/contact" className="btn btn-primary" style={{ gap: "0.5rem" }}>
-              Want results like this? Book a free call
-            </Link>
+            {/* Bottom: The Testimonial */}
+            {study.testimonial && (
+              <div style={{ padding: "4rem 0", borderTop: "1px solid var(--color-muted)" }}>
+                <div style={{ position: "relative" }}>
+                   {/* Quote icon or styling */}
+                  <p style={{ 
+                    fontFamily: "Playfair Display, serif", 
+                    fontSize: "clamp(1.5rem, 3vw, 2rem)", 
+                    fontStyle: "italic", 
+                    color: "var(--color-primary)", 
+                    lineHeight: 1.5, 
+                    marginBottom: "2rem" 
+                  }}>
+                    &ldquo;{study.testimonial}&rdquo;
+                  </p>
+                  <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+                    <div style={{ width: "40px", height: "1px", background: "var(--color-accent)" }} />
+                    <p style={{ fontWeight: 700, color: "var(--color-primary)", fontSize: "1rem", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+                      {study.clientName || "Client"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
+
+          {/* Sticky Sidebar CTA */}
+          <aside style={{ position: "sticky", top: "100px" }}>
+            <div className="card" style={{ padding: "2.5rem", background: "var(--color-primary)", border: "none" }}>
+              <h3 style={{ color: "#fff", marginBottom: "1rem" }}>Want results like this?</h3>
+              <p style={{ color: "rgba(255,255,255,0.6)", marginBottom: "2rem", fontSize: "0.9375rem", lineHeight: 1.6 }}>
+                I help SMEs and startups build predictable growth systems. Book a 30-min strategy call to audit your current funnel.
+              </p>
+              <Link href="/contact" className="btn btn-primary" style={{ width: "100%", justifyContent: "center" }}>
+                Work with Me
+              </Link>
+              <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "0.75rem", marginTop: "1.5rem", textAlign: "center" }}>
+                Free 30-min Strategy Session
+              </p>
+            </div>
+          </aside>
         </div>
       </section>
     </>

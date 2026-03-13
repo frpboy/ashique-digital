@@ -14,6 +14,7 @@ const callPoints = [
 ];
 
 import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "sonner";
 
 function ContactForm() {
   const router = useRouter();
@@ -29,22 +30,27 @@ function ContactForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
+      const data = await res.json();
+
       if (res.ok) {
         setStatus("done");
+        toast.success(data.message || "Message sent successfully!");
+        
         posthog.identify(form.email, { email: form.email, name: form.name, business_type: form.businessType });
-        posthog.capture("contact_form_submitted", { business_type: form.businessType });
+        posthog.capture("lead_captured", { business_type: form.businessType, source: "contact_form" });
         
         // Brief delay for the success animation before redirecting
         setTimeout(() => {
           router.push("/contact/success");
         }, 1500);
       } else {
-        const data = await res.json();
         setStatus("error");
+        toast.error(data.error || "Something went wrong.");
         console.error("Form error:", data.error);
       }
     } catch (err) {
       setStatus("error");
+      toast.error("Connection error. Please try again.");
       console.error("Connection error:", err);
     }
   };

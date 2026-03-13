@@ -15,10 +15,12 @@ import * as React from "react";
 
 interface AuditAutoResponderProps {
   name: string;
+  downloadUrl?: string;
 }
 
 export const AuditAutoResponder = ({
   name,
+  downloadUrl = "https://ashique.digital/lead-gen-audit.pdf",
 }: AuditAutoResponderProps) => {
   const firstName = name.split(" ")[0];
 
@@ -45,7 +47,7 @@ export const AuditAutoResponder = ({
             <Section style={buttonContainer}>
               <Button
                 style={button}
-                href="https://ashique.digital/lead-gen-audit.pdf"
+                href={downloadUrl}
               >
                 Download My Free Audit
               </Button>

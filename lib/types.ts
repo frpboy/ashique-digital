@@ -11,8 +11,8 @@ export interface CaseStudy {
   slug: { current: string };
   clientIndustry: string;
   problem?: string;
-  strategy?: unknown[];
-  execution?: unknown[];
+  strategy?: any[];
+  execution?: any[];
   metrics?: Metric[];
   testimonial?: string;
   clientName?: string;
@@ -26,7 +26,7 @@ export interface BlogPost {
   title: string;
   slug: { current: string };
   excerpt: string;
-  body?: unknown[];
+  body?: any[];
   tags?: string[];
   coverImage?: SanityImage;
   publishedAt: string;

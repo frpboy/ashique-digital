@@ -1,7 +1,10 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { ArrowLeft, Home } from "lucide-react";
+
+const BrokenNode = dynamic(() => import("@/components/visuals/BrokenNode"));
 
 export default function NotFound() {
   return (
@@ -15,6 +18,7 @@ export default function NotFound() {
       padding: "2rem",
       textAlign: "center"
     }}>
+      <BrokenNode />
       <div style={{ maxWidth: "600px" }}>
         <h1 style={{ 
           fontSize: "clamp(6rem, 20vw, 10rem)", 

@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   description: "Browse results-driven case studies from Ashique's client engagements. Real metrics from real businesses.",
 };
 
+import LockedEmptyState from "@/components/shared/LockedEmptyState";
+
 async function CaseStudiesList() {
   let studies: CaseStudy[] = [];
   try {
@@ -20,12 +22,7 @@ async function CaseStudiesList() {
   }
 
   if (studies.length === 0) {
-    return (
-      <div style={{ textAlign: "center", padding: "4rem 0", color: "var(--color-text-muted)" }}>
-        <p style={{ fontSize: "1.125rem" }}>Case studies coming soon.</p>
-        <p style={{ marginTop: "0.5rem", fontSize: "0.9375rem" }}>Check back shortly — content is being loaded into the CMS.</p>
-      </div>
-    );
+    return <LockedEmptyState type="Case Studies" />;
   }
 
   return (

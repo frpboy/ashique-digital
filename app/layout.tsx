@@ -7,6 +7,7 @@ import Preloader from "@/components/layout/Preloader";
 import { Analytics } from "@vercel/analytics/next";
 import { PostHogProvider } from "@/components/providers/PostHogProvider";
 import PostHogPageView from "@/components/providers/PostHogPageView";
+import { Toaster } from "sonner";
 
 const syne = Syne({
   subsets: ["latin"],
@@ -72,6 +73,7 @@ export default function RootLayout({
           {children}
           <DataNodeTrail />
           <Analytics />
+          <Toaster position="top-center" richColors />
         </PostHogProvider>
       </body>
     </html>

@@ -46,7 +46,7 @@ export default function FreeAuditPage() {
       
       if (res.ok) {
         posthog.identify(form.email, { email: form.email, name: form.name, business_name: form.businessName });
-        posthog.capture("free_audit_submitted", {
+        posthog.capture("audit_requested", {
           budget: form.budget,
           challenge: form.challenge,
           business_name: form.businessName,
@@ -97,11 +97,11 @@ export default function FreeAuditPage() {
                 <div style={{ width: "64px", height: "64px", background: "rgba(0, 194, 203, 0.1)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 1.5rem" }}>
                   <CheckCircle size={32} style={{ color: "var(--color-accent)" }} />
                 </div>
-                <h2 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>Your audit is on its way!</h2>
+                <h2 style={{ fontSize: "1.5rem", marginBottom: "1rem" }}>Success! Your 19-page audit is heading to your inbox.</h2>
                 <p style={{ color: "var(--color-text-muted)", lineHeight: 1.8, marginBottom: "2rem" }}>
-                  Check your inbox (and spam folder) for Ashique&apos;s 15-point Audit. It usually arrives within 5 minutes.
+                  While you wait, check out how we solved the CAC crisis for other SMEs.
                 </p>
-                <Link href="/" className="btn btn-primary" style={{ width: "100%", justifyContent: "center" }}>Return Home</Link>
+                <Link href="/case-studies" className="btn btn-primary" style={{ width: "100%", justifyContent: "center" }}>Check out Case Studies</Link>
               </motion.div>
             ) : (
               <motion.form 

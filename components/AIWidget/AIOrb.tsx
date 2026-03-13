@@ -1,9 +1,9 @@
 "use client";
 
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useState, useRef, useEffect } from "react";
 import type { ChatMessage } from "@/lib/types";
 import { X, Send, Loader2 } from "lucide-react";
+import ThinkingOrb from "./ThinkingOrb";
 import posthog from "posthog-js";
 
 const WELCOME = "Hi! I'm Ashique's assistant. I can answer questions about his services, process, and past results — or help you book a free strategy call. What would you like to know?";
@@ -47,6 +47,7 @@ export function AIWidget() {
         body: JSON.stringify({
           message: msg,
           history: messages.slice(1), // skip welcome
+          fax_number: "", // Honeypot (must stay empty)
         }),
       });
 
@@ -57,7 +58,17 @@ export function AIWidget() {
 
       while (true) {
         const { done, value } = await reader.read();
-        if (done) break;
+        if (done) {
+          // Check if link was provided at the end
+          setMessages((prev) => {
+            const lastMessage = prev[prev.length - 1];
+            if (lastMessage.content.includes("/free-audit") && typeof window !== 'undefined' && posthog) {
+              posthog.capture("audit_link_provided_by_ai");
+            }
+            return prev;
+          });
+          break;
+        }
         const chunk = decoder.decode(value);
         setMessages((prev) => {
           const updated = [...prev];
@@ -118,13 +129,7 @@ export function AIWidget() {
         {open ? (
           <X size={28} />
         ) : (
-          <div style={{ width: "120px", height: "120px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <DotLottieReact
-              src="https://lottie.host/f1360579-700d-4454-9500-5fce6493bb47/8HiRIHERb0.lottie"
-              loop
-              autoplay
-            />
-          </div>
+          <ThinkingOrb size={64} thinking={loading} />
         )}
       </button>
 
@@ -147,41 +152,61 @@ export function AIWidget() {
           }}
         >
           {/* Panel Header */}
-          <div
-            style={{
-              background: "var(--color-primary)",
-              padding: "1rem 1.25rem",
-              display: "flex",
-              alignItems: "center",
-              gap: "0.75rem",
-            }}
-          >
             <div
               style={{
-                width: "36px",
-                height: "36px",
-                borderRadius: "50%",
-                background: "var(--color-accent)",
+                background: "var(--color-primary)",
+                padding: "1rem 1.25rem",
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
-                fontFamily: "var(--font-heading)",
-                fontWeight: 800,
-                color: "var(--color-primary)",
-                fontSize: "1rem",
+                justifyContent: "space-between",
+                gap: "0.75rem",
+                position: "relative",
               }}
             >
-              A
+              <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                <div
+                  style={{
+                    width: "36px",
+                    height: "36px",
+                    borderRadius: "50%",
+                    background: "var(--color-accent)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontFamily: "var(--font-heading)",
+                    fontWeight: 800,
+                    color: "var(--color-primary)",
+                    fontSize: "1rem",
+                  }}
+                >
+                  A
+                </div>
+                <div>
+                  <p style={{ color: "#fff", fontWeight: 600, fontSize: "0.9375rem" }}>
+                    Ashique&apos;s Assistant
+                  </p>
+                  <p style={{ color: "var(--color-accent)", fontSize: "0.75rem" }}>
+                    Ashique&apos;s Strategic Brain
+                  </p>
+                </div>
+              </div>
+
+              {/* Trusted Advisor Badge */}
+              <div
+                style={{
+                  background: "rgba(255,255,255,0.1)",
+                  padding: "0.25rem 0.6rem",
+                  borderRadius: "20px",
+                  border: "1px solid rgba(0,194,203,0.3)",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.3rem",
+                }}
+              >
+                <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "var(--color-accent)" }} />
+                <span style={{ fontSize: "0.65rem", color: "#fff", fontWeight: 700, letterSpacing: "0.05em", textTransform: "uppercase" }}>Trusted Advisor</span>
+              </div>
             </div>
-            <div>
-              <p style={{ color: "#fff", fontWeight: 600, fontSize: "0.9375rem" }}>
-                Ashique&apos;s Assistant
-              </p>
-              <p style={{ color: "var(--color-accent)", fontSize: "0.75rem" }}>
-                Powered by K4NN4N
-              </p>
-            </div>
-          </div>
 
           {/* Messages */}
           <div

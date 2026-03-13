@@ -10,8 +10,15 @@ function AnimatedSphere() {
 
   useFrame((state) => {
     if (meshRef.current) {
+      // Rotation
       meshRef.current.rotation.x = state.clock.getElapsedTime() * 0.2;
       meshRef.current.rotation.y = state.clock.getElapsedTime() * 0.3;
+      
+      // Gentle mouse follow (Tilt)
+      const targetRotateX = state.mouse.y * 0.2;
+      const targetRotateY = state.mouse.x * 0.2;
+      meshRef.current.rotation.x += (targetRotateX - meshRef.current.rotation.x) * 0.1;
+      meshRef.current.rotation.y += (targetRotateY - meshRef.current.rotation.y) * 0.1;
     }
   });
 

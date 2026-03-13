@@ -30,16 +30,40 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "Person",
-            name: "Ashique",
-            jobTitle: "Brand Strategist & Lead Generation Consultant",
+            "@type": "ProfessionalService",
+            name: "Ashique Digital",
+            image: "https://ashique.digital/og/home.png",
+            "@id": "https://ashique.digital",
             url: "https://ashique.digital",
-            sameAs: ["https://linkedin.com/in/ashique"],
+            telephone: "",
+            address: {
+              "@type": "PostalAddress",
+              "addressCountry": "IN"
+            },
+            geo: {
+              "@type": "GeoCoordinates",
+              "latitude": 20.5937,
+              "longitude": 78.9629
+            },
+            serviceType: [
+              "Brand Strategy",
+              "Lead Generation",
+              "Funnel Design",
+              "Paid Ads Management"
+            ],
+            founder: {
+              "@type": "Person",
+              "name": "Ashique"
+            },
             offers: {
               "@type": "Offer",
-              description: "Free 30-minute Growth Strategy Call",
-              url: "https://cal.com/frpboy/strategy",
+              "description": "Free 30-minute Growth Strategy Call",
+              "url": "https://cal.com/frpboy/strategy"
             },
+            sameAs: [
+              "https://linkedin.com/in/ashique",
+              "https://twitter.com/ashique"
+            ]
           }),
         }}
       />

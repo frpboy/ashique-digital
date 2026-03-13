@@ -1,8 +1,8 @@
 import { defineField, defineType } from "sanity";
 
-export const leadLog = defineType({
-  name: "leadLog",
-  title: "Lead Log",
+export const lead = defineType({
+  name: "lead",
+  title: "Lead",
   type: "document",
   fields: [
     defineField({ name: "name", title: "Name", type: "string" }),

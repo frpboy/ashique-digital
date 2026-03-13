@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
     // 3. Log to Sanity
     try {
       await writeClient.create({
-        _type: "leadLog",
+        _type: "lead",
         name,
         email,
         businessType,
@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
 
     // 4. Send Email Notification to Ashique
     await sendEmail({
-      to: process.env.CONTACT_EMAIL ?? "ashique@ashique.digital",
+      to: process.env.CONTACT_EMAIL ?? "frpboy12@gmail.com",
       subject: `New Inquiry: ${name} — ${businessType}`,
       replyTo: email,
       react: LeadNotification({ name, email, businessType, message }),
@@ -71,8 +71,8 @@ export async function POST(req: NextRequest) {
     posthog.identify({ distinctId: email, properties: { email, name, business_type: businessType } });
     posthog.capture({
       distinctId: email,
-      event: "contact_form_received",
-      properties: { name, business_type: businessType, source: "api" },
+      event: "lead_captured",
+      properties: { name, business_type: businessType, source: "contact_form" },
     });
     await posthog.shutdown();
 

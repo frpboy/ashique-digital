@@ -1,5 +1,7 @@
+import { caseStudy } from "./caseStudy";
+import { lead } from "./leadLog";
+import settings from "./settings";
 import { defineField, defineType } from "sanity";
-import { leadLog } from "./leadLog";
 
 export const post = defineType({
   name: "post",
@@ -19,7 +21,6 @@ export const post = defineType({
   preview: { select: { title: "title", subtitle: "excerpt" } },
 });
 
-// Sanity CMS Schema: Testimonial
 export const testimonial = defineType({
   name: "testimonial",
   title: "Testimonial",
@@ -35,7 +36,6 @@ export const testimonial = defineType({
   preview: { select: { title: "name", subtitle: "company" } },
 });
 
-// Sanity CMS Schema: Service
 export const service = defineType({
   name: "service",
   title: "Service",
@@ -53,4 +53,4 @@ export const service = defineType({
   preview: { select: { title: "title", subtitle: "outcome" } },
 });
 
-export { leadLog };
+export const schemaTypes = [post, caseStudy, testimonial, service, lead, settings];

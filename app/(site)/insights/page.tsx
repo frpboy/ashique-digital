@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   description: "Practical insights on brand strategy, lead generation, paid ads, and growth systems. From real client work, not theory.",
 };
 
+import LockedEmptyState from "@/components/shared/LockedEmptyState";
+
 async function PostsList() {
   let posts: BlogPost[] = [];
   try {
@@ -20,12 +22,7 @@ async function PostsList() {
   }
 
   if (posts.length === 0) {
-    return (
-      <div style={{ textAlign: "center", padding: "4rem 0", color: "var(--color-text-muted)" }}>
-        <p style={{ fontSize: "1.125rem" }}>Articles coming soon.</p>
-        <p style={{ marginTop: "0.5rem", fontSize: "0.9375rem" }}>The first batch of growth insights is being written. Subscribe below to be notified.</p>
-      </div>
-    );
+    return <LockedEmptyState type="Insights" />;
   }
 
   return (
