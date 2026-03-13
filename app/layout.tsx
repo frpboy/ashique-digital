@@ -2,10 +2,9 @@ import dynamic from "next/dynamic";
 import type { Metadata } from "next";
 import { Syne, Inter } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/shared/Navbar";
-import { Footer } from "@/components/shared/Footer";
-import { AIWidget } from "@/components/AIWidget/AIOrb";
+import DataNodeTrail from "@/components/shared/DataNodeTrail";
 import Preloader from "@/components/layout/Preloader";
+import { Analytics } from "@vercel/analytics/next";
 import { PostHogProvider } from "@/components/providers/PostHogProvider";
 import PostHogPageView from "@/components/providers/PostHogPageView";
 
@@ -70,10 +69,9 @@ export default function RootLayout({
         <PostHogProvider>
           <PostHogPageView />
           <Preloader />
-          <Navbar />
-          <main>{children}</main>
-          <Footer />
-          <AIWidget />
+          {children}
+          <DataNodeTrail />
+          <Analytics />
         </PostHogProvider>
       </body>
     </html>

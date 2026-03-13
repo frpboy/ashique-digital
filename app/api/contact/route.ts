@@ -2,21 +2,35 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { sendEmail } from "@/lib/resend";
 import { getPostHogClient } from "@/lib/posthog-server";
+import { writeClient } from "@/lib/sanity-server";
+import { ratelimit } from "@/lib/ratelimit";
+import { LeadNotification } from "@/emails/LeadNotification";
 
 const schema = z.object({
   name: z.string().min(2).max(100).trim(),
   email: z.string().email().max(254),
   businessType: z.string().min(2).max(100).trim(),
   message: z.string().min(10).max(2000).trim(),
-  website: z.string().optional(), // honeypot
+  fax_number: z.string().optional(), // honeypot
 });
 
 export async function POST(req: NextRequest) {
   try {
+    // 1. Rate Limiting
+    const ip = req.headers.get("x-forwarded-for") ?? "127.0.0.1";
+    const { success: limitSuccess } = await ratelimit.limit(ip);
+    
+    if (!limitSuccess) {
+      return NextResponse.json(
+        { success: false, error: "Too many requests. Please try again in 10 minutes." },
+        { status: 429 }
+      );
+    }
+
     const body = await req.json();
 
-    // Honeypot check
-    if (body.website) {
+    // 2. Honeypot check
+    if (body.fax_number) {
       return NextResponse.json({ success: true }); // silent reject
     }
 
@@ -30,24 +44,28 @@ export async function POST(req: NextRequest) {
 
     const { name, email, businessType, message } = result.data;
 
-    // Temporarily disabled while Resend domain verification is pending
-    /*
+    // 3. Log to Sanity
+    try {
+      await writeClient.create({
+        _type: "leadLog",
+        name,
+        email,
+        businessType,
+        message,
+        source: "Contact Form",
+        submittedAt: new Date().toISOString(),
+      });
+    } catch (sanityError) {
+      console.error("Sanity Mutation Error:", sanityError);
+    }
+
+    // 4. Send Email Notification to Ashique
     await sendEmail({
       to: process.env.CONTACT_EMAIL ?? "ashique@ashique.digital",
-      subject: `New Contact: ${name} — ${businessType}`,
-      html: `
-        <h2 style="font-family:sans-serif;color:#0D1B2A">New contact from ashique.digital</h2>
-        <table style="font-family:sans-serif;border-collapse:collapse;width:100%">
-          <tr><td style="padding:8px;border-bottom:1px solid #eee;font-weight:600">Name</td><td style="padding:8px;border-bottom:1px solid #eee">${name}</td></tr>
-          <tr><td style="padding:8px;border-bottom:1px solid #eee;font-weight:600">Email</td><td style="padding:8px;border-bottom:1px solid #eee">${email}</td></tr>
-          <tr><td style="padding:8px;border-bottom:1px solid #eee;font-weight:600">Business Type</td><td style="padding:8px;border-bottom:1px solid #eee">${businessType}</td></tr>
-          <tr><td style="padding:8px;font-weight:600;vertical-align:top">Message</td><td style="padding:8px">${message.replace(/\n/g, "<br>")}</td></tr>
-        </table>
-        <p style="font-family:sans-serif;color:#64748b;font-size:13px;margin-top:16px">Reply directly to this email to respond to ${name}.</p>
-      `,
+      subject: `New Inquiry: ${name} — ${businessType}`,
+      replyTo: email,
+      react: LeadNotification({ name, email, businessType, message }),
     });
-    */
-    console.log("Contact form submission (Email disabled):", { name, email, businessType, message });
 
     const posthog = getPostHogClient();
     posthog.identify({ distinctId: email, properties: { email, name, business_type: businessType } });
@@ -58,7 +76,10 @@ export async function POST(req: NextRequest) {
     });
     await posthog.shutdown();
 
-    return NextResponse.json({ success: true, message: "Your message has been sent. Ashique will get back to you within 24 hours." });
+    return NextResponse.json({ 
+      success: true, 
+      message: "Your inquiry has been received. I'll get back to you personally within 24 hours." 
+    });
   } catch (error) {
     console.error("[/api/contact]", error);
     return NextResponse.json({ success: false, error: "Something went wrong. Please try again." }, { status: 500 });

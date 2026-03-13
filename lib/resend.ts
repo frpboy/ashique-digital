@@ -1,24 +1,23 @@
 import { Resend } from "resend";
 
-// Temporarily disabled while domain verification is pending
-// const resend = new Resend(process.env.RESEND_API_KEY!);
+const resend = new Resend(process.env.RESEND_API_KEY!);
 
 interface SendEmailArgs {
   to: string;
   subject: string;
-  html: string;
+  html?: string;
+  react?: React.ReactElement;
   from?: string;
+  replyTo?: string;
 }
 
-export async function sendEmail({ to, subject, html, from }: SendEmailArgs) {
-  console.log("Email sending is currently disabled (Domain verification in progress).");
-  return { id: "disabled" };
-  /*
+export async function sendEmail({ to, subject, html, react, from, replyTo }: SendEmailArgs) {
   return resend.emails.send({
-    from: from ?? "website@ashique.digital",
+    from: from ?? process.env.RESEND_FROM ?? "Ashique Digital <notifications@ashique.digital>",
     to,
     subject,
     html,
+    react,
+    replyTo: replyTo ?? process.env.RESEND_REPLY_TO,
   });
-  */
 }

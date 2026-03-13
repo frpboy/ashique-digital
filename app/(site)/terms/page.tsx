@@ -1,86 +1,54 @@
 import type { Metadata } from "next";
+import { LegalLayout, LegalSection } from "@/components/layout/LegalLayout";
 
 export const metadata: Metadata = {
   title: "Terms of Service | Ashique — ashique.digital",
-  description: "Terms and conditions for using ashique.digital services and website.",
+  description: "Terms and conditions for using ashique.digital.",
 };
 
 export default function TermsPage() {
-  const lastUpdated = "March 10, 2026";
+  const launchDate = "March 15, 2026";
 
   return (
-    <main className="section-lg" style={{ background: "var(--color-bg)" }}>
-      <div className="container" style={{ maxWidth: "800px" }}>
-        <header style={{ marginBottom: "4rem" }}>
-          <span className="tag" style={{ marginBottom: "1.5rem" }}>Legal</span>
-          <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", marginBottom: "1.5rem" }}>
-            Terms of <span style={{ color: "var(--color-accent)" }}>Service.</span>
-          </h1>
-          <p style={{ color: "var(--color-text-muted)", fontSize: "0.9375rem" }}>
-            Effective Date: {lastUpdated} | Last Updated: {lastUpdated}
-          </p>
-        </header>
+    <LegalLayout title="Terms of Service" lastUpdated={launchDate}>
+      <LegalSection title="1. Acceptance of Terms">
+        <p>By accessing and using ashique.digital, you agree to be bound by these Terms of Service. If you disagree with any part of these terms, please discontinue use of the website immediately.</p>
+      </LegalSection>
 
-        <article className="prose" style={{ 
-          fontFamily: "var(--font-body)", 
-          lineHeight: 1.8, 
-          color: "var(--color-text)",
-          fontSize: "1.0625rem"
-        }}>
-          <section style={{ marginBottom: "3rem" }}>
-            <h2 style={{ fontSize: "1.5rem", marginBottom: "1.25rem", color: "var(--color-primary)" }}>2.1 Acceptance of Terms</h2>
-            <p style={{ marginBottom: "1.5rem" }}>
-              By accessing ashique.digital, you agree to these Terms of Service. If you disagree, please do not use the website.
-            </p>
-          </section>
+      <LegalSection title="2. Website Use">
+        <p><strong>Permitted Use:</strong></p>
+        <ul style={{ paddingLeft: "1.5rem" }}>
+          <li>Viewing and interacting with content for personal and informational purposes.</li>
+          <li>Inquiring about consulting services and booking discovery calls.</li>
+          <li>Downloading free resources for professional evaluation.</li>
+        </ul>
+        <p style={{ marginTop: "1rem" }}><strong>Prohibited Use:</strong></p>
+        <ul style={{ paddingLeft: "1.5rem" }}>
+          <li>Scraping, copying, or reproducing content without express written permission.</li>
+          <li>Submitting false, misleading, or spam information via forms.</li>
+          <li>Attempting to bypass security measures or gain unauthorized access to systems.</li>
+        </ul>
+      </LegalSection>
 
-          <section style={{ marginBottom: "3rem" }}>
-            <h2 style={{ fontSize: "1.5rem", marginBottom: "1.25rem", color: "var(--color-primary)" }}>2.2 Website Use</h2>
-            <p style={{ marginBottom: "1rem" }}><strong>Permitted use:</strong></p>
-            <ul style={{ paddingLeft: "1.5rem", marginBottom: "1.5rem", listStyleType: "disc" }}>
-              <li>Viewing and reading content for personal and informational purposes</li>
-              <li>Contacting Ashique to enquire about consulting services</li>
-              <li>Booking discovery calls via Cal.com</li>
-            </ul>
-            <p style={{ marginBottom: "1rem" }}><strong>Prohibited use:</strong></p>
-            <ul style={{ paddingLeft: "1.5rem", listStyleType: "disc" }}>
-              <li>Scraping, copying, or reproducing website content without written permission</li>
-              <li>Using the website for any illegal purpose</li>
-              <li>Attempting to gain unauthorized access to any systems</li>
-              <li>Submitting false, misleading, or spam form submissions</li>
-            </ul>
-          </section>
+      <LegalSection title="3. Intellectual Property">
+        <p>All content on ashique.digital — including but not limited to text, design, graphics, case studies, and strategic frameworks — is owned by Ashique unless otherwise stated. Reproduction, distribution, or modification of any material is strictly prohibited without prior written consent.</p>
+      </LegalSection>
 
-          <section style={{ marginBottom: "3rem" }}>
-            <h2 style={{ fontSize: "1.5rem", marginBottom: "1.25rem", color: "var(--color-primary)" }}>2.3 Intellectual Property</h2>
-            <p style={{ marginBottom: "1.5rem" }}>
-              All content on ashique.digital — including text, design, graphics, case studies, and blog posts — is owned by Ashique unless stated otherwise. 
-              You may not reproduce, distribute, or modify any content without prior written permission.
-            </p>
-          </section>
+      <LegalSection title="4. Disclaimers">
+        <p>Information on this website is for educational and informational purposes only. It is not a substitute for professional legal, financial, or marketing advice. Results shown in case studies are specific to those individuals and businesses; they are not guarantees of future performance for your own business.</p>
+      </LegalSection>
 
-          <section style={{ marginBottom: "3rem" }}>
-            <h2 style={{ fontSize: "1.5rem", marginBottom: "1.25rem", color: "var(--color-primary)" }}>2.4 Disclaimer</h2>
-            <p style={{ marginBottom: "1.5rem" }}>
-              The information on this website is provided for general informational purposes only. While I strive to ensure accuracy, 
-              it is not a substitute for professional legal, financial, or marketing advice. 
-              Case study results are client-specific and cannot be guaranteed for all businesses.
-            </p>
-          </section>
+      <LegalSection title="5. Limitation of Liability">
+        <p>To the fullest extent permitted by law, Ashique shall not be liable for any indirect, incidental, or consequential damages arising from the use of this website, loss of data, or failures of third-party services (Cal.com, Resend, etc.).</p>
+      </LegalSection>
 
-          <section style={{ marginBottom: "3rem" }}>
-            <h2 style={{ fontSize: "1.5rem", marginBottom: "1.25rem", color: "var(--color-primary)" }}>2.5 Governing Law</h2>
-            <p style={{ marginBottom: "1.5rem" }}>
-              These terms are governed by the laws of India. Any disputes shall be subject to the exclusive jurisdiction of courts in Kochi, India.
-            </p>
-          </section>
+      <LegalSection title="6. Governing Law">
+        <p>These terms are governed by the laws of India. Any disputes arising from the use of this website shall be subject to the exclusive jurisdiction of the courts in India.</p>
+      </LegalSection>
 
-          <section style={{ marginBottom: "3rem" }}>
-            <h2 style={{ fontSize: "1.5rem", marginBottom: "1.25rem", color: "var(--color-primary)" }}>2.6 Contact</h2>
-            <p>For questions regarding these terms, contact me at: <strong>ashique@ashique.digital</strong></p>
-          </section>
-        </article>
-      </div>
-    </main>
+      <LegalSection title="7. Contact">
+        <p>For any questions regarding these terms, please reach out to: <strong>ashique@ashique.digital</strong></p>
+      </LegalSection>
+    </LegalLayout>
   );
 }

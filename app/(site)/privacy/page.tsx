@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { LegalLayout, LegalSection } from "@/components/layout/LegalLayout";
 
 export const metadata: Metadata = {
   title: "Privacy Policy | Ashique — ashique.digital",
@@ -6,86 +7,88 @@ export const metadata: Metadata = {
 };
 
 export default function PrivacyPage() {
-  const lastUpdated = "March 10, 2026";
+  const launchDate = "March 15, 2026";
 
   return (
-    <main className="section-lg" style={{ background: "var(--color-bg)" }}>
-      <div className="container" style={{ maxWidth: "800px" }}>
-        <header style={{ marginBottom: "4rem" }}>
-          <span className="tag" style={{ marginBottom: "1.5rem" }}>Legal</span>
-          <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", marginBottom: "1.5rem" }}>
-            Privacy <span style={{ color: "var(--color-accent)" }}>Policy.</span>
-          </h1>
-          <p style={{ color: "var(--color-text-muted)", fontSize: "0.9375rem" }}>
-            Effective Date: {lastUpdated} | Last Updated: {lastUpdated}
-          </p>
-        </header>
+    <LegalLayout title="Privacy Policy" lastUpdated={launchDate}>
+      <p style={{ marginBottom: "2rem" }}>
+        Welcome to ashique.digital (&quot;the Website&quot;), operated by Ashique (&quot;I&quot;, &quot;me&quot;, &quot;my&quot;). This Privacy Policy explains how I collect, use, and protect your personal information when you visit or interact with my website. By using this website, you agree to the practices described here.
+      </p>
 
-        <article className="prose" style={{ 
-          fontFamily: "var(--font-body)", 
-          lineHeight: 1.8, 
-          color: "var(--color-text)",
-          fontSize: "1.0625rem"
-        }}>
-          <section style={{ marginBottom: "3rem" }}>
-            <h2 style={{ fontSize: "1.5rem", marginBottom: "1.25rem", color: "var(--color-primary)" }}>1.1 Introduction</h2>
-            <p style={{ marginBottom: "1.5rem" }}>
-              Welcome to ashique.digital ("the Website"), operated by Ashique ("I", "me", "my"). This Privacy Policy explains how I collect, use, and protect your personal information when you visit or interact with my website.
-            </p>
-            <p>By using this website, you agree to the practices described in this Privacy Policy.</p>
-          </section>
+      <LegalSection title="1. Information I Collect">
+        <p><strong>Information you provide voluntarily:</strong></p>
+        <ul style={{ paddingLeft: "1.5rem" }}>
+          <li>Name and email address (contact form, newsletter, free audit form)</li>
+          <li>Business name, marketing challenges, and budget (free audit form)</li>
+          <li>Messages and communications via the contact form</li>
+        </ul>
+        <p style={{ marginTop: "1rem" }}><strong>Information collected automatically:</strong></p>
+        <ul style={{ paddingLeft: "1.5rem" }}>
+          <li>IP address and approximate location</li>
+          <li>Browser type and device information</li>
+          <li>Pages visited and time spent (via Vercel Analytics and PostHog)</li>
+          <li>Referring URLs</li>
+        </ul>
+      </LegalSection>
 
-          <section style={{ marginBottom: "3rem" }}>
-            <h2 style={{ fontSize: "1.5rem", marginBottom: "1.25rem", color: "var(--color-primary)" }}>1.2 Information I Collect</h2>
-            <p style={{ marginBottom: "1rem" }}><strong>Information you provide voluntarily:</strong></p>
-            <ul style={{ paddingLeft: "1.5rem", marginBottom: "1.5rem", listStyleType: "disc" }}>
-              <li>Name and email address (contact form, newsletter, free audit form)</li>
-              <li>Business type and marketing challenges (free audit form)</li>
-              <li>Messages and communications (contact form)</li>
-            </ul>
-            <p style={{ marginBottom: "1rem" }}><strong>Information collected automatically:</strong></p>
-            <ul style={{ paddingLeft: "1.5rem", listStyleType: "disc" }}>
-              <li>IP address and approximate location</li>
-              <li>Browser type and device information</li>
-              <li>Pages visited and time spent (via Vercel Analytics and PostHog)</li>
-              <li>Referring URLs</li>
-            </ul>
-          </section>
+      <LegalSection title="2. How I Use Your Information">
+        <div style={{ overflowX: "auto", marginBottom: "1rem" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.9375rem" }}>
+            <thead>
+              <tr style={{ textAlign: "left", borderBottom: "2px solid var(--color-muted)" }}>
+                <th style={{ padding: "12px 8px" }}>Purpose</th>
+                <th style={{ padding: "12px 8px" }}>Legal Basis</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style={{ borderBottom: "1px solid var(--color-muted)" }}>
+                <td style={{ padding: "12px 8px" }}>Respond to your enquiries</td>
+                <td style={{ padding: "12px 8px" }}>Legitimate interest</td>
+              </tr>
+              <tr style={{ borderBottom: "1px solid var(--color-muted)" }}>
+                <td style={{ padding: "12px 8px" }}>Send requested resources (PDFs)</td>
+                <td style={{ padding: "12px 8px" }}>Contract performance</td>
+              </tr>
+              <tr style={{ borderBottom: "1px solid var(--color-muted)" }}>
+                <td style={{ padding: "12px 8px" }}>Send newsletter (if opted in)</td>
+                <td style={{ padding: "12px 8px" }}>Consent</td>
+              </tr>
+              <tr style={{ borderBottom: "1px solid var(--color-muted)" }}>
+                <td style={{ padding: "12px 8px" }}>Improve website experience</td>
+                <td style={{ padding: "12px 8px" }}>Legitimate interest</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p>I will <strong>never</strong> sell your personal information to third parties.</p>
+      </LegalSection>
 
-          <section style={{ marginBottom: "3rem" }}>
-            <h2 style={{ fontSize: "1.5rem", marginBottom: "1.25rem", color: "var(--color-primary)" }}>1.3 How I Use Your Information</h2>
-            <p style={{ marginBottom: "1.5rem" }}>I use your information to respond to enquiries, deliver requested resources, and improve the overall website experience. I will <strong>never</strong> sell your personal information to third parties.</p>
-            
-            <div style={{ overflowX: "auto", marginBottom: "1.5rem" }}>
-              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.9375rem", border: "1px solid var(--color-muted)" }}>
-                <thead>
-                  <tr style={{ background: "rgba(0,194,203,0.05)" }}>
-                    <th style={{ padding: "1rem", textAlign: "left", border: "1px solid var(--color-muted)" }}>Purpose</th>
-                    <th style={{ padding: "1rem", textAlign: "left", border: "1px solid var(--color-muted)" }}>Legal Basis</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr><td style={{ padding: "1rem", border: "1px solid var(--color-muted)" }}>Respond to your enquiries</td><td style={{ padding: "1rem", border: "1px solid var(--color-muted)" }}>Legitimate interest</td></tr>
-                  <tr><td style={{ padding: "1rem", border: "1px solid var(--color-muted)" }}>Send requested resources</td><td style={{ padding: "1rem", border: "1px solid var(--color-muted)" }}>Contract performance</td></tr>
-                  <tr><td style={{ padding: "1rem", border: "1px solid var(--color-muted)" }}>Send newsletter (if opted in)</td><td style={{ padding: "1rem", border: "1px solid var(--color-muted)" }}>Consent</td></tr>
-                  <tr><td style={{ padding: "1rem", border: "1px solid var(--color-muted)" }}>Improve website experience</td><td style={{ padding: "1rem", border: "1px solid var(--color-muted)" }}>Legitimate interest</td></tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
+      <LegalSection title="3. Third-Party Services">
+        <p>This website uses trusted third-party services that may process your data under their own privacy policies:</p>
+        <ul style={{ paddingLeft: "1.5rem", marginTop: "1rem" }}>
+          <li><strong>Vercel:</strong> Web hosting & performance analytics</li>
+          <li><strong>Sanity.io:</strong> Content management system</li>
+          <li><strong>Resend:</strong> Transactional email delivery</li>
+          <li><strong>Cal.com:</strong> Appointment and call scheduling</li>
+          <li><strong>Google:</strong> Gemini AI Pro processing for the assistant</li>
+          <li><strong>PostHog:</strong> User behavior tracking and conversion analytics</li>
+          <li><strong>Pinecone:</strong> AI knowledge base storage</li>
+        </ul>
+      </LegalSection>
 
-          <section style={{ marginBottom: "3rem" }}>
-            <h2 style={{ fontSize: "1.5rem", marginBottom: "1.25rem", color: "var(--color-primary)" }}>1.4 Third-Party Services</h2>
-            <p style={{ marginBottom: "1.5rem" }}>This website uses third-party services like Vercel (hosting), Sanity.io (CMS), and PostHog (analytics) that may process your data according to their own privacy policies.</p>
-          </section>
+      <LegalSection title="4. Data Retention">
+        <ul style={{ paddingLeft: "1.5rem" }}>
+          <li><strong>Contact form data:</strong> Retained for 24 months, then deleted</li>
+          <li><strong>Newsletter subscribers:</strong> Retained until you unsubscribe</li>
+          <li><strong>Analytics data:</strong> Anonymised after 12 months</li>
+          <li><strong>Booking data:</strong> Managed via Cal.com&apos;s retention policy</li>
+        </ul>
+      </LegalSection>
 
-          <section style={{ marginBottom: "3rem" }}>
-            <h2 style={{ fontSize: "1.5rem", marginBottom: "1.25rem", color: "var(--color-primary)" }}>1.5 Your Rights</h2>
-            <p style={{ marginBottom: "1rem" }}>You have the right to access, correct, or request deletion of your personal data. You may also withdraw consent for marketing at any time.</p>
-            <p>To exercise these rights, please contact me at: <strong>ashique@ashique.digital</strong></p>
-          </section>
-        </article>
-      </div>
-    </main>
+      <LegalSection title="5. Your Rights">
+        <p>You have the right to access, correct, or delete your personal data. You may also object to processing for marketing purposes or withdraw your consent at any time.</p>
+        <p style={{ marginTop: "1rem" }}>To exercise these rights, please contact me at: <strong>ashique@ashique.digital</strong></p>
+      </LegalSection>
+    </LegalLayout>
   );
 }

@@ -28,29 +28,50 @@ export async function POST(req: NextRequest) {
     const { email, name } = result.data;
     const firstName = name?.split(" ")[0] ?? "there";
 
-    // Temporarily disabled while Resend domain verification is pending
-    /*
+    // Welcome email to subscriber
     await sendEmail({
       to: email,
-      from: "ashique@ashique.digital",
+      from: "Weekly Growth Insights <notifications@ashique.digital>",
       subject: "You're on the list — weekly growth insights incoming 🚀",
       html: `
-        <h2 style="font-family:sans-serif;color:#0D1B2A">Hey ${firstName},</h2>
-        <p style="font-family:sans-serif;color:#1A1A2E;line-height:1.7">Thanks for subscribing to Ashique's growth newsletter.</p>
-        <p style="font-family:sans-serif;color:#1A1A2E;line-height:1.7">Every week, I share practical lead generation and brand strategy insights for SME owners and startup founders — straight from real client work, no fluff.</p>
-        <p style="font-family:sans-serif;color:#1A1A2E;line-height:1.7">Talk soon,<br><strong>Ashique</strong><br><a href="https://ashique.digital" style="color:#00C2CB">ashique.digital</a></p>
+        <div style="font-family: sans-serif; color: #0D1B2A; max-width: 600px;">
+          <h2 style="color: #00C2CB;">Hey ${firstName},</h2>
+          <p style="font-size: 16px; line-height: 1.7;">
+            Welcome to the growth list. I'm glad to have you here.
+          </p>
+          <p style="font-size: 16px; line-height: 1.7;">
+            Every Monday, I'll send you a short, strategic breakdown of what's working right now in lead generation and customer acquisition — pulled directly from my work with SMEs and high-growth startups.
+          </p>
+          <p style="font-size: 16px; line-height: 1.7;">
+            In the meantime, feel free to check out my latest growth insights on the site.
+          </p>
+          <div style="margin-top: 32px; padding: 24px; background: #f8f9fa; border-radius: 12px; border-left: 4px solid #00C2CB;">
+             <p style="margin: 0; font-weight: 600;">Want a faster start?</p>
+             <p style="margin: 8px 0 0; color: #64748b; font-size: 14px;">If you're ready to scale your specific business now, you can sempre <a href="https://ashique.digital/contact" style="color: #00C2CB; font-weight: 600;">book a free 30-minute strategy call here.</a></p>
+          </div>
+          <p style="margin-top: 32px; font-size: 16px; line-height: 1.7;">
+            Talk soon,<br>
+            <strong>Ashique</strong><br>
+            <span style="color: #64748b; font-size: 14px;">Brand Strategist & Lead Gen Consultant</span>
+          </p>
+        </div>
       `,
     });
-    */
 
-    // Notify Ashique (Disabled)
-    /*
+    // Internal notification to Ashique
     await sendEmail({
       to: process.env.CONTACT_EMAIL ?? "ashique@ashique.digital",
-      subject: `New newsletter subscriber: ${email}`,
-      html: `<p style="font-family:sans-serif">New subscriber: <strong>${name ?? "N/A"}</strong> — ${email}</p>`,
+      subject: `New Newsletter Lead: ${email}`,
+      html: `
+        <div style="font-family: sans-serif; color: #0D1B2A;">
+          <p>You have a new subscriber!</p>
+          <p><strong>Name:</strong> ${name ?? "Not provided"}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+          <p style="font-size: 12px; color: #64748b;">Ashique-Digital Marketing Engine</p>
+        </div>
+      `,
     });
-    */
     console.log("Newsletter subscription (Email disabled):", { email, name });
 
     const posthog = getPostHogClient();

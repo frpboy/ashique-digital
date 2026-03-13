@@ -13,9 +13,11 @@ const callPoints = [
   "You'll take away 2–3 specific, actionable steps",
 ];
 
+import { motion, AnimatePresence } from "framer-motion";
+
 function ContactForm() {
   const router = useRouter();
-  const [form, setForm] = useState({ name: "", email: "", businessType: "", message: "", website: "" });
+  const [form, setForm] = useState({ name: "", email: "", businessType: "", message: "", fax_number: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -31,43 +33,82 @@ function ContactForm() {
         setStatus("done");
         posthog.identify(form.email, { email: form.email, name: form.name, business_type: form.businessType });
         posthog.capture("contact_form_submitted", { business_type: form.businessType });
-        router.push("/contact/success");
+        
+        // Brief delay for the success animation before redirecting
+        setTimeout(() => {
+          router.push("/contact/success");
+        }, 1500);
       } else {
+        const data = await res.json();
         setStatus("error");
+        console.error("Form error:", data.error);
       }
-    } catch {
+    } catch (err) {
       setStatus("error");
+      console.error("Connection error:", err);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-      {/* Honeypot */}
-      <input type="text" name="website" value={form.website} onChange={e => setForm(prev => ({ ...prev, website: e.target.value }))} style={{ display: "none" }} tabIndex={-1} autoComplete="off" />
+    <div style={{ position: "relative" }}>
+      <AnimatePresence mode="wait">
+        {status === "done" ? (
+          <motion.div
+            key="success"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            style={{ textAlign: "center", padding: "2rem 0" }}
+          >
+            <CheckCircle size={48} style={{ color: "var(--color-accent)", margin: "0 auto 1rem" }} />
+            <h4 style={{ color: "var(--color-primary)", fontWeight: 700, marginBottom: "0.5rem" }}>Message Received</h4>
+            <p style={{ color: "var(--color-text-muted)", fontSize: "0.875rem" }}>Redirecting you now...</p>
+          </motion.div>
+        ) : (
+          <motion.form
+            key="form"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onSubmit={handleSubmit}
+            style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}
+          >
+            {/* Honeypot */}
+            <input 
+              type="text" 
+              name="fax_number" 
+              value={form.fax_number} 
+              onChange={e => setForm(prev => ({ ...prev, fax_number: e.target.value }))} 
+              style={{ display: "none" }} 
+              tabIndex={-1} 
+              autoComplete="off" 
+            />
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1.25rem" }}>
-        <div>
-          <label style={{ display: "block", fontWeight: 600, fontSize: "0.875rem", marginBottom: "0.5rem", color: "var(--color-primary)" }}>Your Name *</label>
-          <input className="input" type="text" required placeholder="Rahul Mehta" value={form.name} onChange={e => setForm(prev => ({ ...prev, name: e.target.value }))} />
-        </div>
-        <div>
-          <label style={{ display: "block", fontWeight: 600, fontSize: "0.875rem", marginBottom: "0.5rem", color: "var(--color-primary)" }}>Email *</label>
-          <input className="input" type="email" required placeholder="rahul@company.com" value={form.email} onChange={e => setForm(prev => ({ ...prev, email: e.target.value }))} />
-        </div>
-      </div>
-      <div>
-        <label style={{ display: "block", fontWeight: 600, fontSize: "0.875rem", marginBottom: "0.5rem", color: "var(--color-primary)" }}>Business Type *</label>
-        <input className="input" type="text" required placeholder="e.g. D2C Brand, SaaS, Service Business" value={form.businessType} onChange={e => setForm(prev => ({ ...prev, businessType: e.target.value }))} />
-      </div>
-      <div>
-        <label style={{ display: "block", fontWeight: 600, fontSize: "0.875rem", marginBottom: "0.5rem", color: "var(--color-primary)" }}>What are you looking to achieve? *</label>
-        <textarea className="input" required placeholder="Tell me about your current situation and what you want to change..." value={form.message} onChange={e => setForm(prev => ({ ...prev, message: e.target.value }))} rows={4} />
-      </div>
-      {status === "error" && <p className="error-msg">Something went wrong. Please try again or email ashique@ashique.digital</p>}
-      <button type="submit" className="btn btn-primary" disabled={status === "loading"} style={{ justifyContent: "center" }}>
-        {status === "loading" ? "Sending..." : "Send Message"}
-      </button>
-    </form>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1.25rem" }}>
+              <div>
+                <label style={{ display: "block", fontWeight: 600, fontSize: "0.875rem", marginBottom: "0.5rem", color: "var(--color-primary)" }}>Your Name *</label>
+                <input className="input" type="text" required placeholder="Rahul Mehta" value={form.name} onChange={e => setForm(prev => ({ ...prev, name: e.target.value }))} />
+              </div>
+              <div>
+                <label style={{ display: "block", fontWeight: 600, fontSize: "0.875rem", marginBottom: "0.5rem", color: "var(--color-primary)" }}>Email *</label>
+                <input className="input" type="email" required placeholder="rahul@company.com" value={form.email} onChange={e => setForm(prev => ({ ...prev, email: e.target.value }))} />
+              </div>
+            </div>
+            <div>
+              <label style={{ display: "block", fontWeight: 600, fontSize: "0.875rem", marginBottom: "0.5rem", color: "var(--color-primary)" }}>Business Type *</label>
+              <input className="input" type="text" required placeholder="e.g. D2C Brand, SaaS, Service Business" value={form.businessType} onChange={e => setForm(prev => ({ ...prev, businessType: e.target.value }))} />
+            </div>
+            <div>
+              <label style={{ display: "block", fontWeight: 600, fontSize: "0.875rem", marginBottom: "0.5rem", color: "var(--color-primary)" }}>What are you looking to achieve? *</label>
+              <textarea className="input" required placeholder="Tell me about your current situation and what you want to change..." value={form.message} onChange={e => setForm(prev => ({ ...prev, message: e.target.value }))} rows={4} />
+            </div>
+            {status === "error" && <p className="error-msg">Something went wrong. Please try again or email ashique@ashique.digital</p>}
+            <button type="submit" className="btn btn-primary" disabled={status === "loading"} style={{ justifyContent: "center" }}>
+              {status === "loading" ? "Sending..." : "Send Message"}
+            </button>
+          </motion.form>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
 

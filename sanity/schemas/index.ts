@@ -1,5 +1,5 @@
-// Sanity CMS Schema: Blog Post
 import { defineField, defineType } from "sanity";
+import { leadLog } from "./leadLog";
 
 export const post = defineType({
   name: "post",
@@ -52,3 +52,5 @@ export const service = defineType({
   ],
   preview: { select: { title: "title", subtitle: "outcome" } },
 });
+
+export { leadLog };
