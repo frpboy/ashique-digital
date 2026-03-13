@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from "react";
 import type { ChatMessage } from "@/lib/types";
 import { X, Send, Loader2 } from "lucide-react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import posthog from "posthog-js";
+import { motion, AnimatePresence } from "framer-motion";
 
 const WELCOME = "Hi! I'm Ashique's assistant. I can answer questions about his services, process, and past results — or help you book a free strategy call. What would you like to know?";
 
@@ -95,13 +97,26 @@ export function AIWidget() {
   return (
     <>
       {/* Floating Bot Button */}
-      <button
+      <motion.button
         onClick={() => {
           const next = !open;
           setOpen(next);
           if (next && typeof window !== 'undefined' && posthog) {
             posthog.capture("ai_widget_opened");
           }
+        }}
+        animate={loading && !open ? {
+          scale: [1, 1.05, 1],
+          boxShadow: [
+            "0 0 0 0px rgba(0, 194, 203, 0)",
+            "0 0 0 15px rgba(0, 194, 203, 0.15)",
+            "0 0 0 0px rgba(0, 194, 203, 0)"
+          ]
+        } : { scale: 1 }}
+        transition={{ 
+          duration: 2, 
+          repeat: Infinity,
+          ease: "easeInOut"
         }}
         aria-label="Open AI assistant"
         style={{
@@ -118,16 +133,39 @@ export function AIWidget() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          transition: "all 0.3s ease",
+          transition: "transform 0.3s ease",
           padding: 0,
         }}
       >
         {open ? (
-          <div style={{ background: "var(--color-primary)", width: "64px", height: "64px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff" }}>
+          <div style={{ 
+            background: "var(--color-primary)", 
+            width: "64px", 
+            height: "64px", 
+            borderRadius: "50%", 
+            display: "flex", 
+            alignItems: "center", 
+            justifyContent: "center", 
+            color: "#fff",
+            boxShadow: "0 8px 25px rgba(13,27,42,0.2)"
+          }}>
             <X size={28} />
           </div>
         ) : (
-          <div style={{ width: "94px", height: "94px" }}>
+          <div style={{ width: "94px", height: "94px", position: "relative" }}>
+            {loading && (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1.2 }}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  background: "radial-gradient(circle, rgba(0,194,203,0.3) 0%, transparent 70%)",
+                  borderRadius: "50%",
+                  zIndex: -1
+                }}
+              />
+            )}
             <DotLottieReact
               src="https://lottie.host/8816c52a-9e66-48c2-be16-928549302621/uonXU9B34e.lottie"
               loop
@@ -135,26 +173,31 @@ export function AIWidget() {
             />
           </div>
         )}
-      </button>
+      </motion.button>
 
-      {/* Chat Panel */}
-      {open && (
-        <div
-          style={{
-            position: "fixed",
-            bottom: "5.5rem",
-            right: "2rem",
-            zIndex: 200,
-            width: "min(380px, calc(100vw - 2rem))",
-            borderRadius: "12px",
-            background: "#fff",
-            boxShadow: "0 16px 60px rgba(13,27,42,0.18)",
-            border: "1px solid var(--color-muted)",
-            display: "flex",
-            flexDirection: "column",
-            overflow: "hidden",
-          }}
-        >
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            style={{
+              position: "fixed",
+              bottom: "min(6.5rem, 85vh)",
+              zIndex: 200,
+              // Mobile specific realignment
+              left: window.innerWidth < 640 ? "1rem" : "auto",
+              right: window.innerWidth < 640 ? "1rem" : "2rem",
+              width: window.innerWidth < 640 ? "calc(100vw - 2rem)" : "380px",
+              borderRadius: "12px",
+              background: "#fff",
+              boxShadow: "0 16px 60px rgba(13,27,42,0.18)",
+              border: "1px solid var(--color-muted)",
+              display: "flex",
+              flexDirection: "column",
+              overflow: "hidden",
+            }}
+          >
           {/* Panel Header */}
             <div
               style={{
@@ -312,8 +355,9 @@ export function AIWidget() {
               <Send size={16} />
             </button>
           </div>
-        </div>
+        </motion.div>
       )}
+      </AnimatePresence>
 
       <style>{`
         @keyframes orb-pulse {
