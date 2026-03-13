@@ -3,8 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import type { ChatMessage } from "@/lib/types";
 import { X, Send, Loader2 } from "lucide-react";
-import ThinkingOrb from "./ThinkingOrb";
-import posthog from "posthog-js";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 const WELCOME = "Hi! I'm Ashique's assistant. I can answer questions about his services, process, and past results — or help you book a free strategy call. What would you like to know?";
 
@@ -110,26 +109,31 @@ export function AIWidget() {
           bottom: "2rem",
           right: "2rem",
           zIndex: 200,
-          width: "84px",
-          height: "84px",
+          width: "94px",
+          height: "94px",
           borderRadius: "50%",
-          background: open ? "var(--color-primary)" : "transparent",
+          background: "transparent",
           border: "none",
           cursor: "pointer",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          color: open ? "#fff" : "var(--color-primary)",
-          boxShadow: open ? "0 4px 20px rgba(0,0,0,0.2)" : "none",
           transition: "all 0.3s ease",
           padding: 0,
-          overflow: "visible",
         }}
       >
         {open ? (
-          <X size={28} />
+          <div style={{ background: "var(--color-primary)", width: "64px", height: "64px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff" }}>
+            <X size={28} />
+          </div>
         ) : (
-          <ThinkingOrb size={64} thinking={loading} />
+          <div style={{ width: "94px", height: "94px" }}>
+            <DotLottieReact
+              src="https://lottie.host/8816c52a-9e66-48c2-be16-928549302621/uonXU9B34e.lottie"
+              loop
+              autoplay
+            />
+          </div>
         )}
       </button>
 

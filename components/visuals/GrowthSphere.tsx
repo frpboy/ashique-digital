@@ -24,11 +24,13 @@ function AnimatedSphere() {
 
   return (
     <Float speed={1.5} rotationIntensity={0.5} floatIntensity={1}>
-      <Sphere ref={meshRef} args={[1, 100, 200]} scale={2.2}>
+      <Sphere ref={meshRef} args={[1, 100, 200]} scale={1.5} position={[1.2, 0, 0]}>
         <MeshDistortMaterial
           color="#00C2CB"
+          transparent
+          opacity={0.8}
           attach="material"
-          distort={0.45}
+          distort={0.5}
           speed={2}
           roughness={0.1}
           metalness={0.8}
@@ -44,12 +46,12 @@ export default function GrowthSphere() {
       style={{ 
         position: "absolute", 
         top: 0, 
-        right: "-10%", 
-        width: "60vw", 
+        left: 0, 
+        width: "100%", 
         height: "100%", 
         zIndex: -1,
         pointerEvents: "none",
-        opacity: 0.6,
+        opacity: 0.8,
       }}
     >
       <Canvas dpr={[1, 2]}>

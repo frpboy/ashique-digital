@@ -33,11 +33,7 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: "/api/v1/s/static/:path*",
-        destination: "https://us-assets.i.posthog.com/static/:path*",
-      },
-      {
-        source: "/api/v1/s/:path*",
+        source: "/ingest/:path*",
         destination: "https://us.i.posthog.com/:path*",
       },
       {

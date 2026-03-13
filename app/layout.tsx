@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     template: "%s | Ashique — ashique.digital",
   },
   description:
-    "I help SMEs and startups generate qualified leads, design high-converting funnels, and turn digital marketing into a predictable revenue engine.",
+    "Ashique is a Brand Strategist and Lead Generation Consultant helping SMEs and Startups build predictable growth systems. Download the free 15-Point Growth Audit and engineer an acquisition engine that scales profits, not just campaigns.",
   metadataBase: new URL("https://ashique.digital"),
   openGraph: {
     type: "website",
