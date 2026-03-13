@@ -1,9 +1,10 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, MeshDistortMaterial, Sphere } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
+import { Float, MeshDistortMaterial, Sphere, View, PerspectiveCamera } from "@react-three/drei";
 import * as THREE from "three";
+import { useInView } from "react-intersection-observer";
 
 function BrokenSphere({ isMobile }: { isMobile: boolean }) {
   const meshRef = useRef<THREE.Mesh>(null);
@@ -23,13 +24,12 @@ function BrokenSphere({ isMobile }: { isMobile: boolean }) {
       const targetX = state.mouse.y * 0.25;
       const targetY = state.mouse.x * 0.25;
       meshRef.current.rotation.x += (targetX - meshRef.current.rotation.x) * 0.05;
-      meshRef.current.rotation.y += (targetY - meshRef.current.rotation.y) * 0.05;
+      meshRef.current.rotation.z += (targetY - meshRef.current.rotation.z) * 0.05;
     }
   });
 
   return (
     <Float speed={1.2} rotationIntensity={0.5} floatIntensity={0.8}>
-      {/* Fewer wires for cleaner look (reduce segments) */}
       <Sphere ref={meshRef} args={[1, 32, 32]} scale={isMobile ? 1.2 : 1.6}>
         <MeshDistortMaterial
           color="#80E1E5"
@@ -45,7 +45,6 @@ function BrokenSphere({ isMobile }: { isMobile: boolean }) {
         />
       </Sphere>
       
-      {/* Internal core */}
       <Sphere args={[0.3, 32, 32]} scale={1}>
         <meshStandardMaterial
           color="#00C2CB"
@@ -62,6 +61,8 @@ function BrokenSphere({ isMobile }: { isMobile: boolean }) {
 export default function BrokenNode() {
   const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { ref: inViewRef, inView } = useInView({ threshold: 0.1 });
 
   useEffect(() => {
     setMounted(true);
@@ -75,21 +76,29 @@ export default function BrokenNode() {
 
   return (
     <div 
+      ref={(node) => {
+        (containerRef as any).current = node;
+        inViewRef(node);
+      }}
       style={{ 
         width: "100%", 
-        height: isMobile ? "300px" : "500px", 
-        paddingTop: isMobile ? "2rem" : "5rem",
+        height: isMobile ? "350px" : "500px", 
+        paddingTop: isMobile ? "1rem" : "2rem",
         opacity: 0.9,
         position: "relative",
-        zIndex: 1
+        zIndex: 1,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
       }}
     >
-      <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 10], fov: isMobile ? 40 : 35 }}>
+      <View track={containerRef as any} style={{ width: "100%", height: "100%" }}>
+        <PerspectiveCamera makeDefault position={[0, 0, 10]} fov={isMobile ? 45 : 35} />
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} intensity={1.5} />
         <spotLight position={[-10, 10, 10]} angle={0.15} penumbra={1} intensity={1} />
-        <BrokenSphere isMobile={isMobile} />
-      </Canvas>
+        {inView && <BrokenSphere isMobile={isMobile} />}
+      </View>
     </div>
   );
 }

@@ -1,18 +1,20 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Sphere, MeshDistortMaterial, Float, PerspectiveCamera } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
+import { Sphere, MeshDistortMaterial, Float, PerspectiveCamera, View } from "@react-three/drei";
 import * as THREE from "three";
+import { useInView } from "react-intersection-observer";
 
 function AnimatedSphere({ isMobile }: { isMobile: boolean }) {
   const meshRef = useRef<THREE.Mesh>(null);
 
   useFrame((state) => {
     if (meshRef.current) {
+      const elapsed = state.clock.getElapsedTime();
       // Rotation
-      meshRef.current.rotation.x = state.clock.getElapsedTime() * 0.2;
-      meshRef.current.rotation.y = state.clock.getElapsedTime() * 0.3;
+      meshRef.current.rotation.x = elapsed * 0.2;
+      meshRef.current.rotation.y = elapsed * 0.3;
       
       // Gentle mouse follow (Tilt)
       const targetRotateX = state.mouse.y * 0.2;
@@ -48,6 +50,8 @@ function AnimatedSphere({ isMobile }: { isMobile: boolean }) {
 export default function GrowthSphere() {
   const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { ref: inViewRef, inView } = useInView({ threshold: 0.1 });
 
   useEffect(() => {
     setMounted(true);
@@ -61,6 +65,10 @@ export default function GrowthSphere() {
 
   return (
     <div 
+      ref={(node) => {
+        (containerRef as any).current = node;
+        inViewRef(node);
+      }}
       style={{ 
         position: "absolute", 
         top: 0, 
@@ -72,13 +80,13 @@ export default function GrowthSphere() {
         opacity: isMobile ? 0.6 : 0.8,
       }}
     >
-      <Canvas dpr={[1, 2]}>
+      <View track={containerRef as any}>
         <PerspectiveCamera makeDefault position={[0, 0, 5]} />
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} intensity={1} />
         <spotLight position={[-10, 10, 10]} angle={0.15} penumbra={1} intensity={1} />
-        <AnimatedSphere isMobile={isMobile} />
-      </Canvas>
+        {inView && <AnimatedSphere isMobile={isMobile} />}
+      </View>
     </div>
   );
 }

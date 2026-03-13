@@ -1,13 +1,14 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, MeshDistortMaterial, RoundedBox } from "@react-three/drei";
+import { useRef, useState, useMemo } from "react";
+import { useFrame } from "@react-three/fiber";
+import { Float, MeshDistortMaterial, RoundedBox, View, PerspectiveCamera } from "@react-three/drei";
 import * as THREE from "three";
 
 function IconMesh({ hovered }: { hovered: boolean }) {
   const meshRef = useRef<THREE.Mesh>(null);
-
+  
+  // Use a stable reference to avoid frame-skipping if needed
   useFrame((state) => {
     if (meshRef.current) {
       meshRef.current.rotation.x = THREE.MathUtils.lerp(
@@ -36,18 +37,21 @@ function IconMesh({ hovered }: { hovered: boolean }) {
 
 export default function ServiceIcon3D() {
   const [hovered, setHovered] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   return (
     <div 
+      ref={containerRef}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      style={{ width: "60px", height: "60px", cursor: "pointer" }}
+      style={{ width: "60px", height: "60px", cursor: "pointer", position: "relative" }}
     >
-      <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 3] }}>
+      <View track={containerRef as any}>
+        <PerspectiveCamera makeDefault position={[0, 0, 3]} />
         <ambientLight intensity={0.5} />
         <pointLight position={[5, 5, 5]} intensity={1} />
         <IconMesh hovered={hovered} />
-      </Canvas>
+      </View>
     </div>
   );
 }

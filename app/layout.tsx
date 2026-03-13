@@ -8,6 +8,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { PostHogProvider } from "@/components/providers/PostHogProvider";
 import PostHogPageView from "@/components/providers/PostHogPageView";
 import { Toaster } from "sonner";
+import { ThreeSceneProvider } from "@/components/providers/ThreeSceneProvider";
 
 const syne = Syne({
   subsets: ["latin"],
@@ -68,12 +69,14 @@ export default function RootLayout({
     <html lang="en" className={`${syne.variable} ${inter.variable}`} data-scroll-behavior="smooth">
       <body className="antialiased">
         <PostHogProvider>
-          <PostHogPageView />
-          <Preloader />
-          {children}
-          <DataNodeTrail />
-          <Analytics />
-          <Toaster position="top-center" richColors />
+          <ThreeSceneProvider>
+            <PostHogPageView />
+            <Preloader />
+            {children}
+            <DataNodeTrail />
+            <Analytics />
+            <Toaster position="top-center" richColors />
+          </ThreeSceneProvider>
         </PostHogProvider>
       </body>
     </html>

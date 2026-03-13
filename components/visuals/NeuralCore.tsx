@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useMemo, Suspense } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { 
   Sphere, 
   MeshDistortMaterial, 
@@ -9,9 +9,12 @@ import {
   MeshTransmissionMaterial,
   Points,
   PointMaterial,
-  Torus
+  Torus,
+  View,
+  PerspectiveCamera
 } from "@react-three/drei";
 import * as THREE from "three";
+import { useInView } from "react-intersection-observer";
 
 function Particles({ count = 100 }) {
   const points = useMemo(() => {
@@ -28,10 +31,16 @@ function Particles({ count = 100 }) {
   }, [count]);
 
   const ref = useRef<THREE.Points>(null);
-  useFrame((state) => {
+  const timer = useMemo(() => {
+    const T = (THREE as any).Timer;
+    return T ? new T() : null;
+  }, []);
+
+  useFrame((state, delta) => {
     if (ref.current) {
-      ref.current.rotation.y = state.clock.getElapsedTime() * 0.5;
-      ref.current.rotation.z = state.clock.getElapsedTime() * 0.3;
+      const elapsed = state.clock.getElapsedTime();
+      ref.current.rotation.y = elapsed * 0.5;
+      ref.current.rotation.z = elapsed * 0.3;
     }
   });
 
@@ -53,8 +62,9 @@ function OrbitRings() {
   const ref = useRef<THREE.Group>(null);
   useFrame((state) => {
     if (ref.current) {
-      ref.current.rotation.x = state.clock.getElapsedTime() * 0.2;
-      ref.current.rotation.y = state.clock.getElapsedTime() * 0.4;
+      const elapsed = state.clock.getElapsedTime();
+      ref.current.rotation.x = elapsed * 0.2;
+      ref.current.rotation.y = elapsed * 0.4;
     }
   });
 
@@ -103,16 +113,29 @@ function CoreOrb() {
 }
 
 export default function NeuralCore() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { ref: inViewRef, inView } = useInView({
+    threshold: 0.1,
+    triggerOnce: false,
+  });
+
+  // Combine refs
+  const setRefs = (node: HTMLDivElement | null) => {
+    (containerRef as any).current = node;
+    inViewRef(node);
+  };
+
   return (
-    <div style={{ width: "100%", height: "240px", cursor: "pointer" }}>
-      <Canvas dpr={[1, 2]} camera={{ position: [0, 0, 5], fov: 45 }}>
+    <div ref={setRefs} style={{ width: "100%", height: "240px", cursor: "pointer", position: "relative" }}>
+      <View track={containerRef as any}>
+        <PerspectiveCamera makeDefault position={[0, 0, 5]} fov={45} />
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} intensity={1} color="#00C2CB" />
         <spotLight position={[-10, 10, 10]} angle={0.15} penumbra={1} intensity={1} />
         <Suspense fallback={null}>
-          <CoreOrb />
+          {inView && <CoreOrb />}
         </Suspense>
-      </Canvas>
+      </View>
     </div>
   );
 }

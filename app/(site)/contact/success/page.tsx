@@ -37,13 +37,24 @@ export default function SuccessPage() {
           Success! Your request has been confirmed. Whether it&apos;s a message or a strategy call booking, I usually follow up within 24 hours. Keep an eye on your inbox.
         </p>
 
-        <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-          <Link href="/" className="btn btn-secondary" style={{ gap: "0.5rem" }}>
-            <Home size={18} /> Home
-          </Link>
-          <Link href="/insights" className="btn btn-primary" style={{ gap: "0.5rem" }}>
-            Read Growth Insights <ArrowRight size={18} />
-          </Link>
+        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          <a 
+            href="https://linkedin.com/in/ashique-mp" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="btn btn-primary" 
+            style={{ gap: "0.5rem", width: "100%", justifyContent: "center", padding: "1rem" }}
+          >
+            Connect on LinkedIn <ArrowRight size={18} />
+          </a>
+          <div style={{ display: "flex", gap: "1rem", justifyContent: "center" }}>
+            <Link href="/" className="btn btn-secondary" style={{ gap: "0.5rem", flex: 1, padding: "1rem" }}>
+              <Home size={18} /> Home
+            </Link>
+            <Link href="/insights" className="btn btn-secondary" style={{ gap: "0.5rem", flex: 1, padding: "1rem" }}>
+              Insights
+            </Link>
+          </div>
         </div>
       </div>
     </main>
