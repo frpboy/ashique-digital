@@ -95,20 +95,8 @@ function Lattice({ isMobile }: { isMobile: boolean }) {
 }
 
 export default function NeuralCore() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { ref: inViewRef, inView } = useInView({
-    threshold: 0.1,
-    triggerOnce: false,
-  });
-
-  const setRefs = (node: HTMLDivElement | null) => {
-    (containerRef as any).current = node;
-    inViewRef(node);
-  };
-
   return (
     <div 
-      ref={setRefs} 
       className="neural-core-container"
       style={{ 
         width: "100%", 
@@ -117,10 +105,10 @@ export default function NeuralCore() {
         top: 0,
         left: 0,
         pointerEvents: "none",
-        zIndex: 0
+        zIndex: 10
       }}
     >
-      <View track={containerRef as any}>
+      <View style={{ width: "100%", height: "100%" }}>
         <PerspectiveCamera makeDefault position={[0, 0, 5]} fov={40} />
         <ambientLight intensity={0.4} />
         <pointLight position={[10, 10, 10]} intensity={1} color="#00C2CB" />

@@ -78,10 +78,7 @@ export default function BrokenNode() {
 
   return (
     <div 
-      ref={(node) => {
-        (containerRef as any).current = node;
-        inViewRef(node);
-      }}
+      ref={inViewRef}
       aria-label="3D broken mesh representing a fragmented growth funnel"
       style={{ 
         width: "100%", 
@@ -95,7 +92,7 @@ export default function BrokenNode() {
         justifyContent: "center"
       }}
     >
-      <View track={containerRef as any} style={{ width: "100%", height: "100%" }}>
+      <View style={{ width: "100%", height: "100%" }}>
         <PerspectiveCamera makeDefault position={[0, 0, 10]} fov={isMobile ? 45 : 35} />
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} intensity={1.5} />

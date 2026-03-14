@@ -9,11 +9,11 @@ const securityHeaders = [
   { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
   {
     key: "Content-Security-Policy",
-    value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.posthog.com https://*.cal.com https://vercel.live https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://cdn.sanity.io https://*.posthog.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.sanity.io https://*.posthog.com https://*.google-analytics.com https://vitals.vercel-insights.com https://unpkg.com https://cdn.jsdelivr.net https://*.lottiefiles.com; frame-src https://*.cal.com https://vercel.live; worker-src 'self' blob:; child-src blob:;",
+    value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.posthog.com https://*.cal.com https://vercel.live https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://cdn.sanity.io https://*.posthog.com blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.sanity.io https://*.posthog.com https://*.google-analytics.com https://vitals.vercel-insights.com https://unpkg.com https://cdn.jsdelivr.net https://*.lottiefiles.com blob:; frame-src https://*.cal.com https://vercel.live; worker-src 'self' blob: https://unpkg.com https://cdn.jsdelivr.net https://*.lottiefiles.com; child-src 'self' blob: https://unpkg.com; object-src 'none';",
   },
   {
     key: "Permissions-Policy",
-    value: "camera=(), microphone=(), geolocation=()",
+    value: "camera=(), microphone=(), geolocation=(), display-capture=(), fullscreen=(), web-share=()",
   },
 ];
 
