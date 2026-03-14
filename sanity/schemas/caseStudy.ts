@@ -27,7 +27,20 @@ export const caseStudy = defineType({
     }),
     defineField({ name: "testimonial", title: "Client Testimonial", type: "text", rows: 3 }),
     defineField({ name: "clientName", title: "Client Name / Handle", type: "string" }),
-    defineField({ name: "coverImage", title: "Cover Image", type: "image", options: { hotspot: true } }),
+    defineField({ 
+      name: "coverImage", 
+      title: "Cover Image", 
+      type: "image", 
+      options: { hotspot: true },
+      fields: [
+        {
+          name: "alt",
+          type: "string",
+          title: "Alternative Text",
+          validation: (Rule) => Rule.required().error("Alt text is mandatory for SEO and accessibility."),
+        },
+      ],
+    }),
     defineField({ name: "publishedAt", title: "Published At", type: "datetime" }),
   ],
   preview: {
