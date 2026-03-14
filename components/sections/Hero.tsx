@@ -37,7 +37,7 @@ export function Hero() {
         position: "relative",
       }}
     >
-      <div aria-label="3D holographic representation of a business growth system" style={{ position: "absolute", inset: 0 }}>
+      <div aria-label="Hero Growth System Animation" style={{ position: "absolute", inset: 0 }}>
         <GrowthSphere />
       </div>
 

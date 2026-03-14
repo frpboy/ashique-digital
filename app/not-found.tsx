@@ -39,7 +39,7 @@ export default function NotFound() {
       />
 
       {/* 1. Immersive 3D Visual Anchor */}
-      <div style={{ width: "100%", maxWidth: "800px", marginBottom: "2rem", pointerEvents: "none" }}>
+      <div aria-label="Broken System Error Visualization" style={{ width: "100%", maxWidth: "800px", marginBottom: "2rem", pointerEvents: "none" }}>
         <BrokenNode />
       </div>
 

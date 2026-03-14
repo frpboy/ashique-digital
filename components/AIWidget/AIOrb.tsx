@@ -118,7 +118,7 @@ export function AIWidget() {
           repeat: Infinity,
           ease: "easeInOut"
         }}
-        aria-label="Open AI assistant"
+        aria-label="Toggle AI Assistant"
         style={{
           position: "fixed",
           bottom: "2rem",
