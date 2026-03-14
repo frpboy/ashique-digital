@@ -37,46 +37,31 @@ export function Hero() {
         position: "relative",
       }}
     >
-      <div aria-label="Hero Growth System Animation" style={{ 
-        position: "absolute", 
-        inset: 0,
-        zIndex: 0,
-        pointerEvents: "none"
-      }}>
-        <div style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
+      {/* 3D Visual Container - Simplified Layout */}
+      <div 
+        style={{ 
+          position: "absolute", 
+          top: 0,
+          right: 0,
           width: "100%",
           height: "100%",
+          zIndex: 0,
+          pointerEvents: "none",
           display: "flex",
-          justifyContent: "flex-end", // Desktop: Right-aligned
-          alignItems: "center"
-        }} className="hero-lattice-container">
-          <div style={{
-            width: "clamp(300px, 50vw, 800px)",
-            height: "100%",
-            opacity: "var(--lattice-opacity, 1)",
-            position: "relative"
-          }}>
-             <NeuralCore />
-          </div>
-        </div>
+          justifyContent: "flex-end",
+          alignItems: "center",
+          overflow: "hidden"
+        }}
+      >
+      <div 
+        className="absolute lg:relative w-full lg:w-1/2 h-full lg:opacity-100 opacity-20 transition-opacity duration-500"
+        style={{ pointerEvents: "none" }}
+      >
+        <NeuralCore />
       </div>
+    </div>
 
-      <style jsx global>{`
-        @media (max-width: 768px) {
-          .hero-lattice-container {
-            justify-content: center !important;
-          }
-          :root {
-            --lattice-opacity: 0.2;
-          }
-        }
-      `}</style>
-
-      <div className="container mx-auto px-6" style={{ position: "relative", zIndex: 10 }}>
+    <div className="container mx-auto px-6" style={{ position: "relative", zIndex: 10 }}>
         {/* Pre-headline tag */}
         <div
           className="tag"
