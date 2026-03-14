@@ -104,6 +104,7 @@ export default function NotFound() {
         >
           <Link 
             href="/" 
+            aria-label="Return to Home"
             className="btn btn-primary w-full sm:w-auto" 
             style={{ 
               gap: "0.5rem",
@@ -119,6 +120,7 @@ export default function NotFound() {
           </Link>
           <button 
             onClick={() => window.history.back()} 
+            aria-label="Go back to previous page"
             className="w-full sm:w-auto"
             style={{ 
               display: "flex",

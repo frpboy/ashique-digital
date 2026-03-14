@@ -80,6 +80,7 @@ export default function BrokenNode() {
         (containerRef as any).current = node;
         inViewRef(node);
       }}
+      aria-label="3D broken mesh representing a fragmented growth funnel"
       style={{ 
         width: "100%", 
         height: isMobile ? "350px" : "500px", 

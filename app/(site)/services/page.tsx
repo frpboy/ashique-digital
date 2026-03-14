@@ -67,6 +67,41 @@ const services = [
 export default function ServicesPage() {
   return (
     <>
+      {/* Service Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "itemListElement": services.map((svc, i) => ({
+              "@type": "ListItem",
+              "position": i + 1,
+              "item": {
+                "@type": "Service",
+                "name": svc.title,
+                "description": svc.outcome,
+                "provider": {
+                  "@type": "ProfessionalService",
+                  "name": "Ashique Digital"
+                },
+                "areaServed": "India",
+                "hasOfferCatalog": {
+                  "@type": "OfferCatalog",
+                  "name": svc.title,
+                  "itemListElement": svc.deliverables.map(d => ({
+                    "@type": "Offer",
+                    "itemOffered": {
+                      "@type": "Service",
+                      "name": d
+                    }
+                  }))
+                }
+              }
+            }))
+          }),
+        }}
+      />
       <section style={{ paddingTop: "8rem", paddingBottom: "4rem", background: "var(--color-bg)" }}>
         <div className="container">
           <span className="tag" style={{ marginBottom: "1.5rem", display: "inline-block" }}>Services for Indian SMEs & Startups</span>

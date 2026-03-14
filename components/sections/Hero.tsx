@@ -37,7 +37,9 @@ export function Hero() {
         position: "relative",
       }}
     >
-      <GrowthSphere />
+      <div aria-label="3D holographic representation of a business growth system" style={{ position: "absolute", inset: 0 }}>
+        <GrowthSphere />
+      </div>
 
       <div className="container mx-auto px-6">
         {/* Pre-headline tag */}

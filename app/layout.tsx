@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     template: "%s | Ashique | Brand Strategist & Lead Gen India",
   },
   description:
-    "Ashique helps SMEs and Startups generate qualified leads and scale through engineered growth systems. Download your free 15-Point Lead Gen Audit today.",
+    "Ashique helps SMEs and Startups in India generate qualified leads and scale through engineered growth systems. Download your free 15-Point Lead Gen Audit today.",
   metadataBase: new URL("https://ashique.digital"),
   alternates: {
     canonical: "/",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     siteName: "Ashique Digital",
     title: "Ashique | Brand Strategist & Lead Generation India",
     description:
-      "Ashique helps SMEs and Startups generate qualified leads and scale through engineered growth systems. Download your free 15-Point Lead Gen Audit today.",
+      "Ashique helps SMEs and Startups in India generate qualified leads and scale through engineered growth systems. Download your free 15-Point Lead Gen Audit today.",
     images: [
       {
         url: "/og/home.png",
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Ashique | Brand Strategist & Lead Generation India",
     description:
-      "Ashique helps SMEs and Startups generate qualified leads and scale through engineered growth systems. Download your free 15-Point Lead Gen Audit today.",
+      "Ashique helps SMEs and Startups in India generate qualified leads and scale through engineered growth systems. Download your free 15-Point Lead Gen Audit today.",
     images: ["/og/home.png"],
   },
   robots: {
@@ -71,6 +71,55 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en-IN" className={`${syne.variable} ${inter.variable}`} data-scroll-behavior="smooth">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ProfessionalService",
+              "name": "Ashique Digital",
+              "image": "https://ashique.digital/og/home.png",
+              "@id": "https://ashique.digital",
+              "url": "https://ashique.digital",
+              "telephone": "",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "",
+                "addressLocality": "Kerala",
+                "addressRegion": "India",
+                "postalCode": "",
+                "addressCountry": "IN"
+              },
+              "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 10.8505,
+                "longitude": 76.2711
+              },
+              "areaServed": "India",
+              "description": "Lead generation and brand strategy consultant for Indian SMEs and Startups.",
+              "priceRange": "Contact for Pricing"
+            })
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "Ashique",
+              "url": "https://ashique.digital",
+              "jobTitle": "Brand Strategist & Lead Generation Consultant",
+              "knowsAbout": ["Brand Strategy", "Lead Generation", "Funnel Engineering", "Growth Marketing", "Indian SME Market"],
+              "sameAs": [
+                "https://github.com/frpboy",
+                "https://cal.com/frpboy/strategy"
+              ]
+            })
+          }}
+        />
+      </head>
       <body className="antialiased">
         <PostHogProvider>
           <ThreeSceneProvider>

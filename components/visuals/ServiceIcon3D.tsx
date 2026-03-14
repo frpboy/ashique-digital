@@ -44,6 +44,7 @@ export default function ServiceIcon3D() {
       ref={containerRef}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      aria-label="Interactive 3D service diagnostic node"
       style={{ width: "60px", height: "60px", cursor: "pointer", position: "relative" }}
     >
       <View track={containerRef as any}>

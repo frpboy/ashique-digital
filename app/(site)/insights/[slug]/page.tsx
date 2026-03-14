@@ -143,18 +143,26 @@ export default async function InsightDetailPage({ params }: Props) {
             "@type": "BlogPosting",
             headline: post.seoTitle ?? post.title,
             description: post.seoDescription ?? post.excerpt,
-            image: post.coverImage ? "https://ashique.digital/og/home.png" : undefined, // Replace with dynamic image if available
+            image: post.coverImage ? "https://ashique.digital/og/home.png" : undefined, 
             datePublished: post.publishedAt,
             author: { "@type": "Person", name: "Ashique" },
             publisher: {
               "@type": "Organization",
-              name: "Ashique Digital",
-              logo: { "@type": "ImageObject", url: "https://ashique.digital/logo.png" }
+              "name": "Ashique Digital"
             },
-            mainEntityOfPage: { "@type": "WebPage", "@id": `https://ashique.digital/insights/${post.slug.current}` }
+            mainEntityOfPage: { "@type": "WebPage", "@id": `https://ashique.digital/insights/${post.slug.current}` },
+            "speakable": {
+              "@type": "SpeakableSpecification",
+              "cssSelector": [".article-body", "#ai-summary"]
+            }
           }),
         }}
       />
+
+      {/* AI Summary Block (Clipping) */}
+      <div id="ai-summary" style={{ display: "none" }} aria-hidden="true">
+        {post.seoDescription ?? post.excerpt}
+      </div>
 
       <section style={{ paddingTop: "8rem", paddingBottom: "3.5rem", background: "var(--color-bg)", borderBottom: "1px solid rgba(0,0,0,0.05)" }}>
         <div className="container" style={{ maxWidth: "740px", margin: "0 auto" }}>
