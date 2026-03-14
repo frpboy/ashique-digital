@@ -134,8 +134,30 @@ export default async function InsightDetailPage({ params }: Props) {
 
   return (
     <>
+      {/* Article Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            headline: post.seoTitle ?? post.title,
+            description: post.seoDescription ?? post.excerpt,
+            image: post.coverImage ? "https://ashique.digital/og/home.png" : undefined, // Replace with dynamic image if available
+            datePublished: post.publishedAt,
+            author: { "@type": "Person", name: "Ashique" },
+            publisher: {
+              "@type": "Organization",
+              name: "Ashique Digital",
+              logo: { "@type": "ImageObject", url: "https://ashique.digital/logo.png" }
+            },
+            mainEntityOfPage: { "@type": "WebPage", "@id": `https://ashique.digital/insights/${post.slug.current}` }
+          }),
+        }}
+      />
+
       <section style={{ paddingTop: "8rem", paddingBottom: "3.5rem", background: "var(--color-bg)", borderBottom: "1px solid rgba(0,0,0,0.05)" }}>
-        <div className="container" style={{ maxWidth: "800px", margin: "0 auto" }}>
+        <div className="container" style={{ maxWidth: "740px", margin: "0 auto" }}>
           <Link href="/insights" style={{ display: "inline-flex", alignItems: "center", gap: "0.4rem", color: "var(--color-accent)", marginBottom: "1.5rem", fontSize: "0.875rem", fontWeight: 600 }}>
             <ArrowLeft size={14} /> All Insights
           </Link>
@@ -146,7 +168,7 @@ export default async function InsightDetailPage({ params }: Props) {
               ))}
             </div>
           )}
-          <h1 style={{ marginBottom: "1.25rem", lineHeight: 1.15 }}>{post.title}</h1>
+          <h1 style={{ marginBottom: "1.25rem", lineHeight: 1.15, fontSize: "clamp(2.25rem, 5vw, 3.5rem)" }}>{post.title}</h1>
           <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", color: "var(--color-text-muted)", fontSize: "0.875rem", fontWeight: 500 }}>
             <Calendar size={14} />
             {new Date(post.publishedAt).toLocaleDateString("en-IN", { year: "numeric", month: "long", day: "numeric" })}
@@ -158,7 +180,7 @@ export default async function InsightDetailPage({ params }: Props) {
         <div
           className="container"
           style={{
-            maxWidth: "800px",
+            maxWidth: "740px",
             margin: "0 auto",
           }}
         >
@@ -168,7 +190,9 @@ export default async function InsightDetailPage({ params }: Props) {
             </p>
           </div>
 
-          <PortableText value={post.body} components={ptComponents} />
+          <div className="article-body">
+            <PortableText value={post.body} components={ptComponents} />
+          </div>
 
           <div style={{ marginTop: "4rem", paddingTop: "2rem", borderTop: "1px solid var(--color-muted)" }}>
             <p style={{ fontWeight: 600, color: "var(--color-primary)", marginBottom: "0.5rem" }}>Found this useful?</p>

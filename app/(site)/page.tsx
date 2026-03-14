@@ -10,11 +10,11 @@ import { Testimonials } from "@/components/sections/Testimonials";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 
 export const metadata: Metadata = {
-  title: "Ashique | Brand Strategist & Lead Generation Consultant",
+  title: "Ashique | Brand Strategist & Lead Generation India",
   description:
-    "Stop running ads. Start building a growth system. Book a free strategy call with Ashique — Brand Strategist & Lead Generation Consultant helping Indian SMEs and startups scale predictably.",
+    "Stop running ads. Start building a growth system. Book a free strategy call with Ashique — Brand Strategist & Lead Generation consultant helping Indian SMEs and startups scale predictably.",
   openGraph: {
-    title: "Ashique | Brand Strategist & Lead Generation Consultant",
+    title: "Ashique | Brand Strategist & Lead Generation India",
     description:
       "Stop running ads. Start building a growth system. Book your free 30-minute strategy call.",
     url: "https://ashique.digital",
@@ -31,25 +31,31 @@ export default function HomePage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "ProfessionalService",
-            name: "Ashique Digital",
+            name: "Ashique Digital Growth",
             image: "https://ashique.digital/og/home.png",
             "@id": "https://ashique.digital",
             url: "https://ashique.digital",
             telephone: "",
+            priceRange: "₹₹₹",
+            description: "Strategic Brand and Lead Generation consulting for Indian SMEs and high-growth startups.",
             address: {
               "@type": "PostalAddress",
-              "addressCountry": "IN"
+              "addressCountry": "IN",
+              "addressRegion": "India"
             },
+            areaServed: "India",
             geo: {
               "@type": "GeoCoordinates",
-              "latitude": 20.5937,
-              "longitude": 78.9629
+              "latitude": 10.8505,
+              "longitude": 76.2711
             },
             serviceType: [
               "Brand Strategy",
               "Lead Generation",
               "Funnel Design",
-              "Paid Ads Management"
+              "Paid Ads Management",
+              "MarketingService",
+              "ConsultingService"
             ],
             founder: {
               "@type": "Person",
@@ -62,7 +68,7 @@ export default function HomePage() {
             },
             sameAs: [
               "https://linkedin.com/in/ashique",
-              "https://twitter.com/ashique"
+              "https://github.com/frpboy"
             ]
           }),
         }}

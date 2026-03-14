@@ -118,6 +118,34 @@ export default async function CaseStudyDetailPage({ params }: Props) {
           </aside>
         </div>
       </section>
+
+      {/* Floating CTA for Mobile/Quick Access */}
+      <div 
+        style={{ 
+          position: "fixed", 
+          bottom: "2rem", 
+          left: "2rem", 
+          zIndex: 100,
+          display: "block"
+        }}
+      >
+        <Link 
+          href="https://cal.com/frpboy/strategy"
+          target="_blank"
+          className="btn btn-accent"
+          style={{ 
+            boxShadow: "0 10px 30px rgba(0, 194, 203, 0.4)",
+            borderRadius: "99px",
+            padding: "0.75rem 1.5rem",
+            fontSize: "0.875rem",
+            fontWeight: 800,
+            textTransform: "uppercase",
+            letterSpacing: "0.05em"
+          }}
+        >
+          Book Call
+        </Link>
+      </div>
     </>
   );
 }

@@ -63,7 +63,45 @@ export default function FreeAuditPage() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--color-bg)", display: "flex", alignItems: "center", justifyContent: "center", padding: "2rem" }}>
+    <>
+      {/* FAQ Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What is included in the 15-Point Growth Audit?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "The audit includes a comprehensive diagnostic of your lead generation funnel, ad spend efficiency (ROAS), landing page conversion rate optimization (CRO), and a 12-month growth roadmap."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How can this audit reduce my CAC?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "By identifying leaks in your funnel and optimizing your 'Speed to Lead' metrics, the audit provides actionable steps to lower your Customer Acquisition Cost (CAC) by up to 40%."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is this audit specific to Indian businesses?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes, while the growth principles are global, the audit is specifically optimized for Indian SMEs and high-growth startups operating in the unique Indian digital ecosystem."
+                }
+              }
+            ]
+          }),
+        }}
+      />
+
+      <div style={{ minHeight: "100vh", background: "var(--color-bg)", display: "flex", alignItems: "center", justifyContent: "center", padding: "2rem" }}>
       <div style={{ width: "100%", maxWidth: "520px" }}>
         {/* Header */}
         <motion.div 

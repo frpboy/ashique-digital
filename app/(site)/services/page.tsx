@@ -3,8 +3,8 @@ import Link from "next/link";
 import { ArrowRight, Target, LineChart, Magnet, Funnel, DollarSign, TrendingUp } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Services — Brand Strategy, Lead Generation & Growth Consulting",
-  description: "Six specialised services designed to build predictable, systemised growth. Brand strategy, lead generation, funnel design, paid ads, and more.",
+  title: "Lead Generation for SMEs in India — Services",
+  description: "Six specialised services designed to scale Indian SMEs and Startups in India. Brand strategy, lead generation systems, and growth consulting.",
 };
 
 const services = [
@@ -69,14 +69,14 @@ export default function ServicesPage() {
     <>
       <section style={{ paddingTop: "8rem", paddingBottom: "4rem", background: "var(--color-bg)" }}>
         <div className="container">
-          <span className="tag" style={{ marginBottom: "1.5rem", display: "inline-block" }}>Services</span>
+          <span className="tag" style={{ marginBottom: "1.5rem", display: "inline-block" }}>Services for Indian SMEs & Startups</span>
           <h1 style={{ maxWidth: "16ch", marginBottom: "1.5rem" }}>
             Six services. One goal:{" "}
             <span style={{ color: "var(--color-accent)" }}>predictable growth.</span>
           </h1>
           <p style={{ maxWidth: "55ch", fontSize: "1.125rem", color: "var(--color-text-muted)", lineHeight: 1.8 }}>
-            Every engagement is built around your specific situation — not a retainer template.
-            Here&apos;s what I offer and who each service is for.
+            I help startups in India and Indian SMEs build high-authority brand systems.
+            Every engagement is personalised — not a template.
           </p>
         </div>
       </section>

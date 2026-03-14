@@ -13,7 +13,20 @@ export const post = defineType({
     defineField({ name: "excerpt", title: "Excerpt", type: "text", rows: 3, validation: (r) => r.required().max(200) }),
     defineField({ name: "body", title: "Body", type: "array", of: [{ type: "block" }, { type: "image", options: { hotspot: true } }] }),
     defineField({ name: "tags", title: "Tags", type: "array", of: [{ type: "string" }], options: { layout: "tags" } }),
-    defineField({ name: "coverImage", title: "Cover Image", type: "image", options: { hotspot: true } }),
+    defineField({ 
+      name: "coverImage", 
+      title: "Cover Image", 
+      type: "image", 
+      options: { hotspot: true },
+      fields: [
+        {
+          name: "alt",
+          type: "string",
+          title: "Alternative Text",
+          validation: (Rule) => Rule.required().error("Alt text is mandatory for SEO and accessibility."),
+        },
+      ],
+    }),
     defineField({ name: "publishedAt", title: "Published At", type: "datetime" }),
     defineField({ name: "seoTitle", title: "SEO Title (optional)", type: "string" }),
     defineField({ name: "seoDescription", title: "SEO Description (optional)", type: "text", rows: 2 }),

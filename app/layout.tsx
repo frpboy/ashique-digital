@@ -26,18 +26,21 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Ashique | Brand Strategist & Lead Generation Consultant",
-    template: "%s | Ashique — ashique.digital",
+    default: "Ashique | Brand Strategist & Lead Generation India",
+    template: "%s | Ashique | Brand Strategist & Lead Gen India",
   },
   description:
     "Ashique helps SMEs and Startups generate qualified leads and scale through engineered growth systems. Download your free 15-Point Lead Gen Audit today.",
   metadataBase: new URL("https://ashique.digital"),
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
     locale: "en_IN",
     url: "https://ashique.digital",
     siteName: "Ashique Digital",
-    title: "Ashique | Brand Strategist & Lead Generation Consultant",
+    title: "Ashique | Brand Strategist & Lead Generation India",
     description:
       "Ashique helps SMEs and Startups generate qualified leads and scale through engineered growth systems. Download your free 15-Point Lead Gen Audit today.",
     images: [
@@ -45,14 +48,15 @@ export const metadata: Metadata = {
         url: "/og/home.png",
         width: 1200,
         height: 630,
-        alt: "Ashique — Brand Strategist & Lead Generation Consultant",
+        alt: "Ashique — Brand Strategist & Lead Generation India",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ashique | Brand Strategist & Lead Generation Consultant",
-    description: "Ashique helps SMEs and Startups generate qualified leads and scale through engineered growth systems. Download your free 15-Point Lead Gen Audit today.",
+    title: "Ashique | Brand Strategist & Lead Generation India",
+    description:
+      "Ashique helps SMEs and Startups generate qualified leads and scale through engineered growth systems. Download your free 15-Point Lead Gen Audit today.",
     images: ["/og/home.png"],
   },
   robots: {
@@ -66,7 +70,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${syne.variable} ${inter.variable}`} data-scroll-behavior="smooth">
+    <html lang="en-IN" className={`${syne.variable} ${inter.variable}`} data-scroll-behavior="smooth">
       <body className="antialiased">
         <PostHogProvider>
           <ThreeSceneProvider>

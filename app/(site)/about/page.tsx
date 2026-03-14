@@ -3,8 +3,8 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "About Ashique — Brand Strategist & Lead Gen Consultant",
-  description: "Learn about Ashique's background, philosophy, and approach to helping ambitious businesses build systemised growth.",
+  title: "Growth Strategist India — About Ashique",
+  description: "Ashique is a leading Growth Strategist in India helping ambitious SMEs and Startups build systemised lead generation and brand authority.",
 };
 
 export default function AboutPage() {
@@ -13,14 +13,14 @@ export default function AboutPage() {
       {/* Hero */}
       <section style={{ paddingTop: "8rem", paddingBottom: "4rem", background: "var(--color-bg)" }}>
         <div className="container">
-          <span className="tag" style={{ marginBottom: "1.5rem", display: "inline-block" }}>About Ashique</span>
+          <span className="tag" style={{ marginBottom: "1.5rem", display: "inline-block" }}>Growth Strategist India</span>
           <h1 style={{ maxWidth: "14ch", marginBottom: "1.5rem" }}>
             I engineer growth systems.<br />
             <span style={{ color: "var(--color-accent)" }}>Not just campaigns.</span>
           </h1>
           <p style={{ maxWidth: "55ch", fontSize: "1.125rem", color: "var(--color-text-muted)", lineHeight: 1.8 }}>
-            I&apos;m Ashique — a Brand Strategist and Lead Generation Consultant helping SMEs
-            and startups across India build predictable, scalable growth infrastructure.
+            I&apos;m Ashique — a Growth Strategist in India helping Indian SMEs
+            and startups in India build predictable, scalable growth infrastructure.
             Not spray-and-pray ads. Real systems.
           </p>
         </div>
