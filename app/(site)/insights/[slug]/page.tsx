@@ -188,7 +188,7 @@ export default async function InsightDetailPage({ params }: Props) {
         <div
           className="container"
           style={{
-            maxWidth: "740px",
+            maxWidth: "65ch",
             margin: "0 auto",
           }}
         >

@@ -202,5 +202,126 @@ export default function FreeAuditPage() {
         </div>
       </div>
     </div>
+
+      {/* The 15-Point Blueprint Section */}
+      <section style={{ padding: "8rem 0", background: "#fff", borderTop: "1px solid var(--color-muted)" }}>
+        <div className="container" style={{ maxWidth: "1000px" }}>
+          <div style={{ textAlign: "center", marginBottom: "5rem" }}>
+            <span className="accent-line" style={{ margin: "0 auto 1.5rem" }} />
+            <h2 style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)", marginBottom: "1.5rem", letterSpacing: "-0.03em" }}>The Engine Mindset vs.<br /> The <span style={{ color: "var(--color-accent)" }}>Campaign Mindset</span></h2>
+            <p style={{ color: "var(--color-text-muted)", fontSize: "1.125rem", maxWidth: "65ch", margin: "0 auto", lineHeight: 1.8 }}>
+              Most businesses treat marketing as a series of isolated sprints. I build interconnected machines. 
+              The 15-point audit is a diagnostic tool designed to pinpoint exactly where your growth engine is leaking.
+            </p>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2.5rem" }}>
+             {/* Pillar 1 */}
+             <div style={{ padding: "2rem", background: "var(--color-bg)", borderRadius: "12px", border: "1px solid var(--color-muted)" }}>
+                <h3 style={{ marginBottom: "1.5rem", display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                   <span style={{ width: "32px", height: "32px", borderRadius: "50%", background: "var(--color-primary)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.875rem" }}>01</span>
+                   Brand Infrastructure
+                </h3>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "1rem" }}>
+                   {[
+                      { t: "ICP Definition", d: "Zeroing in on the high-intent buyers who profit most from your service." },
+                      { t: "The 5-Second UVP", d: "Pass the 'squint test' — can a stranger understand your value in 5 seconds?" },
+                      { t: "Market Resonance", d: "Messaging that mirrors the actual pain points your customers feel." },
+                      { t: "Proof Hierarchy", d: "Leading with outcomes and quantifiable ROI, not just features." }
+                   ].map((item, i) => (
+                      <li key={i}>
+                         <p style={{ fontWeight: 700, fontSize: "0.9375rem", marginBottom: "0.25rem", color: "var(--color-primary)" }}>{item.t}</p>
+                         <p style={{ fontSize: "0.875rem", color: "var(--color-text-muted)", lineHeight: 1.6 }}>{item.d}</p>
+                      </li>
+                   ))}
+                </ul>
+             </div>
+
+             {/* Pillar 2 */}
+             <div style={{ padding: "2rem", background: "var(--color-bg)", borderRadius: "12px", border: "1px solid var(--color-muted)" }}>
+                <h3 style={{ marginBottom: "1.5rem", display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                   <span style={{ width: "32px", height: "32px", borderRadius: "50%", background: "var(--color-primary)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.875rem" }}>02</span>
+                   Conversion Funnel
+                </h3>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "1rem" }}>
+                   {[
+                      { t: "The Value Hook", d: "Replacing 'cold asks' with high-value strategic exchanges." },
+                      { t: "Landing Page Friction", d: "Optimizing the point of commitment by removing cognitive load." },
+                      { t: "Mobile Velocity", d: "Ensuring 3-second load times on 4G — the speed of trust." },
+                      { t: "The 'Thank You' Bridge", d: "Capturing intent immediately through Cal.com or WhatsApp." }
+                   ].map((item, i) => (
+                      <li key={i}>
+                         <p style={{ fontWeight: 700, fontSize: "0.9375rem", marginBottom: "0.25rem", color: "var(--color-primary)" }}>{item.t}</p>
+                         <p style={{ fontSize: "0.875rem", color: "var(--color-text-muted)", lineHeight: 1.6 }}>{item.d}</p>
+                      </li>
+                   ))}
+                </ul>
+             </div>
+
+             {/* Pillar 3 */}
+             <div style={{ padding: "2rem", background: "var(--color-bg)", borderRadius: "12px", border: "1px solid var(--color-muted)" }}>
+                <h3 style={{ marginBottom: "1.5rem", display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                   <span style={{ width: "32px", height: "32px", borderRadius: "50%", background: "var(--color-primary)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.875rem" }}>03</span>
+                   Traffic & Data
+                </h3>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "1rem" }}>
+                   {[
+                      { t: "Pixel & API Health", d: "Securing the lifeblood of AI learning with robust server-side tracking." },
+                      { t: "Commercial Intent", d: "Prioritizing buyers over browsers through diagnostic keyword targeting." },
+                      { t: "Creative Fatigue", d: "A rigid refresh schedule to defeat ad decay every 21 days." },
+                      { t: "Negative Filtering", d: "Purging junk clicks to protect your budget and AI training data." }
+                   ].map((item, i) => (
+                      <li key={i}>
+                         <p style={{ fontWeight: 700, fontSize: "0.9375rem", marginBottom: "0.25rem", color: "var(--color-primary)" }}>{item.t}</p>
+                         <p style={{ fontSize: "0.875rem", color: "var(--color-text-muted)", lineHeight: 1.6 }}>{item.d}</p>
+                      </li>
+                   ))}
+                </ul>
+             </div>
+          </div>
+
+          <div style={{ marginTop: "4rem", display: "flex", justifyContent: "center" }}>
+             <div style={{ maxWidth: "500px", background: "var(--color-primary)", borderRadius: "12px", padding: "2.5rem", color: "#fff", textAlign: "center" }}>
+                <h3 style={{ color: "#fff", marginBottom: "1rem" }}>The Profit Feedback Loop</h3>
+                <p style={{ color: "var(--color-text-on-dark)", fontSize: "0.9375rem", lineHeight: 1.7, marginBottom: "1.5rem" }}>
+                   The final stage of the 15-point system: Closing the loop between your CRM and Ad Platforms. 
+                   We stop scaling on vanity metrics (leads) and start scaling on real ROI (closed sales).
+                </p>
+                <div style={{ display: "flex", justifyContent: "center", gap: "1.5rem" }}>
+                   <div style={{ textAlign: "center" }}>
+                      <p style={{ color: "var(--color-accent)", fontWeight: 800, fontSize: "1.25rem" }}>13</p>
+                      <p style={{ fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.1em" }}>Speed to Lead</p>
+                   </div>
+                   <div style={{ textAlign: "center" }}>
+                      <p style={{ color: "var(--color-accent)", fontWeight: 800, fontSize: "1.25rem" }}>14</p>
+                      <p style={{ fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.1em" }}>Multi-Nurture</p>
+                   </div>
+                   <div style={{ textAlign: "center" }}>
+                      <p style={{ color: "var(--color-accent)", fontWeight: 800, fontSize: "1.25rem" }}>15</p>
+                      <p style={{ fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.1em" }}>ROI Closing</p>
+                   </div>
+                </div>
+             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Final Section for trust */}
+      <section style={{ padding: "5rem 0", background: "var(--color-bg)" }}>
+         <div className="container" style={{ textAlign: "center", maxWidth: "600px" }}>
+            <h2 style={{ marginBottom: "1.5rem" }}>A Blueprint for Indian SMEs</h2>
+            <p style={{ color: "var(--color-text-muted)", lineHeight: 1.8, marginBottom: "2.5rem" }}>
+               I spend ₹X Lakhs monthly for my clients. I know exactly where the money leaks. 
+               Get the diagnostic before you spend your next ₹1.
+            </p>
+            <button 
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="btn btn-primary"
+            >
+              Get My Audit Now <ArrowRight size={18} />
+            </button>
+         </div>
+      </section>
+    </>
   );
 }

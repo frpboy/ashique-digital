@@ -2,7 +2,7 @@
 module.exports = {
   siteUrl: process.env.SITE_URL || 'https://ashique.digital',
   generateRobotsTxt: true,
-  exclude: ['/api/*', '/studio/*'],
+  exclude: ['/api/*', '/studio/*', '/contact/success', '/studio'],
   robotsTxtOptions: {
     additionalSitemaps: [
       // Add other sitemaps here if any
