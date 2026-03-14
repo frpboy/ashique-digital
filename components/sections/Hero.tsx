@@ -76,7 +76,7 @@ export function Hero() {
         }
       `}</style>
 
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-6" style={{ position: "relative", zIndex: 10 }}>
         {/* Pre-headline tag */}
         <div
           className="tag"

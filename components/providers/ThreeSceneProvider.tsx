@@ -32,7 +32,7 @@ export function ThreeSceneProvider({ children }: { children: React.ReactNode }) 
           left: 0,
           width: "100vw",
           height: "100vh",
-          zIndex: -1, // Behind everything
+          zIndex: 0, // Above section backgrounds but below interactive UI
           pointerEvents: "none",
         }}
         dpr={[1, 1.5]}
