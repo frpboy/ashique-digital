@@ -60,11 +60,12 @@ function Lattice({ isMobile }: { isMobile: boolean }) {
       <mesh ref={meshRef} geometry={geometry}>
         <meshStandardMaterial 
           wireframe 
-          color="#0D1B2A" 
+          color="#00C2CB" 
           transparent 
-          opacity={0.3} 
+          opacity={0.8} 
           metalness={0.9} 
           roughness={0.1}
+          depthTest={false}
         />
       </mesh>
 
@@ -126,7 +127,7 @@ export default function NeuralCore() {
         <spotLight position={[-10, 10, 10]} angle={0.15} penumbra={1} intensity={0.5} />
         
         <Suspense fallback={null}>
-          {inView && <Lattice isMobile={typeof window !== 'undefined' && window.innerWidth < 768} />}
+          <Lattice isMobile={typeof window !== 'undefined' && window.innerWidth < 768} />
         </Suspense>
       </View>
     </div>

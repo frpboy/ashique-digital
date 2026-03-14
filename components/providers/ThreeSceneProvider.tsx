@@ -32,7 +32,7 @@ export function ThreeSceneProvider({ children }: { children: React.ReactNode }) 
           left: 0,
           width: "100vw",
           height: "100vh",
-          zIndex: 0, // Lowered Z-index to avoid blocking UI interactions
+          zIndex: 5, // Above section backgrounds but below interactive UI
           pointerEvents: "none",
         }}
         dpr={[1, 1.5]}

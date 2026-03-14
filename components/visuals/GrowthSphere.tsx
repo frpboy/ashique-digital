@@ -8,13 +8,15 @@ import { useInView } from "react-intersection-observer";
 
 function AnimatedSphere({ isMobile }: { isMobile: boolean }) {
   const meshRef = useRef<THREE.Mesh>(null);
+  const elapsed = useRef(0);
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
+    elapsed.current += delta;
     if (meshRef.current) {
-      const elapsed = state.clock.getElapsedTime();
+      const t = elapsed.current;
       // Rotation
-      meshRef.current.rotation.x = elapsed * 0.2;
-      meshRef.current.rotation.y = elapsed * 0.3;
+      meshRef.current.rotation.x = t * 0.2;
+      meshRef.current.rotation.y = t * 0.3;
       
       // Gentle mouse follow (Tilt)
       const targetRotateX = state.mouse.y * 0.2;

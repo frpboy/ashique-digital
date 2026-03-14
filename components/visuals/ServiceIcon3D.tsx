@@ -9,7 +9,9 @@ function IconMesh({ hovered }: { hovered: boolean }) {
   const meshRef = useRef<THREE.Mesh>(null);
   
   // Use a stable reference to avoid frame-skipping if needed
-  useFrame((state) => {
+  const elapsed = useRef(0);
+  useFrame((state, delta) => {
+    elapsed.current += delta;
     if (meshRef.current) {
       meshRef.current.rotation.x = THREE.MathUtils.lerp(
         meshRef.current.rotation.x,

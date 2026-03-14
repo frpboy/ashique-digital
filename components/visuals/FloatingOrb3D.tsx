@@ -8,10 +8,12 @@ import * as THREE from "three";
 function OrbMesh({ isThinking }: { isThinking?: boolean }) {
   const meshRef = useRef<THREE.Mesh>(null);
 
-  useFrame((state) => {
+  const elapsed = useRef(0);
+  useFrame((state, delta) => {
+    elapsed.current += delta;
     if (meshRef.current) {
-      meshRef.current.rotation.y = state.clock.getElapsedTime() * (isThinking ? 1.5 : 0.4);
-      meshRef.current.rotation.z = state.clock.getElapsedTime() * (isThinking ? 1 : 0.2);
+      meshRef.current.rotation.y = elapsed.current * (isThinking ? 1.5 : 0.4);
+      meshRef.current.rotation.z = elapsed.current * (isThinking ? 1 : 0.2);
     }
   });
 
