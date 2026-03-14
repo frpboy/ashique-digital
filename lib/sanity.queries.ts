@@ -14,7 +14,7 @@ export const allCaseStudiesQuery = `
 export const caseStudyBySlugQuery = `
   *[_type == "caseStudy" && slug.current == $slug][0] {
     _id, title, clientIndustry, problem, strategy, execution,
-    metrics, testimonial, clientName, coverImage, publishedAt
+    metrics, testimonial, clientName, coverImage, publishedAt, slug
   }
 `;
 
@@ -34,7 +34,7 @@ export const postsByTagQuery = `
 export const postBySlugQuery = `
   *[_type == "post" && slug.current == $slug][0] {
     _id, title, excerpt, body, tags, coverImage, publishedAt,
-    seoTitle, seoDescription
+    seoTitle, seoDescription, slug
   }
 `;
 
@@ -64,6 +64,6 @@ export const allServicesQuery = `
 
 export const serviceBySlugQuery = `
   *[_type == "service" && slug.current == $slug][0] {
-    _id, title, description, deliverables, outcome, icon
+    _id, title, description, deliverables, outcome, icon, slug
   }
 `;
