@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+import Script from "next/script";
 import type { Metadata } from "next";
 import { Syne, Inter } from "next/font/google";
 import "./globals.css";
@@ -117,6 +118,29 @@ export default function RootLayout({
                 "https://cal.com/frpboy/strategy"
               ]
             })
+          }}
+        />
+        <Script
+          id="cal-init"
+          strategy="lazyOnload"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function (C, A, L) {
+                let p = function (a, ar) { a.q.push(ar); };
+                let d = C.document;
+                C.Cal = C.Cal || function () {
+                  let cal = C.Cal;
+                  let ar = arguments;
+                  if (!cal.loaded) {
+                    cal.q = cal.q || [];
+                    cal.loaded = true;
+                  }
+                  p(cal, ar);
+                };
+                C.Cal("init", { origin: "https://cal.com" });
+                C.Cal("ui", { theme: "light", styles: { branding: { brandColor: "#00c2cb" } } });
+              })(window, "https://api.cal.com", "cal");
+            `
           }}
         />
       </head>

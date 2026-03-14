@@ -35,7 +35,7 @@ export function ThreeSceneProvider({ children }: { children: React.ReactNode }) 
           zIndex: 0, // Lowered Z-index to avoid blocking UI interactions
           pointerEvents: "none",
         }}
-        dpr={[1, 2]}
+        dpr={[1, 1.5]}
         gl={{ 
           antialias: true, 
           alpha: true, 

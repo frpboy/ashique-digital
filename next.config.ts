@@ -5,7 +5,7 @@ const securityHeaders = [
   { key: "X-XSS-Protection", value: "1; mode=block" },
   { key: "X-Frame-Options", value: "SAMEORIGIN" },
   { key: "X-Content-Type-Options", value: "nosniff" },
-  { key: "Referrer-Policy", value: "origin-when-cross-origin" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
   {
     key: "Content-Security-Policy",
@@ -42,8 +42,12 @@ const nextConfig: NextConfig = {
         destination: "https://us.i.posthog.com/:path*",
       },
       {
+        source: "/growth-audit.pdf",
+        destination: "https://cdn.sanity.io/files/htusynl3/production/6264e6e2a46e34574925916f5f07138a108c118a.pdf",
+      },
+      {
         source: "/lead-gen-audit.pdf",
-        destination: "/lead-gen-audit.pdf", // Serve from public folder
+        destination: "/lead-gen-audit.pdf", // legacy support or public fallback
       },
     ];
   },

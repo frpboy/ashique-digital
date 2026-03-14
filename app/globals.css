@@ -65,11 +65,11 @@ h3 { font-size: clamp(1.25rem, 2.5vw, 1.5rem); }
 p { color: var(--color-text); line-height: 1.75; }
 
 a {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   text-decoration: none;
   transition: color 0.2s ease;
 }
-a:hover { color: var(--color-accent-dark); }
+a:hover { color: var(--color-accent); }
 
 /* ─── Utility Classes ─── */
 .container {

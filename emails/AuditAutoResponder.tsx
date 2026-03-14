@@ -20,7 +20,7 @@ interface AuditAutoResponderProps {
 
 export const AuditAutoResponder = ({
   name,
-  downloadUrl = "https://ashique.digital/lead-gen-audit.pdf",
+  downloadUrl = "https://ashique.digital/growth-audit.pdf",
 }: AuditAutoResponderProps) => {
   const firstName = name.split(" ")[0];
 

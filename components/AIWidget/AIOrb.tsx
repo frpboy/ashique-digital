@@ -10,7 +10,14 @@ import { motion, AnimatePresence } from "framer-motion";
 const WELCOME = "Hi! I'm Ashique's assistant. I can answer questions about his services, process, and past results — or help you book a free strategy call. What would you like to know?";
 
 export function AIWidget() {
+  const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => setMounted(true), 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
   const [messages, setMessages] = useState<ChatMessage[]>([
     { role: "assistant", content: WELCOME },
   ]);
@@ -93,6 +100,8 @@ export function AIWidget() {
       setLoading(false);
     }
   };
+
+  if (!mounted) return null;
 
   return (
     <>

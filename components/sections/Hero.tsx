@@ -6,9 +6,9 @@ import Link from "next/link";
 import { ArrowRight, TrendingUp, Users, Award } from "lucide-react";
 import posthog from "posthog-js";
 
-const GrowthSphere = dynamic(() => import("../visuals/GrowthSphere"), {
+const NeuralCore = dynamic(() => import("../visuals/NeuralCore"), {
   ssr: false,
-  loading: () => <div style={{ position: "absolute", top: 0, right: 0, width: "50vw", height: "100%", background: "radial-gradient(circle, rgba(0,194,203,0.05) 0%, transparent 70%)" }} />,
+  loading: () => <div className="animate-pulse" style={{ position: "absolute", inset: 0, background: "radial-gradient(circle, rgba(0,194,203,0.03) 0%, transparent 70%)" }} />,
 });
 
 const trustBadges = [
@@ -37,9 +37,44 @@ export function Hero() {
         position: "relative",
       }}
     >
-      <div aria-label="Hero Growth System Animation" style={{ position: "absolute", inset: 0 }}>
-        <GrowthSphere />
+      <div aria-label="Hero Growth System Animation" style={{ 
+        position: "absolute", 
+        inset: 0,
+        zIndex: 0,
+        pointerEvents: "none"
+      }}>
+        <div style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          justifyContent: "flex-end", // Desktop: Right-aligned
+          alignItems: "center"
+        }} className="hero-lattice-container">
+          <div style={{
+            width: "clamp(300px, 50vw, 800px)",
+            height: "100%",
+            opacity: "var(--lattice-opacity, 1)",
+            position: "relative"
+          }}>
+             <NeuralCore />
+          </div>
+        </div>
       </div>
+
+      <style jsx global>{`
+        @media (max-width: 768px) {
+          .hero-lattice-container {
+            justify-content: center !important;
+          }
+          :root {
+            --lattice-opacity: 0.2;
+          }
+        }
+      `}</style>
 
       <div className="container mx-auto px-6">
         {/* Pre-headline tag */}

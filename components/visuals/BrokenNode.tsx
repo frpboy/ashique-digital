@@ -8,10 +8,12 @@ import { useInView } from "react-intersection-observer";
 
 function BrokenSphere({ isMobile }: { isMobile: boolean }) {
   const meshRef = useRef<THREE.Mesh>(null);
+  const elapsed = useRef(0);
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
+    elapsed.current += delta;
     if (meshRef.current) {
-      const t = state.clock.getElapsedTime();
+      const t = elapsed.current;
       // slow drifting + slow glitchy rotation
       meshRef.current.rotation.y = t * 0.1;
       meshRef.current.rotation.z = Math.sin(t * 0.3) * 0.15;
