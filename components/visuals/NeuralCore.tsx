@@ -62,10 +62,10 @@ function Lattice({ isMobile }: { isMobile: boolean }) {
           wireframe 
           color="#00C2CB" 
           transparent 
-          opacity={0.8} 
+          opacity={0.15} 
           metalness={0.9} 
           roughness={0.1}
-          depthTest={false}
+          depthTest={true}
         />
       </mesh>
 
@@ -105,7 +105,7 @@ export default function NeuralCore() {
         top: 0,
         left: 0,
         pointerEvents: "none",
-        zIndex: 10
+        zIndex: 0
       }}
     >
       <View style={{ width: "100%", height: "100%" }}>

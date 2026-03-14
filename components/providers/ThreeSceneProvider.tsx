@@ -32,7 +32,7 @@ export function ThreeSceneProvider({ children }: { children: React.ReactNode }) 
           left: 0,
           width: "100vw",
           height: "100vh",
-          zIndex: 5, // Above section backgrounds but below interactive UI
+          zIndex: -1, // Behind everything
           pointerEvents: "none",
         }}
         dpr={[1, 1.5]}
@@ -40,7 +40,6 @@ export function ThreeSceneProvider({ children }: { children: React.ReactNode }) 
           antialias: true, 
           alpha: true, 
           powerPreference: "high-performance",
-          preserveDrawingBuffer: true 
         }}
         camera={{ position: [0, 0, 5], fov: 45 }}
       >
