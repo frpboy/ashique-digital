@@ -4,6 +4,11 @@
 
 Ashique Digital is a premium, high-performance web application built for **Ashique**, a Brand Strategist helping SMEs and startups turn digital marketing into predictable revenue engines.
 
+## Links
+
+- **Live website:** https://www.ashique.digital/
+- **Source code:** https://github.com/frpboy/ashique-digital
+
 ## ✨ Tech Stack & Architecture
 
 - **Framework**: [Next.js 15.3+](https://nextjs.org/) (App Router, Turbopack)
