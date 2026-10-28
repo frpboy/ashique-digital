@@ -19,7 +19,7 @@
     "@react-email/components": "^1.0.9",
     "@react-email/render": "^2.0.4",
     "@react-three/drei": "^10.7.7",
-    "@react-three/fiber": "^9.5.0",
+    "@react-three/fiber": "9.8.1",
     "@sanity/client": "^7.16.0",
     "@sanity/image-url": "^2.0.3",
     "@sanity/vision": "^5.15.0",
@@ -60,6 +60,7 @@
     "typescript": "^5"
   },
   "overrides": {
-    "@react-email/body": "0.3.0"
+    "@react-email/body": "0.3.0",
+    "adm-zip": "0.6.1"
   }
 }
