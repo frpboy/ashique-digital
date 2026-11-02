@@ -9,6 +9,55 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const WELCOME = "Hi! I'm Ashique's assistant. I can answer questions about his services, process, and past results — or help you book a free strategy call. What would you like to know?";
 
+/**
+ * Security: Safely renders assistant message content as React elements rather than
+ * injecting raw HTML via dangerouslySetInnerHTML. This prevents XSS attacks (e.g. from
+ * prompt injections or reflected untrusted inputs) while safely supporting markdown links and newlines.
+ */
+function renderFormattedMessage(content: string) {
+  const lines = content.split("\n");
+  const linkRegex = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
+
+  return lines.map((line, lineIdx) => {
+    const parts: React.ReactNode[] = [];
+    let lastIndex = 0;
+    let match: RegExpExecArray | null;
+
+    while ((match = linkRegex.exec(line)) !== null) {
+      if (match.index > lastIndex) {
+        parts.push(line.slice(lastIndex, match.index));
+      }
+      parts.push(
+        <a
+          key={`link-${lineIdx}-${match.index}`}
+          href={match[2]}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            color: "var(--color-accent)",
+            textDecoration: "underline",
+            fontWeight: 600,
+          }}
+        >
+          {match[1]}
+        </a>
+      );
+      lastIndex = linkRegex.lastIndex;
+    }
+
+    if (lastIndex < line.length) {
+      parts.push(line.slice(lastIndex));
+    }
+
+    return (
+      <span key={`line-${lineIdx}`}>
+        {lineIdx > 0 && <br />}
+        {parts}
+      </span>
+    );
+  });
+}
+
 export function AIWidget() {
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
@@ -297,16 +346,10 @@ export function AIWidget() {
                   }}
                 >
                   {msg.role === "assistant" ? (
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: (msg.content || (loading && i === messages.length - 1 ? "..." : ""))
-                          .replace(
-                            /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
-                            '<a href="$2" target="_blank" rel="noopener noreferrer" style="color: var(--color-accent); text-decoration: underline; font-weight: 600;">$1</a>'
-                          )
-                          .replace(/\n/g, "<br />")
-                      }}
-                    />
+                    <div>
+                      {/* Security Fix (Sentinel): Avoid dangerouslySetInnerHTML to prevent XSS from AI or user reflections */}
+                      {renderFormattedMessage(msg.content || (loading && i === messages.length - 1 ? "..." : ""))}
+                    </div>
                   ) : (
                     msg.content
                   )}
