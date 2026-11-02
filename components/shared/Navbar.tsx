@@ -17,8 +17,24 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
+    // Performance optimization: Throttle scroll updates using requestAnimationFrame
+    // and use passive event listener to keep scrolling smooth (60fps) and prevent main-thread jank.
+    let ticking = false;
+
+    const updateScroll = () => {
+      const isPastThreshold = window.scrollY > 20;
+      setScrolled((prev) => (prev !== isPastThreshold ? isPastThreshold : prev));
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateScroll);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
