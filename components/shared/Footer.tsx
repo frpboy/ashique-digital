@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import posthog from "posthog-js";
 
 const footerLinks = {
@@ -123,6 +123,10 @@ export function Footer() {
                 <form onSubmit={handleNewsletter} style={{ display: "flex", gap: "0.5rem" }}>
                   <input
                     type="email"
+                    id="footer-newsletter-email"
+                    name="email"
+                    aria-label="Email address for newsletter"
+                    autoComplete="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Email address"
@@ -142,14 +146,20 @@ export function Footer() {
                   <button
                     type="submit"
                     disabled={status === "loading"}
-                    className="btn btn-primary"
+                    aria-label={status === "loading" ? "Subscribing..." : "Subscribe to newsletter"}
+                    aria-busy={status === "loading"}
+                    className="btn btn-primary focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"
                     style={{
                       padding: "0.625rem 1rem",
                       borderRadius: "6px",
                       boxShadow: "none"
                     }}
                   >
-                    <ArrowRight size={18} />
+                    {status === "loading" ? (
+                      <Loader2 size={18} className="animate-spin" />
+                    ) : (
+                      <ArrowRight size={18} />
+                    )}
                   </button>
                 </form>
               )}
