@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import posthog from "posthog-js";
+import { toast } from "sonner";
 
 const footerLinks = {
   Services: [
@@ -33,7 +34,7 @@ export function Footer() {
 
   const handleNewsletter = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
+    if (!email || status === "loading") return;
     setStatus("loading");
     try {
       const res = await fetch("/api/newsletter", {
@@ -41,16 +42,20 @@ export function Footer() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
+      const data = await res.json().catch(() => null);
       if (res.ok) {
         setStatus("done");
+        toast.success(data?.message || "You're subscribed to weekly insights!");
         posthog.identify(email, { email });
         posthog.capture("newsletter_subscribed", { email, location: "footer" });
         setEmail("");
       } else {
         setStatus("error");
+        toast.error(data?.error || "Could not subscribe. Please try again.");
       }
     } catch {
       setStatus("error");
+      toast.error("Connection error. Please try again later.");
     }
   };
 
@@ -120,37 +125,55 @@ export function Footer() {
                   </p>
                 </div>
               ) : (
-                <form onSubmit={handleNewsletter} style={{ display: "flex", gap: "0.5rem" }}>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Email address"
-                    required
-                    style={{
-                      flex: 1,
-                      padding: "0.625rem 0.875rem",
-                      background: "rgba(255,255,255,0.05)",
-                      border: "1px solid rgba(255,255,255,0.15)",
-                      borderRadius: "6px",
-                      color: "#fff",
-                      fontSize: "0.875rem",
-                      outline: "none",
-                      minWidth: 0,
-                    }}
-                  />
-                  <button
-                    type="submit"
-                    disabled={status === "loading"}
-                    className="btn btn-primary"
-                    style={{
-                      padding: "0.625rem 1rem",
-                      borderRadius: "6px",
-                      boxShadow: "none"
-                    }}
-                  >
-                    <ArrowRight size={18} />
-                  </button>
+                <form onSubmit={handleNewsletter} style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                  <div style={{ display: "flex", gap: "0.5rem" }}>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                        if (status === "error") setStatus("idle");
+                      }}
+                      placeholder="Email address"
+                      aria-label="Email address for weekly insights"
+                      required
+                      style={{
+                        flex: 1,
+                        padding: "0.625rem 0.875rem",
+                        background: "rgba(255,255,255,0.05)",
+                        border: status === "error" ? "1px solid #ef4444" : "1px solid rgba(255,255,255,0.15)",
+                        borderRadius: "6px",
+                        color: "#fff",
+                        fontSize: "0.875rem",
+                        outline: "none",
+                        minWidth: 0,
+                      }}
+                    />
+                    <button
+                      type="submit"
+                      disabled={status === "loading"}
+                      aria-label={status === "loading" ? "Subscribing to newsletter..." : "Subscribe to weekly growth insights"}
+                      aria-busy={status === "loading"}
+                      className="btn btn-primary"
+                      style={{
+                        padding: "0.625rem 1rem",
+                        borderRadius: "6px",
+                        boxShadow: "none",
+                        cursor: status === "loading" ? "not-allowed" : "pointer",
+                      }}
+                    >
+                      {status === "loading" ? (
+                        <Loader2 size={18} className="animate-spin" />
+                      ) : (
+                        <ArrowRight size={18} />
+                      )}
+                    </button>
+                  </div>
+                  {status === "error" && (
+                    <p role="alert" style={{ color: "#f87171", fontSize: "0.8125rem", margin: 0 }}>
+                      Could not subscribe. Please check your email or try again.
+                    </p>
+                  )}
                 </form>
               )}
             </div>
