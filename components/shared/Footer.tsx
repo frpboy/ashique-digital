@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import posthog from "posthog-js";
 
 const footerLinks = {
@@ -114,43 +114,58 @@ export function Footer() {
                 Weekly Growth Insights
               </p>
               {status === "done" ? (
-                <div style={{ padding: "0.625rem", background: "rgba(0,194,203,0.1)", borderRadius: "4px", border: "1px solid var(--color-accent)" }}>
+                <div role="status" style={{ padding: "0.625rem", background: "rgba(0,194,203,0.1)", borderRadius: "4px", border: "1px solid var(--color-accent)" }}>
                   <p style={{ color: "var(--color-accent)", fontSize: "0.8125rem", fontWeight: 600 }}>
                     ✓ You&apos;re subscribed!
                   </p>
                 </div>
               ) : (
-                <form onSubmit={handleNewsletter} style={{ display: "flex", gap: "0.5rem" }}>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Email address"
-                    required
-                    style={{
-                      flex: 1,
-                      padding: "0.625rem 0.875rem",
-                      background: "rgba(255,255,255,0.05)",
-                      border: "1px solid rgba(255,255,255,0.15)",
-                      borderRadius: "6px",
-                      color: "#fff",
-                      fontSize: "0.875rem",
-                      outline: "none",
-                      minWidth: 0,
-                    }}
-                  />
-                  <button
-                    type="submit"
-                    disabled={status === "loading"}
-                    className="btn btn-primary"
-                    style={{
-                      padding: "0.625rem 1rem",
-                      borderRadius: "6px",
-                      boxShadow: "none"
-                    }}
-                  >
-                    <ArrowRight size={18} />
-                  </button>
+                <form onSubmit={handleNewsletter} style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+                  <div style={{ display: "flex", gap: "0.5rem" }}>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="Email address"
+                      aria-label="Email address for weekly growth newsletter"
+                      required
+                      className="focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none"
+                      style={{
+                        flex: 1,
+                        padding: "0.625rem 0.875rem",
+                        background: "rgba(255,255,255,0.05)",
+                        border: "1px solid rgba(255,255,255,0.15)",
+                        borderRadius: "6px",
+                        color: "#fff",
+                        fontSize: "0.875rem",
+                        outline: "none",
+                        minWidth: 0,
+                      }}
+                    />
+                    <button
+                      type="submit"
+                      disabled={status === "loading"}
+                      aria-label={status === "loading" ? "Subscribing to newsletter..." : "Subscribe to weekly newsletter"}
+                      className="btn btn-primary focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none"
+                      style={{
+                        padding: "0.625rem 1rem",
+                        borderRadius: "6px",
+                        boxShadow: "none",
+                        cursor: status === "loading" ? "not-allowed" : "pointer",
+                      }}
+                    >
+                      {status === "loading" ? (
+                        <Loader2 size={18} className="animate-spin" />
+                      ) : (
+                        <ArrowRight size={18} />
+                      )}
+                    </button>
+                  </div>
+                  {status === "error" && (
+                    <p role="alert" style={{ color: "#ef4444", fontSize: "0.75rem", margin: 0 }}>
+                      Failed to subscribe. Please try again.
+                    </p>
+                  )}
                 </form>
               )}
             </div>
