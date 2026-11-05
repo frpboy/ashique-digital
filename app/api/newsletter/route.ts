@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { sendEmail } from "@/lib/resend";
 import { getPostHogClient } from "@/lib/posthog-server";
+import { ratelimit } from "@/lib/ratelimit";
 
 const schema = z.object({
   email: z.string().email().max(254),
@@ -11,6 +12,17 @@ const schema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
+    // 1. Rate Limiting (Security: protect against automated email spamming and abuse)
+    const ip = req.headers.get("x-forwarded-for") ?? "127.0.0.1";
+    const { success: limitSuccess } = await ratelimit.limit(ip);
+
+    if (!limitSuccess) {
+      return NextResponse.json(
+        { success: false, error: "Too many requests. Please try again in 10 minutes." },
+        { status: 429 }
+      );
+    }
+
     const body = await req.json();
 
     if (body.website) {
