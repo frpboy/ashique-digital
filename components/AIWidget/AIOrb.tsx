@@ -176,7 +176,10 @@ export function AIWidget() {
           repeat: Infinity,
           ease: "easeInOut"
         }}
-        aria-label="Toggle AI Assistant"
+        aria-label={open ? "Close AI Assistant" : "Open AI Assistant"}
+        aria-expanded={open}
+        aria-haspopup="dialog"
+        className="focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none"
         style={{
           position: "fixed",
           bottom: "2rem",
@@ -315,6 +318,9 @@ export function AIWidget() {
 
           {/* Messages */}
           <div
+            role="log"
+            aria-live="polite"
+            aria-label="Chat messages"
             style={{
               flex: 1,
               overflowY: "auto",
@@ -377,14 +383,15 @@ export function AIWidget() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && send()}
               placeholder="Ask me anything..."
+              aria-label="Ask Ashique's assistant a question"
               disabled={loading}
+              className="focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none"
               style={{
                 flex: 1,
                 padding: "0.625rem 0.875rem",
                 border: "1.5px solid var(--color-muted)",
                 borderRadius: "6px",
                 fontSize: "0.875rem",
-                outline: "none",
                 color: "var(--color-text)",
                 fontFamily: "var(--font-body)",
               }}
@@ -392,6 +399,8 @@ export function AIWidget() {
             <button
               onClick={send}
               disabled={loading || !input.trim()}
+              aria-label={loading ? "Sending message..." : "Send message"}
+              className="focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none"
               style={{
                 padding: "0.625rem 0.875rem",
                 background: loading || !input.trim() ? "var(--color-muted)" : "var(--color-accent)",
