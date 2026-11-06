@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef, useState, useMemo } from "react";
+import { useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { Float, MeshDistortMaterial, RoundedBox, View, PerspectiveCamera } from "@react-three/drei";
 import * as THREE from "three";
+import { useInView } from "react-intersection-observer";
 
 function IconMesh({ hovered }: { hovered: boolean }) {
   const meshRef = useRef<THREE.Mesh>(null);
@@ -40,20 +41,27 @@ function IconMesh({ hovered }: { hovered: boolean }) {
 export default function ServiceIcon3D() {
   const [hovered, setHovered] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  // Performance optimization (Bolt): Gate IconMesh rendering on viewport visibility.
+  // ServicesGrid renders 6 instances; gating on inView pauses 6 continuous 60fps useFrame
+  // loops and matrix computations whenever cards are out of the viewport.
+  const { ref: inViewRef, inView } = useInView({ threshold: 0.1 });
 
   return (
     <div 
-      ref={containerRef}
+      ref={(node) => {
+        containerRef.current = node;
+        inViewRef(node);
+      }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       aria-label="Interactive 3D service diagnostic node"
       style={{ width: "60px", height: "60px", cursor: "pointer", position: "relative" }}
     >
-      <View track={containerRef as any}>
+      <View track={containerRef as unknown as React.RefObject<HTMLElement>}>
         <PerspectiveCamera makeDefault position={[0, 0, 3]} />
         <ambientLight intensity={0.5} />
         <pointLight position={[5, 5, 5]} intensity={1} />
-        <IconMesh hovered={hovered} />
+        {inView && <IconMesh hovered={hovered} />}
       </View>
     </div>
   );
