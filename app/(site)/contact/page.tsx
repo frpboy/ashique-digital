@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { CheckCircle, MessageSquare, ArrowRight } from "lucide-react";
+import { CheckCircle, MessageSquare, Loader2 } from "lucide-react";
 import BookingEmbed from "@/components/shared/BookingEmbed";
 import posthog from "posthog-js";
 
@@ -76,6 +76,7 @@ function ContactForm() {
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onSubmit={handleSubmit}
+            aria-busy={status === "loading"}
             style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}
           >
             {/* Honeypot */}
@@ -91,25 +92,42 @@ function ContactForm() {
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1.25rem" }}>
               <div>
-                <label style={{ display: "block", fontWeight: 600, fontSize: "0.875rem", marginBottom: "0.5rem", color: "var(--color-primary)" }}>Your Name *</label>
-                <input className="input" type="text" required placeholder="Rahul Mehta" value={form.name} onChange={e => setForm(prev => ({ ...prev, name: e.target.value }))} />
+                <label htmlFor="contact-name" style={{ display: "block", fontWeight: 600, fontSize: "0.875rem", marginBottom: "0.5rem", color: "var(--color-primary)" }}>Your Name *</label>
+                <input id="contact-name" className="input" type="text" required aria-required="true" placeholder="Rahul Mehta" value={form.name} onChange={e => setForm(prev => ({ ...prev, name: e.target.value }))} />
               </div>
               <div>
-                <label style={{ display: "block", fontWeight: 600, fontSize: "0.875rem", marginBottom: "0.5rem", color: "var(--color-primary)" }}>Email *</label>
-                <input className="input" type="email" required placeholder="rahul@company.com" value={form.email} onChange={e => setForm(prev => ({ ...prev, email: e.target.value }))} />
+                <label htmlFor="contact-email" style={{ display: "block", fontWeight: 600, fontSize: "0.875rem", marginBottom: "0.5rem", color: "var(--color-primary)" }}>Email *</label>
+                <input id="contact-email" className="input" type="email" required aria-required="true" placeholder="rahul@company.com" value={form.email} onChange={e => setForm(prev => ({ ...prev, email: e.target.value }))} />
               </div>
             </div>
             <div>
-              <label style={{ display: "block", fontWeight: 600, fontSize: "0.875rem", marginBottom: "0.5rem", color: "var(--color-primary)" }}>Business Type *</label>
-              <input className="input" type="text" required placeholder="e.g. D2C Brand, SaaS, Service Business" value={form.businessType} onChange={e => setForm(prev => ({ ...prev, businessType: e.target.value }))} />
+              <label htmlFor="contact-business-type" style={{ display: "block", fontWeight: 600, fontSize: "0.875rem", marginBottom: "0.5rem", color: "var(--color-primary)" }}>Business Type *</label>
+              <input id="contact-business-type" className="input" type="text" required aria-required="true" placeholder="e.g. D2C Brand, SaaS, Service Business" value={form.businessType} onChange={e => setForm(prev => ({ ...prev, businessType: e.target.value }))} />
             </div>
             <div>
-              <label style={{ display: "block", fontWeight: 600, fontSize: "0.875rem", marginBottom: "0.5rem", color: "var(--color-primary)" }}>What are you looking to achieve? *</label>
-              <textarea className="input" required placeholder="Tell me about your current situation and what you want to change..." value={form.message} onChange={e => setForm(prev => ({ ...prev, message: e.target.value }))} rows={4} />
+              <label htmlFor="contact-message" style={{ display: "block", fontWeight: 600, fontSize: "0.875rem", marginBottom: "0.5rem", color: "var(--color-primary)" }}>What are you looking to achieve? *</label>
+              <textarea id="contact-message" className="input" required aria-required="true" placeholder="Tell me about your current situation and what you want to change..." value={form.message} onChange={e => setForm(prev => ({ ...prev, message: e.target.value }))} rows={4} />
             </div>
-            {status === "error" && <p className="error-msg">Something went wrong. Please try again or email ashique@ashique.digital</p>}
-            <button type="submit" className="btn btn-primary" disabled={status === "loading"} style={{ justifyContent: "center" }}>
-              {status === "loading" ? "Sending..." : "Send Message"}
+            {status === "error" && (
+              <p role="alert" aria-live="polite" className="error-msg">
+                Something went wrong. Please try again or email ashique@ashique.digital
+              </p>
+            )}
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={status === "loading"}
+              aria-label={status === "loading" ? "Sending your message..." : "Send Message"}
+              style={{ justifyContent: "center", cursor: status === "loading" ? "not-allowed" : "pointer" }}
+            >
+              {status === "loading" ? (
+                <>
+                  <Loader2 size={18} className="animate-spin" />
+                  <span>Sending...</span>
+                </>
+              ) : (
+                "Send Message"
+              )}
             </button>
           </motion.form>
         )}
