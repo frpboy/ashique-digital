@@ -108,6 +108,18 @@ export function AIWidget() {
         }),
       });
 
+      if (res.status === 429) {
+        setMessages((prev) => {
+          const updated = [...prev];
+          updated[updated.length - 1] = {
+            role: "assistant",
+            content: "You're sending messages a bit too fast. Please wait a minute before asking another question, or [book a call directly](https://cal.com/frpboy/strategy).",
+          };
+          return updated;
+        });
+        return;
+      }
+
       if (!res.body) throw new Error("No response body");
 
       const reader = res.body.getReader();
