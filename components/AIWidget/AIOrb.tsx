@@ -73,10 +73,28 @@ export function AIWidget() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  useEffect(() => {
+    if (open) {
+      const timer = setTimeout(() => inputRef.current?.focus(), 150);
+      return () => clearTimeout(timer);
+    }
+  }, [open]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && open) {
+        setOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [open]);
 
   const send = async () => {
     const msg = input.trim();
@@ -176,7 +194,10 @@ export function AIWidget() {
           repeat: Infinity,
           ease: "easeInOut"
         }}
-        aria-label="Toggle AI Assistant"
+        aria-label={open ? "Close AI Assistant" : "Open AI Assistant"}
+        aria-expanded={open}
+        aria-haspopup="dialog"
+        className="focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none"
         style={{
           position: "fixed",
           bottom: "2rem",
@@ -239,6 +260,9 @@ export function AIWidget() {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            role="dialog"
+            aria-modal="false"
+            aria-label="Ashique's Assistant Chat"
             style={{
               position: "fixed",
               bottom: "min(6.5rem, 85vh)",
@@ -315,6 +339,9 @@ export function AIWidget() {
 
           {/* Messages */}
           <div
+            role="log"
+            aria-live="polite"
+            aria-label="Chat messages"
             style={{
               flex: 1,
               overflowY: "auto",
@@ -372,12 +399,15 @@ export function AIWidget() {
             }}
           >
             <input
+              ref={inputRef}
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && send()}
               placeholder="Ask me anything..."
+              aria-label="Ask Ashique's assistant a question"
               disabled={loading}
+              className="focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] focus-visible:outline-none"
               style={{
                 flex: 1,
                 padding: "0.625rem 0.875rem",
@@ -392,6 +422,8 @@ export function AIWidget() {
             <button
               onClick={send}
               disabled={loading || !input.trim()}
+              aria-label={loading ? "Sending message..." : "Send message"}
+              className="focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:outline-none"
               style={{
                 padding: "0.625rem 0.875rem",
                 background: loading || !input.trim() ? "var(--color-muted)" : "var(--color-accent)",
@@ -401,10 +433,15 @@ export function AIWidget() {
                 cursor: loading || !input.trim() ? "not-allowed" : "pointer",
                 display: "flex",
                 alignItems: "center",
+                justifyContent: "center",
                 transition: "background 0.2s",
               }}
             >
-              <Send size={16} />
+              {loading ? (
+                <Loader2 size={16} style={{ animation: "spin 1s linear infinite" }} />
+              ) : (
+                <Send size={16} />
+              )}
             </button>
           </div>
         </motion.div>
