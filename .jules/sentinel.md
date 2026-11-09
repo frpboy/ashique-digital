@@ -8,3 +8,8 @@
 **Vulnerability:** In `components/AIWidget/AIOrb.tsx`, assistant messages were rendered using `dangerouslySetInnerHTML` with only markdown link regex replacement, leaving all user and model-generated HTML tags unescaped and executable in the DOM.
 **Learning:** AI chat interfaces that format Markdown often resort to `dangerouslySetInnerHTML` for simplicity. When untrusted inputs or LLM outputs are reflected into chat streams without sanitization or escaping, stored or reflected Cross-Site Scripting (XSS) occurs.
 **Prevention:** Avoid `dangerouslySetInnerHTML` for rendering chat messages. Parse supported markdown elements (such as links and newlines) directly into native React elements, ensuring text nodes are safely escaped by default and link protocols are strictly validated (`https?://`).
+
+## 2026-11-10 - Unrestricted AI Inference and Vector Search in Public Streaming Endpoint
+**Vulnerability:** The public `/api/agent` route allowed unauthenticated POST requests to invoke Pinecone vector queries and streaming Google Gemini LLM completions without Upstash rate limiting. This exposed the backend to denial of service, Pinecone search exhaustion, and rapid quota/financial drain on generative AI APIs.
+**Learning:** While other intake forms were protected by rate limiting, streaming AI endpoints are often omitted because of streaming responses. AI generation endpoints are the most computationally and financially expensive endpoints in the application.
+**Prevention:** Always gate public AI agent routes with IP-based sliding window rate limiters (e.g., `@upstash/ratelimit`) before parsing payloads or making downstream model/vector database calls.
