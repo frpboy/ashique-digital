@@ -3,6 +3,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { z } from "zod";
 import { getPostHogClient } from "@/lib/posthog-server";
 import { searchKnowledge } from "@/lib/pinecone";
+import { agentRatelimit } from "@/lib/ratelimit";
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENERATIVE_AI_API_KEY ?? "");
 
@@ -39,9 +40,23 @@ const schema = z.object({
 
 export async function POST(req: NextRequest) {
   try {
+    // 1. Rate Limiting: Defend against Gemini LLM & Pinecone quota exhaustion and DoS
+    const ip = req.headers.get("x-forwarded-for") ?? "127.0.0.1";
+    const { success: limitSuccess } = await agentRatelimit.limit(ip);
+
+    if (!limitSuccess) {
+      return new Response(
+        JSON.stringify({ error: "Too many requests. Please slow down." }),
+        {
+          status: 429,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
     const body = await req.json();
     
-    // 1. Honeypot check
+    // 2. Honeypot check
     if (body.fax_number) {
       return new Response(JSON.stringify({ message: "Bot detected" }), { status: 200 });
     }
